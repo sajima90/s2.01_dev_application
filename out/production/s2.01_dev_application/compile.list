@@ -1,0 +1,13 @@
+./dessin/Controleur.java
+
+./dessin/metier/Main.java
+./dessin/metier/Plateau.java
+./dessin/metier/Pioche.java
+./dessin/metier/Piece.java
+./dessin/metier/Jeton.java
+./dessin/metier/IRessource.java
+./dessin/metier/Epice.java
+./dessin/metier/Couleur.java
+
+./dessin/ihm/Frame.java
+./dessin/ihm/Panel.java
