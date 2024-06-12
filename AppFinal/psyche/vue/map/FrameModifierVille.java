@@ -115,12 +115,10 @@ public class FrameModifierVille extends JFrame implements ActionListener, ItemLi
 		/* Création des Labels et leurs couleurs */
 
 		this.lblcordX = new JLabel("CoordX   :");
-		this.lblcordX.setOpaque(true);
 		this.lblcordX.setBackground(Color.lightGray);
 		this.lblcordX.setFont(new Font("Outfit", Font.BOLD, 12));
 
 		this.lblcordY = new JLabel("CoordY   :");
-		this.lblcordY.setOpaque(true);
 		this.lblcordY.setBackground(Color.lightGray);
 		this.lblcordY.setFont(new Font("Outfit", Font.BOLD, 12));
 

@@ -58,10 +58,23 @@ public class Frame extends JFrame implements ActionListener
 		// Créer un panel
 		this.panelInfoVille = new PanelInfoVille(this.ctrl);
 		this.panelGraph     = new PanelGraph(this.ctrl);
+
+
 		this.panelHaut      = new PanelHautBas(this.ctrl,0,25);
+		this.panelHaut.setBackground(new Color(0,0,0,0));
+		this.panelHaut.setOpaque(false);
+
 		this.panelBas      = new PanelHautBas(this.ctrl,75,51);
+		this.panelBas.setBackground(new Color(0,0,0,0));
+		this.panelBas.setOpaque(false);
+
 		this.panelGauche   = new PanelHautBas(this.ctrl,100,76);
+		this.panelGauche.setBackground(new Color(0,0,0,0));
+		this.panelGauche.setOpaque(false);
+
 		this.panelDroite  = new PanelHautBas(this.ctrl,26,50);
+		this.panelDroite.setBackground(new Color(0,0,0,0));
+		this.panelDroite.setOpaque(false);
 
 
 
