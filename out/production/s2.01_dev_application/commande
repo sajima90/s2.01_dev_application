@@ -1,0 +1,1 @@
+javac -d @Compile.list -d class && cd class && java psyche.Controleur && cd ..

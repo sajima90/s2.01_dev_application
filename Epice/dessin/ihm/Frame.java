@@ -1,8 +1,11 @@
 package dessin.ihm;
 
-import javax.swing.*;
 
 import dessin.Controleur;
+
+import javax.swing.*;
+
+
 
 public class Frame extends JFrame
 {

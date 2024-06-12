@@ -6,7 +6,6 @@
 package sae.vue;
 
 import sae.Controleur;
-import sae.metier.Route;
 
 import javax.swing.*;
 import java.awt.*;

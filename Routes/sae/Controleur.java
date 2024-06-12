@@ -1,8 +1,6 @@
 package sae;
 
-import sae.metier.Metier;
-import sae.metier.Route;
-import sae.metier.Ville;
+import sae.metier.*;
 import sae.vue.*;
 
 import java.util.List;
@@ -95,7 +93,7 @@ public class Controleur
 
 		public static void main(String[] args)
 	{
-		new Controleur();
+		new app.Controleur();
 	}
 
 
