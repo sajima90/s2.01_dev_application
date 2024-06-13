@@ -4,7 +4,6 @@ import psyche.metier.map.Metier;
 import psyche.metier.map.Mine;
 import psyche.metier.map.Route;
 import psyche.metier.minerai.Couleur;
-import psyche.metier.minerai.Minerai;
 import psyche.vue.map.*;
 
 import java.util.List;
@@ -121,6 +120,8 @@ public class Controleur
 		return this.metier.ajouterRoute(depart, arrivee, troncons);
 	}
 
+
+
 	/**
 	 * Modifie une mine
 	 *
@@ -135,11 +136,23 @@ public class Controleur
 		this.majIHM();
 	}
 
-	public void modifierRoute(Mine mineDepart, Mine mineArrivee, int nbTroncons)
+	public boolean modifierRoute(Mine mineDepart, Mine mineArrivee, int nbTroncons)
 	{
-		this.metier.modifierRoute(mineDepart, mineArrivee, nbTroncons);
-		this.majIHM();
+		if ( this.metier.modifierRoute(mineDepart  , mineArrivee, nbTroncons) )
+		{
+			this.majIHM();
+			return true;
+		}
+
+		if ( this.metier.modifierRoute(mineArrivee , mineDepart , nbTroncons) )
+		{
+			this.majIHM();
+			return true;
+		}
+
+		return false;
 	}
+
 	public void supprimerRoute(Mine mineDepart, Route route)
 	{
 		this.metier.supprimerRouteVille(mineDepart, route);

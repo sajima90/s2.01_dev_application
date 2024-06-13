@@ -58,8 +58,9 @@ public class GestionFichier {
 
 			sb.append(MINES).append("\n");
 			for (Mine mine : this.metier.getMines()) {
-				String symbole = mine.getMinerai() != null ? mine.getMinerai().getSymbole() : "null";
-				sb.append(String.format("%-5d, %-5d, %-20s, %-20s \n", mine.getX(), mine.getY(), symbole, mine.getPoint()));
+				Couleur couleur = mine.getCouleur();
+				Minerai minerai = mine.getMinerai() != null ? mine.getMinerai() : null;
+				sb.append(String.format("%-5d, %-5d, %-20s, %-20s, %-20S %-20s \n", mine.getX(), mine.getY(), couleur, mine.getPoint(), minerai,  mine.getMinePrise() ? "Prise" : "Libre"));
 			}
 
 			sb.append(SEPARATOR).append("\n");
@@ -84,15 +85,12 @@ public class GestionFichier {
 	 *
 	 * @param path Le chemin du fichier à partir duquel charger les données.
 	 */
-	private void chargerMinesRoutes(String path)
-	{
+	private void chargerMinesRoutes(String path) {
 		if (path == null || path.isEmpty())
 			return;
 
-		try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(path))))
-		{
-			if (!this.metier.getRoutes().isEmpty() && !this.metier.getMines().isEmpty())
-			{
+		try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(path)))) {
+			if (!this.metier.getRoutes().isEmpty() && !this.metier.getMines().isEmpty()) {
 				this.metier.getMines().clear();
 				this.metier.getRoutes().clear();
 				this.metier.resetId();
@@ -102,68 +100,58 @@ public class GestionFichier {
 			boolean lireMines = false;
 			boolean lireRoutes = false;
 
-			while ((ligne = reader.readLine()) != null)
-			{
-				if (ligne.equals("[Mines] :"))
-				{
+			while ((ligne = reader.readLine()) != null) {
+				if (ligne.equals(MINES)) {
 					lireMines = true;
 					lireRoutes = false;
 					continue;
-				}
-				else if (ligne.equals("[Routes] :"))
-				{
+				} else if (ligne.equals(ROUTES)) {
 					lireRoutes = true;
 					lireMines = false;
 					continue;
 				}
 
-				if (lireMines)
-				{
-					if (ligne.equals("---------------------------------")) continue;
+				if (lireMines) {
+					if (ligne.equals(SEPARATOR)) continue;
 					String[] Mine = ligne.split(",");
-					if (Mine.length == 4) // Changed from 3 to 4
-					{
+					if (Mine.length == 6) {
 						int x = Integer.parseInt(Mine[0].trim());
 						int y = Integer.parseInt(Mine[1].trim());
-						String symbole = Mine[2].trim();
+						Couleur couleur = Couleur.valueOf(Mine[2].trim());
 						int point = Integer.parseInt(Mine[3].trim());
+						Minerai minerai = Mine[4].equals("NULL") ? null : Minerai.valueOf(Mine[4].trim());
+						boolean minePrise = "Prise".equals(Mine[5].trim());
 
-						Minerai minerai = symbole.equals("null") ? null : Minerai.valueOf(symbole);
-						Couleur coul = Couleur.valueOf(symbole);
-
-						this.metier.ajouterMine(x, y, point, coul);
+						this.metier.ajouterMine(x, y, point, couleur);
 					}
-				}
-				else if (lireRoutes)
-				{
-					if (ligne.equals("---------------------------------")) continue;
+				}        else if (lireRoutes) {
+					if (ligne.equals(SEPARATOR)) continue;
 
 					String[] route = ligne.split(",");
 
-					if (route.length == 5) // Changed from 3 to 5
-					{
+					if (route.length == 5) {
 						String symboleDepart = route[0].trim();
-						int pointDepart = Integer.parseInt(route[1].trim());
 						String symboleArrivee = route[2].trim();
-						int pointArrivee = Integer.parseInt(route[3].trim());
-						int troncons = Integer.parseInt(route[4].trim());
 
-						Couleur couleurDepart = Couleur.valueOf(symboleDepart);
-						Couleur couleurArrivee = Couleur.valueOf(symboleArrivee);
+						if (!"null".equals(symboleDepart) && !"null".equals(symboleArrivee)) {
+							int pointDepart = Integer.parseInt(route[1].trim());
+							int pointArrivee = Integer.parseInt(route[3].trim());
+							int troncons = Integer.parseInt(route[4].trim());
 
-						Mine depart = this.metier.getMineParMineraiPoint(couleurDepart, pointDepart);
-						Mine arrivee = this.metier.getMineParMineraiPoint(couleurArrivee, pointArrivee);
+							Couleur couleurDepart = Couleur.valueOf(symboleDepart);
+							Couleur couleurArrivee = Couleur.valueOf(symboleArrivee);
 
-						if (depart != null && arrivee != null)
-						{
-							this.metier.ajouterRoute(depart, arrivee, troncons);
+							Mine depart = this.metier.getMineParMineraiPoint(couleurDepart, pointDepart);
+							Mine arrivee = this.metier.getMineParMineraiPoint(couleurArrivee, pointArrivee);
+
+							if (depart != null && arrivee != null) {
+								this.metier.ajouterRoute(depart, arrivee, troncons);
+							}
 						}
 					}
 				}
 			}
-		}
-		catch (IOException e)
-		{
+		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
 	}

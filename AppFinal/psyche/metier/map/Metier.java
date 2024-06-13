@@ -116,17 +116,28 @@ public class Metier
 	/**
 	 * Supprime une mine existante.
 	 *
-	 * @param id L'ID de la mine à supprimer.
+	 * @param ind L'ID de la mine à supprimer.
 	 * @return true si la mine a été supprimée, false si l'ID est invalide ou si la liste des mines est vide.
 	 */
-	public boolean supprimerMine(int id)
+	public boolean supprimerMine(int ind)
 	{
-
 
 		if ( this.mines.isEmpty() )
 			return false;
 
-		this.mines.remove(id);
+
+
+		for (Route route : this.getRoutes())
+		{
+			if (route.getDepart().getId() == ind+1 || route.getArrivee().getId() == ind+1)
+			{
+				this.supprimerRouteVille(route.getDepart(), route);
+				this.supprimerRouteVille(route.getArrivee(), route);
+			}
+		}
+
+		this.mines.remove(ind);
+
 		return true;
 	}
 
@@ -218,7 +229,7 @@ public class Metier
 
 		for (Route route : this.getRoutes())
 		{
-			if (route.getDepart().equals(depart) && route.getArrivee().equals(arrivee))
+			if (route.getDepart().equals(depart) && route.getArrivee().equals(arrivee) || route.getDepart().equals(arrivee) && route.getArrivee().equals(depart))
 			{
 				route.setTroncons(troncon);
 			}
@@ -238,8 +249,8 @@ public class Metier
 
 	public void supprimerRouteVille(Mine mine, Route route)
 	{
+		mine.supprimerRouteVille(mine, route);
 		this.routes.remove(route);
-
 	}
 
 

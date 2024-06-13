@@ -35,6 +35,7 @@ public class FrameSupprimerMine extends JFrame implements ActionListener
 
 		this.btnSupprimer  = new JButton("Supprimer");
 
+
 		//Positionnement des composants
 		this.add(btnSupprimer);
 		this.add(spTableau   );
@@ -49,9 +50,9 @@ public class FrameSupprimerMine extends JFrame implements ActionListener
 	{
 		if (e.getSource() == btnSupprimer)
 		{
-			int indice = this.tblDonnes.getSelectedColumn();
+			int indice = this.tblDonnes.getSelectedRow();
+
 			this.ctrl.supprimerMine(indice);
-//			this.ctrl.supprimerRoute(indice;
 			this.tblDonnes.setModel(new GrlDonneesModelVille(this.ctrl));
 			this.ctrl.majIHM();
 		}

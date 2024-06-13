@@ -132,7 +132,6 @@ public class Mine // sommet
 	public void supprimerRouteVille(Mine mine, Route route)
 	{
 		this.routes.remove(route);
-		mine.supprimerRouteVille(this, route);
 	}
 
 

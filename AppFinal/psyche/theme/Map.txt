@@ -1,5 +1,10 @@
 [Mines] :
-340  , 125  , null                , 1                    
+181  , 63   , BLEU_CLAIR          , 2                   , NULL                 Libre                
+225  , 411  , BLEU_CLAIR          , 6                   , NULL                 Libre                
+607  , 192  , VERT                , 3                   , NULL                 Libre                
 ---------------------------------
 [Routes] :
+null                , 6                   , null                , 2                   , 1    
+null                , 3                   , null                , 2                   , 2    
+null                , 6                   , null                , 3                   , 2    
 

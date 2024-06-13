@@ -11,6 +11,12 @@ import java.util.List;
 
 public class FrameModifierRoute extends JFrame implements ActionListener, ItemListener
 {
+	/*-----------------*/
+	/*    Donnees      */
+	/*-----------------*/
+
+	private boolean modificationComboBox;
+
 	private JButton btnModifier;
 
 	private JPanel panelGauche;
@@ -30,20 +36,18 @@ public class FrameModifierRoute extends JFrame implements ActionListener, ItemLi
 	private JComboBox<String> jcbDeroulanteDepartPoint;
 	private JComboBox<String> jcbDeroulanteArriveCouleur;
 	private JComboBox<String> jcbDeroulanteArrivePoint;
-
-	private String[] tabPointMine1;
-	private String[] tabPointMine2;
-	private String[] tabPointMine3;
-
-
-	private JTextField txttroncons;
+	private JComboBox<String> jcbDeroulanteTroncons;
 
 	private Controleur ctrl;
 
 
+
+	/*-----------------*/
+	/*  Instruction    */
+	/*-----------------*/
+
 	public FrameModifierRoute(Controleur ctrl)
 	{
-		System.out.println("Test Ouvrir modifier Route");
 		this.setTitle("Modifier route");
 		this.setSize(600, 300);
 		this.setLayout(new GridLayout(1,2,10,20));
@@ -52,6 +56,7 @@ public class FrameModifierRoute extends JFrame implements ActionListener, ItemLi
 		this.setVisible(true);
 
 		this.ctrl = ctrl;
+		this.modificationComboBox = false;
 
 		JScrollPane spTableau;
 
@@ -79,9 +84,9 @@ public class FrameModifierRoute extends JFrame implements ActionListener, ItemLi
 
 		for ( Mine mine : this.ctrl.getMines())
 		{
-			tabMenuDeroulantCouleur.add(mine.getCouleur().name());
+			if ( !tabMenuDeroulantCouleur.contains(mine.getCouleur().name()))
+				tabMenuDeroulantCouleur.add(mine.getCouleur().name());
 		}
-
 
 		String[] tabCouleur  = new String[tabMenuDeroulantCouleur.size()];
 		tabCouleur           = tabMenuDeroulantCouleur.toArray(tabCouleur);
@@ -90,17 +95,32 @@ public class FrameModifierRoute extends JFrame implements ActionListener, ItemLi
 		/*-------------------------------*/
 		/*         Point des mines       */
 		/*-------------------------------*/
-		tabPointMine1 = new String[] {"1","2","3","4","5"};	//or  , rouge , marron
-		tabPointMine2 = new String[] {"2","3","4","6","8"};	//bleu, vert
-		tabPointMine3 = new String[] {"0","1","2","3","4"}; //gris
+
+		List<String> tabMenuDeroulantPoint = new ArrayList<>();
+
+		for ( Mine mine : this.ctrl.getMines())
+		{
+			if ( tabCouleur[0].equals(mine.getCouleur().name()))
+			{
+				tabMenuDeroulantPoint.add(String.valueOf(mine.getPoint()));
+			}
+		}
+
+		String[] tabPoint  = new String[tabMenuDeroulantPoint.size()];
+		tabPoint           = tabMenuDeroulantPoint.toArray(tabPoint);
 
 
 
-		this.jcbDeroulanteDepartCouleur = new JComboBox<>(tabCouleur  );
-		this.jcbDeroulanteDepartPoint   = new JComboBox<>(tabPointMine1);
+		this.jcbDeroulanteDepartCouleur = new JComboBox<>(tabCouleur);
+		this.jcbDeroulanteDepartPoint   = new JComboBox<>(tabPoint);
 
-		this.jcbDeroulanteArriveCouleur = new JComboBox<>(tabCouleur  );
-		this.jcbDeroulanteArrivePoint   = new JComboBox<>(tabPointMine1);
+		this.jcbDeroulanteArriveCouleur = new JComboBox<>(tabCouleur);
+		this.jcbDeroulanteArrivePoint   = new JComboBox<>(tabPoint);
+
+
+		String[] tabTroncon        = new String[] { "1", "2" };
+		this.jcbDeroulanteTroncons = new JComboBox<>(tabTroncon);
+
 
 		this.couleurDepart	= new JLabel(String.format("%21s", "Couleur mine de départ       : "));
 		this.couleurDepart.setBackground(Color.lightGray);
@@ -122,13 +142,6 @@ public class FrameModifierRoute extends JFrame implements ActionListener, ItemLi
 		this.troncons  = new JLabel(String.format("%21s", "Nombre de tronçons : "));
 		this.troncons.setBackground(Color.lightGray);
 		this.troncons.setOpaque(true);
-
-
-		this.txttroncons = new JTextField(20);
-		this.txttroncons.setEnabled(true);
-		this.txttroncons.setBackground(new Color(0, 0, 0, 65));
-		this.txttroncons.setOpaque(true);
-		this.txttroncons.setFont( new Font("Roboto Slab", Font.BOLD, 10));
 
 
 		this.btnModifier =  new JButton("Modifier");
@@ -155,7 +168,7 @@ public class FrameModifierRoute extends JFrame implements ActionListener, ItemLi
 		this.panelDroite.add(this.jcbDeroulanteArrivePoint);
 
 		this.panelDroite.add(this.troncons);
-		this.panelDroite.add(this.txttroncons);
+		this.panelDroite.add(this.jcbDeroulanteTroncons);
 
 		this.panelDroite.add(new JLabel());
 		this.panelDroite.add(this.btnModifier);
@@ -168,50 +181,77 @@ public class FrameModifierRoute extends JFrame implements ActionListener, ItemLi
 		/*-------------------------------*/
 
 		this.btnModifier .addActionListener(this);
-		this.txttroncons.addActionListener(this);
 
 		this.jcbDeroulanteDepartPoint  .addItemListener(this);
 		this.jcbDeroulanteDepartCouleur.addItemListener(this);
 		this.jcbDeroulanteArrivePoint  .addItemListener(this);
 		this.jcbDeroulanteArriveCouleur.addItemListener(this);
-
+		this.jcbDeroulanteTroncons     .addItemListener(this);
 
 
 	}
+
 	public void actionPerformed(ActionEvent e)
 	{
-		if (e.getSource() == this.btnModifier)
+
+		if(e.getSource() == this.btnModifier)
 		{
-			int mineArr = -1;
-			int mineDep = -1;
 
-			if (this.txttroncons.getText() != null)
+			Mine mineDepart = this.ctrl.getMineParMineraiPoint( this.ctrl.getCouleur((String) this.jcbDeroulanteDepartCouleur.getSelectedItem()), Integer.parseInt(this.jcbDeroulanteDepartPoint.getSelectedItem().toString()));
+			Mine mineArrive = this.ctrl.getMineParMineraiPoint( this.ctrl.getCouleur((String) this.jcbDeroulanteArriveCouleur.getSelectedItem()), Integer.parseInt(this.jcbDeroulanteArrivePoint.getSelectedItem().toString()));
+
+			if ( this.ctrl.modifierRoute(mineDepart, mineArrive, Integer.parseInt(this.jcbDeroulanteTroncons.getSelectedItem().toString())) )
 			{
-				for(int i = 0; i < this.ctrl.getMines().size(); i++)
-				{
-					if (this.ctrl.getMines().get(i).getCouleur().name()
-							.equals(this.couleurDepart.getText()) && this.ctrl.getMines().get(i)
-							.getPoint() == Integer.parseInt(this.pointDepart.getText()))
-					{
-							mineArr = i;
-					}
-					if (this.ctrl.getMines().get(i).getCouleur().name()
-							.equals(this.couleurArrive.getText()) && this.ctrl.getMines().get(i)
-							.getPoint() == Integer.parseInt(this.pointArrive.getText()))
-					{
-							mineDep = i;
-					}
-				}
+				this.tblDonnes.setModel(new GrlDonneesModelRoute(this.ctrl));
 			}
-
-			if (mineDep != -1 && mineArr != -1)
-				this.ctrl.modifierRoute(this.ctrl.getMines().get(mineDep), this.ctrl.getMines().get(mineArr), Integer.parseInt(this.txttroncons.getText()));
+			else
+				JOptionPane.showMessageDialog(this, "La route n'existe pas", "Erreur", JOptionPane.ERROR_MESSAGE);
 		}
-
 	}
 
 	public void itemStateChanged(ItemEvent e)
 	{
+		if (modificationComboBox || e.getStateChange() != ItemEvent.SELECTED || e.getItem() == null)
+		{
+			return;
+		}
+
+		if (e.getSource() == this.jcbDeroulanteDepartCouleur || e.getSource() == this.jcbDeroulanteArriveCouleur )
+		{
+			modificationComboBox = true;
+
+			try
+			{
+				// Suppression de tous les éléments existants dans les JComboBox
+				this.jcbDeroulanteDepartPoint.removeAllItems();
+				this.jcbDeroulanteArrivePoint.removeAllItems();
+
+				// Obtention des couleurs sélectionnées
+				String couleurDepart  = (String) this.jcbDeroulanteDepartCouleur.getSelectedItem();
+				String couleurArrivee = (String) this.jcbDeroulanteArriveCouleur.getSelectedItem();
+
+				// Parcours de la liste des mines
+				for (Mine mine : this.ctrl.getMines())
+				{
+					String mineCouleur = mine.getCouleur().name();
+					String minePoint   = String.valueOf(mine.getPoint());
+
+					// Ajout des points aux JComboBox en fonction des couleurs sélectionnées
+					if (couleurDepart.equals(mineCouleur))
+					{
+						this.jcbDeroulanteDepartPoint.addItem(minePoint);
+					}
+					if (couleurArrivee.equals(mineCouleur))
+					{
+						this.jcbDeroulanteArrivePoint.addItem(minePoint);
+					}
+				}
+			}
+			finally
+			{
+				modificationComboBox = false;
+			}
+		}
 
 	}
 }

@@ -5,7 +5,6 @@
 package psyche.vue.map;
 
 import psyche.Controleur;
-import psyche.vue.minerai.Bouton;
 
 import javax.swing.*;
 import java.awt.*;
@@ -35,10 +34,7 @@ public class Frame extends JFrame implements ActionListener
 
 	private  PanelGraph     panelGraph;
 
-	private  PanelHautBas panelHaut;
-	private  PanelHautBas panelBas;
-	private  PanelHautBas panelGauche;
-	private  PanelHautBas panelDroite;
+
 
 
 	public Frame(Controleur ctrl)
@@ -60,21 +56,7 @@ public class Frame extends JFrame implements ActionListener
 		this.panelGraph     = new PanelGraph(this.ctrl);
 
 
-		this.panelHaut      = new PanelHautBas(this.ctrl,0,25);
-		this.panelHaut.setBackground(new Color(0,0,0,0));
-		this.panelHaut.setOpaque(false);
 
-		this.panelBas      = new PanelHautBas(this.ctrl,75,51);
-		this.panelBas.setBackground(new Color(0,0,0,0));
-		this.panelBas.setOpaque(false);
-
-		this.panelGauche   = new PanelHautBas(this.ctrl,100,76);
-		this.panelGauche.setBackground(new Color(0,0,0,0));
-		this.panelGauche.setOpaque(false);
-
-		this.panelDroite  = new PanelHautBas(this.ctrl,26,50);
-		this.panelDroite.setBackground(new Color(0,0,0,0));
-		this.panelDroite.setOpaque(false);
 
 
 
@@ -139,10 +121,7 @@ public class Frame extends JFrame implements ActionListener
 		/* Ajouter Panel Info */
 		this.add(panelInfoVille, BorderLayout.EAST);
 		this.add(panelGraph,BorderLayout.CENTER);
-		panelGraph.add(panelHaut,BorderLayout.NORTH);
-		panelGraph.add(panelBas,BorderLayout.SOUTH);
-		panelGraph.add(panelGauche,BorderLayout.WEST);
-		panelGraph.add(panelDroite,BorderLayout.EAST);
+
 
 
 		/*-------------------------------*/
