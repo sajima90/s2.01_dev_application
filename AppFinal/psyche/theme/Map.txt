@@ -1,11 +1,17 @@
-[Mines] :
-192  , 554  , JAUNE               , 1                   , NULL                 Libre                
-835  , 557  , JAUNE               , 2                   , NULL                 Libre                
-503  , 88   , JAUNE               , 3                   , NULL                 Libre                
-482  , 362  , VERT                , 2                   , NULL                 Libre                
+[Sommets] :
+J1                  , 755  , 192  , JAUNE     , 1    
+G3                  , 496  , 218  , GRIS      , 3    
+J2                  , 561  , 192  , JAUNE     , 2    
+R1                  , 762  , 576  , ROSE      , 1    
+B2                  , 701  , 280  , BLEU_CLAIR, 2    
+V2                  , 243  , 159  , VERT      , 2    
+O1                  , 321  , 588  , OCRE      , 1    
+B8                  , 280  , 424  , BLEU_CLAIR, 8    
+G0                  , 532  , 217  , GRIS      , 0    
 ---------------------------------
-[Routes] :
-null                , 1                   , null                , 2                   , 1    
-null                , 1                   , null                , 3                   , 2    
-null                , 2                   , null                , 3                   , 2    
+[Arretes] :
+J2                  , J1                  , 2    
+G3                  , B2                  , 1    
+R1                  , O1                  , 1    
+B8                  , V2                  , 1    
 

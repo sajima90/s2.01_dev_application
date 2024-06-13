@@ -1,16 +1,18 @@
 package psyche;
 
-import psyche.metier.map.Metier;
-import psyche.metier.map.Mine;
-import psyche.metier.map.Route;
-import psyche.metier.minerai.Couleur;
-import psyche.vue.map.*;
+/**
+ * @author Groupe 4 SAE2.01 : Guelle Clément, Cauvin Pierre, Montagne Aubin, Delpech Nicolas
+ * 							  Bouquet Jules, Rougeolle Henri, Yachir Yanis
+ *
+ */
+
+import psyche.vue.FrameMenu;
 
 import java.util.List;
 
 /**
  * @author Groupe 4 SAE2.01 : Guelle Clément, Cauvin Pierre, Montagne Aubin, Delpech Nicolas
- * 							  Bouquet Jules, Rougeolle Henri, Yachir Yanis
+ *   Bouquet Jules, Rougeolle Henri, Yachir Yanis
  *
  */
 
@@ -21,7 +23,7 @@ public class Controleur
 	/*  Données     */
 	/*--------------*/
 
-	private final Menu menu;
+	private final FrameMenu FrameMenu;
 
 
 	/*--------------*/
@@ -34,15 +36,18 @@ public class Controleur
 
 	public Controleur()
 	{
-		this.menu = new Menu(this);
+		this.FrameMenu = new FrameMenu(this);
 	}
-
-	public Menu getMenu(){return this.menu;}
 
 
 	public static void main(String[] args)
 	{
-		new psyche.Controleur();
+		new Controleur();
+	}
+
+	public void setVisible()
+	{
+		this.FrameMenu.setVisible(true);
 	}
 
 }
