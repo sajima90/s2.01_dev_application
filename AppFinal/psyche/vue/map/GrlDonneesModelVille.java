@@ -6,6 +6,7 @@
 package psyche.vue.map;
 
 import psyche.Controleur;
+import psyche.ControleurMap;
 import psyche.metier.map.Mine;
 
 import javax.swing.table.AbstractTableModel;
@@ -17,15 +18,15 @@ public class GrlDonneesModelVille extends AbstractTableModel
 	private Object[][] tabDonnees;
 
 
-	public GrlDonneesModelVille(Controleur ctrl)
+	public GrlDonneesModelVille(ControleurMap ctrlMap)
 	{
 
 		int cptMine = 0;
 
 		this.tabEntetes = new String[] { "Numero", "Couleur", "Point", "X", "Y" };
-		this.tabDonnees = new Object[ctrl.getMines().size()][this.tabEntetes.length];
+		this.tabDonnees = new Object[ctrlMap.getMines().size()][this.tabEntetes.length];
 
-		for (Mine mine : ctrl.getMines())
+		for (Mine mine : ctrlMap.getMines())
 		{
 			this.tabDonnees[cptMine] = new Object[] { mine.getId(), mine.getCouleur(), mine.getPoint(), mine.getX(), mine.getY() };
 			cptMine++;

@@ -89,6 +89,7 @@ public class GestionFichier {
 		if (path == null || path.isEmpty())
 			return;
 
+		System.out.println("lecture");
 		try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(path)))) {
 			if (!this.metier.getRoutes().isEmpty() && !this.metier.getMines().isEmpty()) {
 				this.metier.getMines().clear();

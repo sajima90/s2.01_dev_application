@@ -1,6 +1,7 @@
 package psyche.vue.map;
 
 import psyche.Controleur;
+import psyche.ControleurMap;
 
 import javax.swing.*;
 import java.awt.*;
@@ -9,14 +10,14 @@ import java.awt.event.ActionListener;
 
 public class FrameSupprimerMine extends JFrame implements ActionListener
 {
-	private Controleur ctrl;
+	private ControleurMap ctrlMap;
 
 	private JTable                tblDonnes;
 	private GrlDonneesModelVille  donnesTableau;
 	private JButton 			  btnSupprimer;
 
 
-	public FrameSupprimerMine(Controleur ctrl)
+	public FrameSupprimerMine(ControleurMap ctrlMap)
 	{
 
 		JScrollPane spTableau;
@@ -26,10 +27,10 @@ public class FrameSupprimerMine extends JFrame implements ActionListener
 		this.setLayout(new FlowLayout()   	  );
 		this.getContentPane().setBackground(Color.gray);
 
-		this.ctrl = ctrl;
+		this.ctrlMap = ctrlMap;
 
 		//Creation des composants
-		this.donnesTableau = new GrlDonneesModelVille(this.ctrl);
+		this.donnesTableau = new GrlDonneesModelVille(this.ctrlMap);
 		this.tblDonnes     = new JTable     (this.donnesTableau);
 		spTableau          = new JScrollPane(this.tblDonnes	   );
 
@@ -52,9 +53,9 @@ public class FrameSupprimerMine extends JFrame implements ActionListener
 		{
 			int indice = this.tblDonnes.getSelectedRow();
 
-			this.ctrl.supprimerMine(indice);
-			this.tblDonnes.setModel(new GrlDonneesModelVille(this.ctrl));
-			this.ctrl.majIHM();
+			this.ctrlMap.supprimerMine(indice);
+			this.tblDonnes.setModel(new GrlDonneesModelVille(this.ctrlMap));
+			this.ctrlMap.majIHM();
 		}
 	}
 }

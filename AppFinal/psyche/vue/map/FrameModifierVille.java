@@ -5,10 +5,12 @@
 package psyche.vue.map;
 
 import psyche.Controleur;
+import psyche.ControleurMap;
 import psyche.metier.map.Mine;
 import psyche.metier.minerai.Couleur;
 import psyche.metier.minerai.Minerai;
 
+import javax.naming.ldap.Control;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -20,7 +22,7 @@ import java.util.List;
 
 public class FrameModifierVille extends JFrame implements ActionListener, ItemListener
 {
-	private Controleur ctrl;
+	private ControleurMap ctrlMap;
 
 	private boolean modificationComboBox;
 
@@ -44,7 +46,7 @@ public class FrameModifierVille extends JFrame implements ActionListener, ItemLi
 	private JComboBox<String> jcbDeroulantePoint;
 
 
-	public FrameModifierVille(Controleur ctrl)
+	public FrameModifierVille(ControleurMap ctrlMap)
 	{
 
 		this.setTitle("Modifier Mine");
@@ -52,7 +54,7 @@ public class FrameModifierVille extends JFrame implements ActionListener, ItemLi
 		this.setLayout(new GridLayout(1, 2, 10, 20));
 		this.getContentPane().setBackground(Color.gray);
 
-		this.ctrl = ctrl;
+		this.ctrlMap = ctrlMap;
 		this.modificationComboBox = false;
 
 		JScrollPane spTableau;
@@ -70,7 +72,7 @@ public class FrameModifierVille extends JFrame implements ActionListener, ItemLi
 
 		List<String> tabMenuDeroulantCouleur = new ArrayList<>();
 
-		for ( Mine mine : this.ctrl.getMines())
+		for ( Mine mine : this.ctrlMap.getMines())
 		{
 			if ( !tabMenuDeroulantCouleur.contains(mine.getCouleur().name()))
 				tabMenuDeroulantCouleur.add(mine.getCouleur().name());
@@ -85,7 +87,7 @@ public class FrameModifierVille extends JFrame implements ActionListener, ItemLi
 
 		List<String> tabMenuDeroulantPoint = new ArrayList<>();
 
-		for ( Mine mine : this.ctrl.getMines())
+		for ( Mine mine : this.ctrlMap.getMines())
 		{
 			if ( tabCouleur[0].equals(mine.getCouleur().name()))
 			{
@@ -103,7 +105,7 @@ public class FrameModifierVille extends JFrame implements ActionListener, ItemLi
 		this.panelGauche = new JPanel(new BorderLayout());
 		this.panelDroite = new JPanel(new GridLayout(5, 2, 0, 10));
 
-		this.donnesTableau = new GrlDonneesModelVille(this.ctrl);
+		this.donnesTableau = new GrlDonneesModelVille(this.ctrlMap);
 		this.tblDonnes     = new JTable(this.donnesTableau);
 		this.tblDonnes.setFillsViewportHeight(true);
 
@@ -189,7 +191,7 @@ public class FrameModifierVille extends JFrame implements ActionListener, ItemLi
 				return;
 			}
 
-			this.ctrl.modifierMine(Integer.parseInt(cordX),
+			this.ctrlMap.modifierMine(Integer.parseInt(cordX),
 					               Integer.parseInt(cordY),
 					               Couleur.valueOf (this.jcbDeroulanteCouleur.getSelectedItem().toString()),
 			                       Integer.parseInt(this.jcbDeroulantePoint  .getSelectedItem().toString()));
@@ -198,7 +200,7 @@ public class FrameModifierVille extends JFrame implements ActionListener, ItemLi
 
 			this.txtCoordX.setText("");
 			this.txtCoordY.setText("");
-			this.ctrl.majIHM();
+			this.ctrlMap.majIHM();
 
 			this.majIHM();
 		}
@@ -206,7 +208,7 @@ public class FrameModifierVille extends JFrame implements ActionListener, ItemLi
 
 	public void majIHM()
 	{
-		this.tblDonnes.setModel(new GrlDonneesModelVille(this.ctrl));
+		this.tblDonnes.setModel(new GrlDonneesModelVille(this.ctrlMap));
 	}
 
 	public void itemStateChanged(ItemEvent e)
@@ -231,7 +233,7 @@ public class FrameModifierVille extends JFrame implements ActionListener, ItemLi
 				String couleur = (String) this.jcbDeroulanteCouleur.getSelectedItem();
 
 				// Parcours de la liste des mines
-				for (Mine mine : this.ctrl.getMines())
+				for (Mine mine : this.ctrlMap.getMines())
 				{
 					String mineCouleur = mine.getCouleur().name();
 					String minePoint   = String.valueOf(mine.getPoint());

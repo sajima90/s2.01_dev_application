@@ -1,6 +1,7 @@
 package psyche.vue.map;
 
 import psyche.Controleur;
+import psyche.ControleurMap;
 
 import javax.swing.*;
 import java.awt.*;
@@ -9,12 +10,13 @@ public class PanelHautBas extends JPanel
 {
 
 	private int borne1,borne2;
-	private Controleur ctrl;
+	private ControleurMap ctrlMap;
 
-	public PanelHautBas(Controleur ctrl,int borne1, int borne2)
+
+	public PanelHautBas(ControleurMap ctrlMap, int borne1, int borne2)
 	{
 
-		this.ctrl = ctrl ;
+		this.ctrlMap = ctrlMap ;
 		if (borne1 <= 0 && borne2 >= 25 || borne1 <=75 && borne2 >= 51)
 		{
 			this.setLayout(new GridLayout(1, 25));

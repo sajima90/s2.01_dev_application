@@ -5,6 +5,7 @@
 package psyche.vue.map;
 
 import psyche.Controleur;
+import psyche.ControleurMap;
 import psyche.metier.minerai.Couleur;
 import psyche.metier.minerai.Minerai;
 import psyche.metier.map.Mine;
@@ -18,7 +19,7 @@ import java.awt.event.ItemListener;
 
 public class FrameAjouterVille extends JFrame implements ActionListener, ItemListener
 {
-	private Controleur ctrl;
+	private ControleurMap ctrlMap;
 
 	private JPanel panelGauche;
 	private JPanel panelDroite;
@@ -44,7 +45,7 @@ public class FrameAjouterVille extends JFrame implements ActionListener, ItemLis
 
 
 
-	public FrameAjouterVille(Controleur ctrl)
+	public FrameAjouterVille(ControleurMap ctrlMap)
 	{
 
 		this.setTitle("Ajouter Mine");
@@ -52,7 +53,7 @@ public class FrameAjouterVille extends JFrame implements ActionListener, ItemLis
 		this.setLayout(new GridLayout(1,2,10,20));
 		this.getContentPane().setBackground(Color.gray);
 
-		this.ctrl  = ctrl;
+		this.ctrlMap  = ctrlMap;
 
 		JScrollPane spTableau;
 
@@ -76,7 +77,7 @@ public class FrameAjouterVille extends JFrame implements ActionListener, ItemLis
 		this.panelGauche = new JPanel(new BorderLayout());
 		this.panelDroite = new JPanel(new GridLayout(5,2,0,10));
 
-		this.donnesTableau = new GrlDonneesModelVille(this.ctrl);
+		this.donnesTableau = new GrlDonneesModelVille(this.ctrlMap);
 		this.tblDonnes     = new JTable(this.donnesTableau);
 		this.tblDonnes.setFillsViewportHeight(true);
 
@@ -167,10 +168,10 @@ public class FrameAjouterVille extends JFrame implements ActionListener, ItemLis
 				return;
 			}
 
-			this.ctrl    .ajouterMine( Integer.parseInt(cordX), Integer.parseInt(cordY), Integer.parseInt(this.jcbDeroulantePoint.getSelectedItem().toString()), Couleur.valueOf(this.jcbDeroulanteCouleur.getSelectedItem().toString()) );
+			this.ctrlMap    .ajouterMine( Integer.parseInt(cordX), Integer.parseInt(cordY), Integer.parseInt(this.jcbDeroulantePoint.getSelectedItem().toString()), Couleur.valueOf(this.jcbDeroulanteCouleur.getSelectedItem().toString()) );
 			this.txtcordX.setText("");
 			this.txtcordY.setText("");
-			this.ctrl    .majIHM();
+			this.ctrlMap    .majIHM();
 
 			this.majIHM();
 		}
@@ -178,7 +179,7 @@ public class FrameAjouterVille extends JFrame implements ActionListener, ItemLis
 
 	public void majIHM()
 	{
-		this.tblDonnes.setModel(new GrlDonneesModelVille(this.ctrl));
+		this.tblDonnes.setModel(new GrlDonneesModelVille(this.ctrlMap));
 	}
 
 

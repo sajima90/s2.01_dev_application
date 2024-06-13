@@ -5,6 +5,7 @@
 package psyche.vue.map;
 
 import psyche.Controleur;
+import psyche.ControleurMap;
 import psyche.metier.map.Route;
 
 import javax.swing.table.AbstractTableModel;
@@ -16,16 +17,16 @@ public class GrlDonneesModelRoute extends AbstractTableModel
 	private Object[][] tabDonnees;
 
 
-	public GrlDonneesModelRoute(Controleur ctrl)
+	public GrlDonneesModelRoute(ControleurMap ctrlMap)
 	{
 
 		int cptVille = 0;
 
 		this.tabEntetes = new String[]{"Mine Depart Couleur","Mine Depart Point","Mine Arrivé Couleur","Mine Arrivé Point","Nombres Tronçons"};
-		this.tabDonnees = new Object[ctrl.getRoutes().size()][this.tabEntetes.length];
+		this.tabDonnees = new Object[ctrlMap.getRoutes().size()][this.tabEntetes.length];
 
 
-		for ( Route route : ctrl.getRoutes())
+		for ( Route route : ctrlMap.getRoutes())
 		{
 			this.tabDonnees[cptVille] = new Object[]{ (String) route.getDepart().getCouleur().name(), route.getDepart().getPoint(), (String) route.getArrivee().getCouleur().name(), route.getArrivee().getPoint(), route.getTroncons() };
 			cptVille ++;

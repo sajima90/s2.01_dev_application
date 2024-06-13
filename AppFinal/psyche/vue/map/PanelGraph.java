@@ -4,6 +4,7 @@
 package psyche.vue.map;
 
 import psyche.Controleur;
+import psyche.ControleurMap;
 import psyche.metier.map.Mine;
 import psyche.metier.map.Route;
 
@@ -22,18 +23,18 @@ import java.awt.event.MouseEvent;
  */
 public class PanelGraph extends JPanel
 {
-	private Controleur ctrl;
+	private ControleurMap ctrlMap;
 	private Mine mineSelect = null;
 
 	/**
 	 * Constructeur du panel graphique.
 	 *
-	 * @param ctrl
+	 * @param ctrlMap
 	 *            Le contrôleur associé à ce panel.
 	 */
-	public PanelGraph(Controleur ctrl)
+	public PanelGraph(ControleurMap ctrlMap)
 	{
-		this.ctrl = ctrl;
+		this.ctrlMap = ctrlMap;
 		this.setBackground(Color.WHITE);
 		this.setLayout(new BorderLayout());
 
@@ -57,7 +58,7 @@ public class PanelGraph extends JPanel
 		Graphics2D g2d = (Graphics2D) g;
 		g.drawRect(0, 0, 1000, 800);
 
-		for (Mine mine : this.ctrl.getMines())
+		for (Mine mine : this.ctrlMap.getMines())
 		{
 //			if (mine.equals(mineSelect))
 //			{
@@ -76,7 +77,7 @@ public class PanelGraph extends JPanel
 
 		}
 
-		for (Route route : this.ctrl.getRoutes())
+		for (Route route : this.ctrlMap.getRoutes())
 		{
 			Mine ville1 = route.getDepart();
 			Mine ville2 = route.getArrivee();
@@ -113,19 +114,19 @@ public class PanelGraph extends JPanel
 			if (mineSelect != null)
 			{
 				mineSelect = null;
-				ctrl.majIHM();
+				ctrlMap.majIHM();
 			}
 
-			for (Mine mine : ctrl.getMines())
+			for (Mine mine : ctrlMap.getMines())
 			{
 				if (posX >= mine.getX() - 10 && posX <= mine.getX() + 10 && posY >= mine.getY() - 10
 						&& posY <= mine.getY() + 10)
 				{
 					mineSelect = mine;
 
-					ctrl.modifierMine(e.getX(), e.getY(), mine.getCouleur(), mine.getPoint());
+					ctrlMap.modifierMine(e.getX(), e.getY(), mine.getCouleur(), mine.getPoint());
 
-					ctrl.majIHM(mineSelect);
+					ctrlMap.majIHM(mineSelect);
 				}
 			}
 		}
@@ -141,9 +142,9 @@ public class PanelGraph extends JPanel
 		{
 			if (mineSelect != null)
 			{
-				ctrl.modifierMine( e.getX(), e.getY(), mineSelect.getCouleur(), mineSelect.getPoint());
-				ctrl.majIHM(mineSelect);
-				ctrl.enregistrer();
+				ctrlMap.modifierMine( e.getX(), e.getY(), mineSelect.getCouleur(), mineSelect.getPoint());
+				ctrlMap.majIHM(mineSelect);
+				ctrlMap.enregistrer();
 			}
 		}
 
@@ -155,7 +156,7 @@ public class PanelGraph extends JPanel
 		 */
 		public void mouseReleased(MouseEvent e)
 		{
-			ctrl.majIHM();
+			ctrlMap.majIHM();
 		}
 	}
 }

@@ -9,9 +9,9 @@ import java.util.List;
 /**
  * @author Groupe 4 SAE2.01 : Guelle Clément, Cauvin Pierre, Montagne Aubin, Delpech Nicolas
  * 							  Bouquet Jules, Rougeolle Henri, Yachir Yanis
- * La classe permet de gérer la Mine
+ * La classe permet de gérer la Sommet
  */
-public class Mine // sommet
+public class Mine
 {
 
 	/*--------------*/
@@ -20,7 +20,7 @@ public class Mine // sommet
 
 	// Constante :
 
-	private static int         NbMines = 0;
+	private static int  NbRoutes = 0;
 
 
 	// Variables :
@@ -32,8 +32,8 @@ public class Mine // sommet
 
 	private List<Route> routes;
 
-	private Couleur     couleur;
-	private Minerai		minerai;
+	private Couleur     couleur;        // A revoir comment gérer les couleur minerais et estPrise
+	private Minerai		minerai;        // Logiquement pour le sommet on est pas censé avoir ca
 
 	private boolean     estPrise;
 
@@ -57,10 +57,11 @@ public class Mine // sommet
 	private Mine(int x, int y, int point, Couleur couleur)
 	{
 		// Auto-incrémentation de l'id de la mine
-		this.id       = ++Mine.NbMines;
+		this.id       = ++Mine.NbRoutes;
 		this.x        = x;
 		this.y        = y;
-		this.routes   = new ArrayList<>();
+		this.routes  = new ArrayList<>();
+
 		this.minerai  = null;
 		this.couleur  = couleur;
 		this.point    = point;
@@ -100,6 +101,7 @@ public class Mine // sommet
 	public int         getX        () { return this.x;        }
 	public int         getY        () { return this.y;        }
 	public List<Route> getRoutes   () { return this.routes;   }
+
 	public Minerai     getMinerai  () { return this.minerai;  }
 	public Couleur     getCouleur  () { return this.couleur;  }
 	public int         getPoint    () { return this.point; 	  }
@@ -111,6 +113,7 @@ public class Mine // sommet
 
 	public void setX   (int x)	    { this.x   = x;   }
 	public void setY   (int y)      { this.y   = y;   }
+
 	public void setMinerai (Minerai minerai) { this.minerai = minerai; }
 	public boolean setMinePrise () { return !this.estPrise; }
 
@@ -121,7 +124,7 @@ public class Mine // sommet
 	/**
 	 * Méthode permettant la remise à 0 de l'id Mine
 	 */
-	public static void resetId() { Mine.NbMines = 0; }
+	public static void resetId() { Mine.NbRoutes = 0; }
 
 	/**
 	 * Méthode permettant de créer une route

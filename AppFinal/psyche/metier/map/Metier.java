@@ -5,6 +5,7 @@ import psyche.metier.minerai.Minerai;
 
 import javax.swing.*;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 
@@ -121,23 +122,14 @@ public class Metier
 	 */
 	public boolean supprimerMine(int ind)
 	{
-
-		if ( this.mines.isEmpty() )
+		if (this.mines.isEmpty() || ind < 0 || ind >= this.mines.size())
 			return false;
 
+		Mine mineSupp = this.mines.get(ind);
 
-
-		for (Route route : this.getRoutes())
-		{
-			if (route.getDepart().getId() == ind+1 || route.getArrivee().getId() == ind+1)
-			{
-				this.supprimerRouteVille(route.getDepart(), route);
-				this.supprimerRouteVille(route.getArrivee(), route);
-			}
-		}
+		this.routes.removeIf(route -> route.getDepart().equals(mineSupp) || route.getArrivee().equals(mineSupp));
 
 		this.mines.remove(ind);
-
 		return true;
 	}
 
@@ -229,13 +221,14 @@ public class Metier
 
 		for (Route route : this.getRoutes())
 		{
-			if (route.getDepart().equals(depart) && route.getArrivee().equals(arrivee) || route.getDepart().equals(arrivee) && route.getArrivee().equals(depart))
+			if (route.getDepart().equals(depart) && route.getArrivee().equals(arrivee))
 			{
 				route.setTroncons(troncon);
+				return true;
 			}
 		}
 
-		return true;
+		return false;
 	}
 
 

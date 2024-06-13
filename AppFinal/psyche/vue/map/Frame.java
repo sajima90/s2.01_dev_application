@@ -4,7 +4,9 @@
  */
 package psyche.vue.map;
 
+import org.w3c.dom.events.Event;
 import psyche.Controleur;
+import psyche.ControleurMap;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,6 +15,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.io.File;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowAdapter;
 
 public class Frame extends JFrame implements ActionListener
 {
@@ -28,16 +32,15 @@ public class Frame extends JFrame implements ActionListener
 
 	private JMenuItem     menuiSupprimer;
 
-	private Controleur    ctrl;
+	private ControleurMap ctrlMap;
 
 	private PanelInfoVille panelInfoVille;
 
 	private  PanelGraph     panelGraph;
 
+	private Controleur ctrl;
 
-
-
-	public Frame(Controleur ctrl)
+	public Frame(ControleurMap ctrlMap)
 	{
 		this.setTitle("Application GPS");
 		this.setSize(1187, 825);
@@ -45,21 +48,23 @@ public class Frame extends JFrame implements ActionListener
 		this.setLayout(new BorderLayout());
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+		this.addWindowListener(new WindowAdapter()
+		{
+			public void windowClosing(WindowEvent e)
+			{
+				ctrl.getMenu().setVisible(true);
+			}
+		});
+
 		/*-------------------------*/
 		/* Création des composants */
 		/*-------------------------*/
-		this.panelGraph = new PanelGraph(ctrl);
-		this.ctrl = ctrl;
+		this.panelGraph = new PanelGraph(this.ctrlMap);
+		this.ctrlMap = ctrlMap;
 
 		// Créer un panel
-		this.panelInfoVille = new PanelInfoVille(this.ctrl);
-		this.panelGraph     = new PanelGraph(this.ctrl);
-
-
-
-
-
-
+		this.panelInfoVille = new PanelInfoVille(this.ctrlMap);
+		this.panelGraph     = new PanelGraph(this.ctrlMap);
 
 		JMenuBar menubMaBarre = new JMenuBar();
 
@@ -151,41 +156,41 @@ public class Frame extends JFrame implements ActionListener
 	{
 		if (e.getSource() == this.menuiAjouterVille)
 		{
-			this.ctrl.ouvrirAjouterVille();
+			this.ctrlMap.ouvrirAjouterVille();
 		}
 		else if (e.getSource() == this.menuiAjouterRoute)
 		{
-			if ( this.ctrl.getMines().size() >= 2)
-				this.ctrl.ouvrirAjouterRoute();
+			if ( this.ctrlMap.getMines().size() >= 2)
+				this.ctrlMap.ouvrirAjouterRoute();
 		}
 		else if (e.getSource() == this.menuiModifierVille)
 		{
-			if ( this.ctrl.getMines().size() >= 1 )
-				this.ctrl.ouvrirModifierVille();
+			if ( this.ctrlMap.getMines().size() >= 1 )
+				this.ctrlMap.ouvrirModifierVille();
 		}
 		else if (e.getSource() == this.menuiModifierRoute)
 		{
 			System.out.println("test Frame modifier route 1");
-			if (this.ctrl.getMines().size() >= 2)
+			if (this.ctrlMap.getMines().size() >= 2)
 			{
 				System.out.println("test Frame modifier route 2");
-				this.ctrl.ouvrirModifierRoute();
+				this.ctrlMap.ouvrirModifierRoute();
 			}
 		}
 		else if (e.getSource() == this.menuiSupprimer)
 		{
-			if(this.ctrl.getMines().size() >= 1)
-				this.ctrl.ouvrirSupprimerMine();
+			if(this.ctrlMap.getMines().size() >= 1)
+				this.ctrlMap.ouvrirSupprimerMine();
 		}
 		else if (e.getSource() == this.menuiEnregistrer)
 		{
-			if (this.ctrl.getFichierCharger().equals("") || this.ctrl.getFichierCharger() == null)
-				this.ctrl.enregistrerSous();
-			this.ctrl.enregistrer();
+			if (this.ctrlMap.getFichierCharger().equals("") || this.ctrlMap.getFichierCharger() == null)
+				this.ctrlMap.enregistrerSous();
+			this.ctrlMap.enregistrer();
 		}
 		else if (e.getSource() == this.menuiEnregistrerSous)
 		{
-			this.ctrl.enregistrerSous();
+			this.ctrlMap.enregistrerSous();
 		}
 		else if (e.getSource() == this.menuiCharger)
 		{
@@ -194,12 +199,14 @@ public class Frame extends JFrame implements ActionListener
 			int returnValue = fileChooser.showOpenDialog(null);
 			if (returnValue == JFileChooser.APPROVE_OPTION) {
 				File selectedFile = fileChooser.getSelectedFile();
-				this.ctrl.setFichierCharger(selectedFile.getPath());
+				this.ctrlMap.setFichierCharger(selectedFile.getPath());
 			}
 		}
 	}
 
-//	//Tentative de background
+
+
+	//	//Tentative de background
 //	protected void paintComponent(Graphics g) {
 //		super.paintComponent(g);
 //		try

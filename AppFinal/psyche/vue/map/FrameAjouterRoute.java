@@ -6,6 +6,7 @@ package psyche.vue.map;
 
 import psyche.Controleur;
 
+import psyche.ControleurMap;
 import psyche.metier.map.Mine;
 import psyche.metier.minerai.Couleur;
 
@@ -47,7 +48,7 @@ public class FrameAjouterRoute extends JFrame implements ActionListener, ItemLis
 	private JComboBox<String> jcbDeroulanteArrivePoint;
 	private JComboBox<String> jcbDeroulanteTroncons;
 
-	private Controleur ctrl;
+	private ControleurMap ctrlMap;
 
 
 
@@ -55,7 +56,7 @@ public class FrameAjouterRoute extends JFrame implements ActionListener, ItemLis
 	/*  Instruction    */
 	/*-----------------*/
 
-	public FrameAjouterRoute(Controleur ctrl)
+	public FrameAjouterRoute(ControleurMap ctrlMap)
 	{
 		this.setTitle("Ajouter route");
 		this.setSize(600, 300);
@@ -64,7 +65,7 @@ public class FrameAjouterRoute extends JFrame implements ActionListener, ItemLis
 
 		this.setVisible(true);
 
-		this.ctrl = ctrl;
+		this.ctrlMap = ctrlMap;
 		this.modificationComboBox = false;
 
 		JScrollPane spTableau;
@@ -77,7 +78,7 @@ public class FrameAjouterRoute extends JFrame implements ActionListener, ItemLis
 		this.panelGauche = new JPanel(new BorderLayout());
 		this.panelDroite = new JPanel(new GridLayout(3,4,0,10));
 
-		this.donnesTableau = new GrlDonneesModelRoute(this.ctrl);
+		this.donnesTableau = new GrlDonneesModelRoute(this.ctrlMap);
 		this.tblDonnes     = new JTable(this.donnesTableau);
 		this.tblDonnes.setFillsViewportHeight(true);
 
@@ -91,7 +92,7 @@ public class FrameAjouterRoute extends JFrame implements ActionListener, ItemLis
 
         List<String> tabMenuDeroulantCouleur = new ArrayList<>();
 
-        for ( Mine mine : this.ctrl.getMines())
+        for ( Mine mine : this.ctrlMap.getMines())
         {
 			if ( !tabMenuDeroulantCouleur.contains(mine.getCouleur().name()))
 				tabMenuDeroulantCouleur.add(mine.getCouleur().name());
@@ -107,7 +108,7 @@ public class FrameAjouterRoute extends JFrame implements ActionListener, ItemLis
 
 		List<String> tabMenuDeroulantPoint = new ArrayList<>();
 
-		for ( Mine mine : this.ctrl.getMines())
+		for ( Mine mine : this.ctrlMap.getMines())
 		{
 			if ( tabCouleur[0].equals(mine.getCouleur().name()))
 			{
@@ -208,11 +209,11 @@ public class FrameAjouterRoute extends JFrame implements ActionListener, ItemLis
 
 			if (this.jcbDeroulanteDepartCouleur.getSelectedItem() != this.jcbDeroulanteArriveCouleur.getSelectedItem() || this.jcbDeroulanteDepartPoint.getSelectedItem() != this.jcbDeroulanteArrivePoint.getSelectedItem() )
 			{
-				this.ctrl.ajouterRoute( this.ctrl.getMineParMineraiPoint( this.ctrl.getCouleur((String) this.jcbDeroulanteDepartCouleur.getSelectedItem()), Integer.parseInt(this.jcbDeroulanteDepartPoint.getSelectedItem().toString())),
-										this.ctrl.getMineParMineraiPoint( this.ctrl.getCouleur((String) this.jcbDeroulanteArriveCouleur.getSelectedItem()), Integer.parseInt(this.jcbDeroulanteArrivePoint.getSelectedItem().toString())),
+				this.ctrlMap.ajouterRoute( this.ctrlMap.getMineParMineraiPoint( this.ctrlMap.getCouleur((String) this.jcbDeroulanteDepartCouleur.getSelectedItem()), Integer.parseInt(this.jcbDeroulanteDepartPoint.getSelectedItem().toString())),
+										this.ctrlMap.getMineParMineraiPoint( this.ctrlMap.getCouleur((String) this.jcbDeroulanteArriveCouleur.getSelectedItem()), Integer.parseInt(this.jcbDeroulanteArrivePoint.getSelectedItem().toString())),
 										Integer.parseInt(this.jcbDeroulanteTroncons.getSelectedItem().toString()));
 
-				this.tblDonnes.setModel(new GrlDonneesModelRoute(this.ctrl));
+				this.tblDonnes.setModel(new GrlDonneesModelRoute(this.ctrlMap));
 			}
 			else
 				JOptionPane.showMessageDialog(this, "Ne pas sélectionner deux fois la même ville", "Erreur", JOptionPane.ERROR_MESSAGE);
@@ -241,7 +242,7 @@ public class FrameAjouterRoute extends JFrame implements ActionListener, ItemLis
 				String couleurArrivee = (String) this.jcbDeroulanteArriveCouleur.getSelectedItem();
 
 				// Parcours de la liste des mines
-				for (Mine mine : this.ctrl.getMines())
+				for (Mine mine : this.ctrlMap.getMines())
 				{
 					String mineCouleur = mine.getCouleur().name();
 					String minePoint   = String.valueOf(mine.getPoint());

@@ -6,6 +6,7 @@
 package psyche.vue.map;
 
 import psyche.Controleur;
+import psyche.ControleurMap;
 import psyche.metier.minerai.Couleur;
 
 import javax.swing.*;
@@ -14,7 +15,7 @@ import java.awt.*;
 public class PanelInfoVille extends JPanel
 {
 
-	private Controleur ctrl;
+	private ControleurMap ctrlMap;
 
 	private JLabel lblX, lblCoordX, lblY, lblCoordY, lblCoul, lblAffCoul, lblPoint, lblAffPoint;
 
@@ -25,12 +26,12 @@ public class PanelInfoVille extends JPanel
 	/**
 	 * Constructeur de la classe PanelInfoVille.
 	 *
-	 * @param ctrl Le contrôleur de l'application.
+	 * @param ctrlMap Le contrôleur de l'application.
 	 */
-	public PanelInfoVille(Controleur ctrl)
+	public PanelInfoVille(ControleurMap ctrlMap)
 	{
 
-		this.ctrl = ctrl;
+		this.ctrlMap = ctrlMap;
 
 		// Utilisation d'un BorderLayout pour une taille stable du panel
 		this.setLayout(new BorderLayout());
