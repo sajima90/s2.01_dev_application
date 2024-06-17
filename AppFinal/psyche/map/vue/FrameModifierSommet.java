@@ -38,9 +38,19 @@ public class FrameModifierSommet extends JFrame implements ActionListener, ItemL
 	private JLabel lblVisu;
 	private JLabel lblcordX;
 	private JLabel lblcordY;
+	private JLabel lblCouleur;
+	private JLabel lblPoint;
+	private JLabel lblId;
 
-	private JComboBox<String> jcbDeroulanteCouleur;
+
+	private JComboBox<String> jcbDeroulanteId;
+	private JComboBox<Couleur> jcbDeroulanteCouleur;
 	private JComboBox<String> jcbDeroulantePoint;
+
+	private String[] tabPointMine1;
+	private String[] tabPointMine2;
+	private String[] tabPointMine3;
+
 
 
 	public FrameModifierSommet(ControleurMap ctrlMap)
@@ -64,43 +74,35 @@ public class FrameModifierSommet extends JFrame implements ActionListener, ItemL
 
 
 		/*-------------------------------*/
-		/*       Couleur des mines       */
+		/*       ID des mines            */
 		/*-------------------------------*/
 
-		List<String> tabMenuDeroulantCouleur = new ArrayList<>();
+		List<String> tabMenuDeroulantID = new ArrayList<>();
 
 		for ( Sommet sommet : this.ctrlMap.getSommets())
 		{
-			if ( !tabMenuDeroulantCouleur.contains(sommet.getCouleur().name()))
-				tabMenuDeroulantCouleur.add(sommet.getCouleur().name());
+				tabMenuDeroulantID.add(String.valueOf(sommet.getId()));
 		}
 
-		String[] tabCouleur  = new String[tabMenuDeroulantCouleur.size()];
-		tabCouleur           = tabMenuDeroulantCouleur.toArray(tabCouleur);
+		String[] tabId  = new String[tabMenuDeroulantID.size()];
+		tabId           = tabMenuDeroulantID.toArray(tabId);
+
+
 
 		/*-------------------------------*/
 		/*         Point des mines       */
 		/*-------------------------------*/
-
-		List<String> tabMenuDeroulantPoint = new ArrayList<>();
-
-		for ( Sommet sommet : this.ctrlMap.getSommets())
-		{
-			if ( tabCouleur[0].equals(sommet.getCouleur().name()))
-			{
-				tabMenuDeroulantPoint.add(String.valueOf(sommet.getPoint()));
-			}
-		}
-
-		String[] tabPoint  = new String[tabMenuDeroulantPoint.size()];
-		tabPoint           = tabMenuDeroulantPoint.toArray(tabPoint);
+		tabPointMine1 = new String[] {"1","2","3","4","5"};	//or  , rouge , marron
+		tabPointMine2 = new String[] {"2","3","4","6","8"};	//bleu, vert
+		tabPointMine3 = new String[] {"0","1","2","3","4"}; //gris
 
 
-		this.jcbDeroulanteCouleur = new JComboBox<>(tabCouleur);
-		this.jcbDeroulantePoint   = new JComboBox<>(tabPoint);
+		this.jcbDeroulanteId      = new JComboBox<>(tabId);
+		this.jcbDeroulanteCouleur = new JComboBox<>( Couleur.values());
+		this.jcbDeroulantePoint   = new JComboBox<>(tabPointMine1);
 
 		this.panelGauche = new JPanel(new BorderLayout());
-		this.panelDroite = new JPanel(new GridLayout(5, 2, 0, 10));
+		this.panelDroite = new JPanel(new GridLayout(6, 2, 0, 10));
 
 		this.donnesTableau = new GrlDonneesModelSommet(this.ctrlMap);
 		this.tblDonnes     = new JTable(this.donnesTableau);
@@ -116,10 +118,33 @@ public class FrameModifierSommet extends JFrame implements ActionListener, ItemL
 		this.lblcordX = new JLabel("CoordX   :");
 		this.lblcordX.setBackground(Color.lightGray);
 		this.lblcordX.setFont(new Font("Outfit", Font.BOLD, 12));
+		this.lblcordX.setOpaque(true);
+
 
 		this.lblcordY = new JLabel("CoordY   :");
 		this.lblcordY.setBackground(Color.lightGray);
 		this.lblcordY.setFont(new Font("Outfit", Font.BOLD, 12));
+		this.lblcordY.setOpaque(true);
+
+
+		this.lblCouleur = new JLabel("Couleur   :");
+		this.lblCouleur.setBackground(Color.lightGray);
+		this.lblCouleur.setFont(new Font("Outfit", Font.BOLD, 12));
+		this.lblCouleur.setOpaque(true);
+
+
+		this.lblPoint = new JLabel("Point   :");
+		this.lblPoint.setBackground(Color.lightGray);
+		this.lblPoint.setFont(new Font("Outfit", Font.BOLD, 12));
+		this.lblPoint.setOpaque(true);
+
+
+
+		this.lblId = new JLabel("ID   :");
+		this.lblId.setBackground(Color.lightGray);
+		this.lblId.setFont(new Font("Outfit", Font.BOLD, 12));
+		this.lblId.setOpaque(true);
+
 
 		this.txtCoordX = new JTextField();
 		this.txtCoordX.setFont(font);
@@ -137,14 +162,23 @@ public class FrameModifierSommet extends JFrame implements ActionListener, ItemL
 		this.panelGauche.add(spTableau, BorderLayout.CENTER);
 		this.panelGauche.add(this.lblVisu, BorderLayout.SOUTH);
 
+		this.panelDroite.add(this.lblId);
+		this.panelDroite.add(this.jcbDeroulanteId);
+
+
+		this.panelDroite.add(this.lblCouleur);
+		this.panelDroite.add(this.jcbDeroulanteCouleur);
+
+		this.panelDroite.add(this.lblPoint);
+		this.panelDroite.add(this.jcbDeroulantePoint);
+
+
 		this.panelDroite.add(this.lblcordX);
 		this.panelDroite.add(this.txtCoordX);
 
 		this.panelDroite.add(this.lblcordY);
 		this.panelDroite.add(this.txtCoordY);
 
-		this.panelDroite.add(this.jcbDeroulanteCouleur);
-		this.panelDroite.add(this.jcbDeroulantePoint);
 
 		this.panelDroite.add(new JLabel());
 		this.panelDroite.add(this.btnModifier);
@@ -174,9 +208,8 @@ public class FrameModifierSommet extends JFrame implements ActionListener, ItemL
 			String cordX = this.txtCoordX.getText();
 			String cordY = this.txtCoordY.getText();
 
-			if (cordX == null && cordY == null)
+			if (cordX == null || cordY == null || !cordX.matches("\\d+") || !cordY.matches("\\d+"))
 				JOptionPane.showMessageDialog(this, "Veuillez remplir tous les champs", "Erreur", JOptionPane.ERROR_MESSAGE);
-
 			try
 			{
 				cordX = String.valueOf(Integer.parseInt(cordX));
@@ -188,16 +221,11 @@ public class FrameModifierSommet extends JFrame implements ActionListener, ItemL
 				return;
 			}
 
-			if ( this.jcbDeroulanteCouleur.getSelectedItem().equals("ROME") )
-				this.ctrlMap.modifierSommet(Integer.parseInt(cordX), Integer.parseInt(cordY), this.ctrlMap.getSommet(this.ctrlMap.getCouleur(this.jcbDeroulanteCouleur.getSelectedItem().toString()),-1).getNom());
-			else
-				this.ctrlMap.modifierSommet(Integer.parseInt(cordX), Integer.parseInt(cordY), this.ctrlMap.getSommet(this.ctrlMap.getCouleur(this.jcbDeroulanteCouleur.getSelectedItem().toString()),
-					Integer.parseInt((String) this.jcbDeroulantePoint.getSelectedItem())).getNom());
+			this.ctrlMap.modifierSommet(this.ctrlMap.getSommet(Integer.parseInt(this.jcbDeroulanteId.getSelectedItem().toString())).getId(), Integer.parseInt(cordX), Integer.parseInt(cordY), this.ctrlMap.getCouleur( this.jcbDeroulanteCouleur.getSelectedItem().toString() ), (Integer.parseInt((String)this.jcbDeroulantePoint.getSelectedItem())));
 
-			{
-				this.txtCoordX.setText("");
-			}
+			this.txtCoordX.setText("");
 			this.txtCoordY.setText("");
+
 			this.ctrlMap.majIHM();
 
 			this.majIHM();
@@ -212,47 +240,29 @@ public class FrameModifierSommet extends JFrame implements ActionListener, ItemL
 	public void itemStateChanged(ItemEvent e)
 	{
 
-		if (modificationComboBox || e.getStateChange() != ItemEvent.SELECTED || e.getItem() == null)
-		{
-			return;
-		}
-
 		if (e.getSource() == this.jcbDeroulanteCouleur)
 		{
 
-			modificationComboBox = true;
-
-			try
+			switch (this.jcbDeroulanteCouleur.getSelectedItem().toString())
 			{
-				// Suppression de tous les éléments existants dans les JComboBox
-				this.jcbDeroulantePoint.removeAllItems();
-
-				// Obtention des couleurs sélectionnées
-				String couleur = (String) this.jcbDeroulanteCouleur.getSelectedItem();
-
-				if ( !couleur.equals("ROME") )
-				{
-					// Parcours de la liste des sommets
-					for (Sommet sommet : this.ctrlMap.getSommets())
-					{
-						String mineCouleur = sommet.getCouleur().name();
-						String minePoint   = String.valueOf(sommet.getPoint());
-
-						// Ajout des points aux JComboBox en fonction des couleurs sélectionnées
-						if (couleur.equals(mineCouleur))
-						{
-							this.jcbDeroulantePoint.addItem(minePoint);
-						}
-					}
-				}
-
+			case "VERT", "BLEU_CLAIR" ->
+			{
+				this.jcbDeroulantePoint.setModel(new DefaultComboBoxModel<>(tabPointMine2));
 			}
-			finally
+			case "GRIS" ->
 			{
-				modificationComboBox = false;
+				this.jcbDeroulantePoint.setModel(new DefaultComboBoxModel<>(tabPointMine3));
+			}
+			case "ROME" ->
+			{
+				this.jcbDeroulantePoint.setModel(new DefaultComboBoxModel<>());
+			}
+			default ->
+			{
+				this.jcbDeroulantePoint.setModel(new DefaultComboBoxModel<>(tabPointMine1));
+			}
 			}
 
 		}
-
 	}
 }

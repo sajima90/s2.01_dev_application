@@ -13,20 +13,39 @@ import java.util.List;
 public class Sommet
 {
 
-	private static int  nbArretes = 0;
+	/*--------------*/
+	/* Données      */
+	/*--------------*/
 
-	private int         id;
-	private int         x;
-	private int         y;
-	private int         point;
+	// constante :
 
-	private String      nom;
+	private static int nbArretes = 0;
 
+
+	// variables :
+
+	private int          id;
+	private int          x;
+	private int          y;
+	private int          point;
+	private String       nom;
 	private List<Arrete> arretes;
+	private Couleur      couleur;
 
-	private Couleur couleur;
 
 
+	/*--------------*/
+	/* Instructions */
+	/*--------------*/
+
+	/**
+	 * Controleur permettant la création du sommet
+	 * @param x coordonnée X
+	 * @param y coordonnée Y
+	 * @param point nombre de point du sommet
+	 * @param couleur couleur du sommet
+	 * @param nom nom du sommet ( choisi avec la première lettre de la couleur et son nombre de point )
+	 */
 	private Sommet(int x, int y, int point, Couleur couleur, String nom)
 	{
 		// Auto-incrémentation de l'id de la mine
@@ -39,20 +58,24 @@ public class Sommet
 		this.nom      = nom;
 	}
 
+
+
 	/**
 	 * Méthode permettant de créer une mine
-	 * @param x la coordonnée x de la mine
-	 * @param y la coordonnée y de la mine
-	 * @param point le nombre de points que donne la mine
-	 * @param couleur la couleur de la mine
-	 * @return la mine créée
+	 * @param x la coordonnée x du sommet
+	 * @param y la coordonnée y du sommet
+	 * @param point le nombre de points que donne le sommet
+	 * @param couleur la couleur du sommet
+	 * @return le sommet créée
 	 */
 	public static Sommet creerSommet(int x, int y, int point, Couleur couleur)
 	{
 		if (x < 0 || x > 1000 || y < 0 || y > 800)
 			return null;
 
+
 		String nom = "";
+
 		if (couleur.name().equals("ROME"))
 			nom = couleur.name();
 		else
@@ -62,18 +85,27 @@ public class Sommet
 	}
 
 
+	/*------------------*/
+	/* 		  get 		*/
+	/*------------------*/
 
+	public int          getId      () { return this.id;      }
+	public int          getX       () { return this.x;       }
+	public int          getY       () { return this.y;       }
+	public int          getPoint   () { return this.point;   }
+	public Couleur      getCouleur () { return this.couleur; }
+	public List<Arrete> getArretes () { return this.arretes; }
+	public String       getNom     () { return this.nom;     }
 
-	public int          getId       () { return this.id;       }
-	public int          getX        () { return this.x;        }
-	public int          getY        () { return this.y;        }
-	public int          getPoint    () { return this.point;    }
-	public Couleur      getCouleur  () { return this.couleur;  }
-	public List<Arrete> getArretes   () { return this.arretes;  }
-	public String       getNom() { return this.nom; }
+	/*-----------------*/
+	/*       set       */
+	/*-----------------*/
 
-	public void         setX   (int x)	    { this.x   = x;    }
-	public void         setY   (int y)      { this.y   = y;    }
+	public void setX       (int x)           { this.x       = x;       }
+	public void setY       (int y)           { this.y       = y;       }
+	public void setCouleur (Couleur couleur) { this.couleur = couleur; }
+	public void setPoint   (int point )      { this.point   = point;   }
+	public void setNom     (String nom)      { this.nom     = nom;     }
 
 	/*-----------------*/
 	/* Autres Méthodes */
@@ -84,15 +116,13 @@ public class Sommet
 
 	public void addArrete(Arrete arrete) { this.arretes.add(arrete); }
 
-	public void supprimerArreteSommet(Sommet sommet, Arrete arrrete)
-	{
-		this.arretes.remove(arrrete);
-	}
+
+	public void supprimerArreteSommet(Arrete arrrete) { this.arretes.remove(arrrete); }
 
 
 	public String toString()
 	{
-		return "mine{" +
+		return "sommet{" +
 				"id=" + this.id +
 				", x=" + this.x +
 				", y=" + this.y +

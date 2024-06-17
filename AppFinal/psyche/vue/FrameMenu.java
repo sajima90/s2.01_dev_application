@@ -1,6 +1,8 @@
 package psyche.vue;
 
 import psyche.Controleur;
+//import psyche.jeu.ControleurJeu;
+//import psyche.jeu.ControleurJeu;
 import psyche.jeu.ControleurJeu;
 import psyche.map.ControleurMap;
 
@@ -11,8 +13,8 @@ import java.awt.event.*;
 public class FrameMenu extends JFrame implements ActionListener, MouseListener
 {
 
-	private JButton btnjouer;
-	private JButton btnmodifier;
+	private JButton btnJouer;
+	private JButton btnModifier;
 	//private PanelGraph panelGraph;
 	private Controleur ctrl;
 
@@ -69,18 +71,17 @@ public class FrameMenu extends JFrame implements ActionListener, MouseListener
 		/*---------------------------------------*/
 		/* Création des composants de PanelBarre */
 		/*---------------------------------------*/
-		this.btnjouer = new JButton("Jouer");
-		this.btnjouer.setContentAreaFilled(false);
-		this.btnjouer.setBorderPainted(false);
-		this.btnjouer.setBackground(Color.WHITE);
-		this.btnjouer.setOpaque(true);
+		this.btnJouer = new JButton("Jouer");
+		this.btnJouer.setContentAreaFilled(false);
+		this.btnJouer.setBorderPainted(false);
+		this.btnJouer.setBackground(Color.WHITE);
+		this.btnJouer.setOpaque(true);
 
-		this.btnmodifier = new JButton("Modifier");
-		this.btnmodifier.setContentAreaFilled(false);
-		this.btnmodifier.setBorderPainted(false);
-		this.btnmodifier.setBackground(Color.WHITE);
-		this.btnmodifier.setOpaque(true);
-		this.btnmodifier.addActionListener(this);
+		this.btnModifier = new JButton("Modifier");
+		this.btnModifier.setContentAreaFilled(false);
+		this.btnModifier.setBorderPainted(false);
+		this.btnModifier.setBackground(Color.WHITE);
+		this.btnModifier.setOpaque(true);
 
 		JPanel panelHautContainer = new JPanel(new BorderLayout());
 		panelHautContainer.add(panelTitre, BorderLayout.NORTH);
@@ -90,8 +91,8 @@ public class FrameMenu extends JFrame implements ActionListener, MouseListener
 		/* Position des composants dans PanelBarre */
 		/*-----------------------------------------*/
 		panelBarre.add(panelHautContainer);
-		panelBarre.add(btnmodifier);
-		panelBarre.add(btnjouer);
+		panelBarre.add(btnModifier);
+		panelBarre.add(btnJouer);
 
 		/*--------------------------------------*/
 		/* Position des composants dans la Frame*/
@@ -100,11 +101,13 @@ public class FrameMenu extends JFrame implements ActionListener, MouseListener
 		//this.add(this.panelGraph, BorderLayout,CENTER);
 
 		/*----------------------------*/
-		/*  Activation des coposants  */
+		/*  Activation des composants */
 		/*----------------------------*/
-		this.btnjouer.addActionListener(this);
-		this.btnjouer.addMouseListener(this);
-		this.btnmodifier.addMouseListener(this);
+
+		this.btnJouer.addActionListener(this);
+		this.btnModifier.addActionListener(this);
+		this.btnJouer.addMouseListener(this);
+		this.btnModifier.addMouseListener(this);
 
 
 		setVisible(true);
@@ -112,61 +115,67 @@ public class FrameMenu extends JFrame implements ActionListener, MouseListener
 
 	public void actionPerformed(ActionEvent e)
 	{
-		if (e.getSource() == btnmodifier)
+		if (e.getSource() == this.btnModifier)
 		{
 			new ControleurMap(this.ctrl);
 			System.out.println("Modifier");
 		}
-		else if (e.getSource() == btnjouer)
+		else if (e.getSource() == this.btnJouer)
 		{
-			 new ControleurJeu();
+			 new ControleurJeu(this.ctrl);
 			System.out.println("Jouer");
 		}
 	}
 
 	public void mouseEntered(MouseEvent e)
 	{
-		if(e.getSource() == this.btnjouer)
+		if(e.getSource() == this.btnJouer)
 		{
-			this.btnjouer.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-			this.btnjouer.setBackground(Color.GRAY);
-			this.btnjouer.setForeground(Color.WHITE);
-			this.btnjouer.setOpaque(true);
+			this.btnJouer.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+			this.btnJouer.setBackground(Color.GRAY);
+			this.btnJouer.setForeground(Color.WHITE);
+			this.btnJouer.setOpaque(true);
 		}
-		else if(e.getSource() == this.btnmodifier)
+		else if(e.getSource() == this.btnModifier)
 		{
-			this.btnmodifier.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-			this.btnmodifier.setBackground(Color.GRAY);
-			this.btnmodifier.setForeground(Color.WHITE);
-			this.btnmodifier.setOpaque(true);
+			this.btnModifier.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+			this.btnModifier.setBackground(Color.GRAY);
+			this.btnModifier.setForeground(Color.WHITE);
+			this.btnModifier.setOpaque(true);
 		}
 	}
 
 	public void mouseExited(MouseEvent e)
 	{
-		if(e.getSource() == this.btnjouer)
+		if(e.getSource() == this.btnJouer)
 		{
-			this.btnjouer.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-			this.btnjouer.setBackground(Color.WHITE);
-			this.btnjouer.setForeground(Color.BLACK);
-			this.btnjouer.setOpaque(true);
+			this.btnJouer.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+			this.btnJouer.setBackground(Color.WHITE);
+			this.btnJouer.setForeground(Color.BLACK);
+			this.btnJouer.setOpaque(true);
 		}
-		else if(e.getSource() == this.btnmodifier)
+		else if(e.getSource() == this.btnModifier)
 		{
-			this.btnmodifier.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-			this.btnmodifier.setBackground(Color.WHITE);
-			this.btnmodifier.setForeground(Color.BLACK);
-			this.btnmodifier.setOpaque(true);
+			this.btnModifier.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+			this.btnModifier.setBackground(Color.WHITE);
+			this.btnModifier.setForeground(Color.BLACK);
+			this.btnModifier.setOpaque(true);
 		}
 	}
 
 	public void mouseClicked(MouseEvent e)
 	{
-		if(e.getSource() == this.btnmodifier)
+		if(e.getSource() == this.btnModifier)
+		{
+			this.setVisible(false);
+		}
+
+		if(e.getSource() == this.btnJouer)
 		{
 			this.setVisible(false);
 		}
 	}
+
 	public void mousePressed(MouseEvent e) {}
 	public void mouseReleased(MouseEvent e) {}
 

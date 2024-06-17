@@ -11,21 +11,39 @@ public class Arrete
 {
 
 	/*--------------*/
-	/*  Données     */
+	/* Données      */
 	/*--------------*/
 
-	private int    nbTroncons;
 	private Sommet sommetDepart;
 	private Sommet sommetArrivee;
+	private int    nbTroncons;
 
 
+
+	/*--------------*/
+	/* Instructions */
+	/*--------------*/
+
+	/**
+	 * Constructeur d'arrête
+	 * @param mineDepart une mine de départ
+	 * @param mineArrivee une mine d'arrivé
+	 * @param nbTroncons nombre de troncons
+	 */
 	private Arrete(Sommet mineDepart, Sommet mineArrivee, int nbTroncons)
 	{
 		this.sommetDepart  = mineDepart;
 		this.sommetArrivee = mineArrivee;
-		this.nbTroncons  = nbTroncons;
+		this.nbTroncons    = nbTroncons;
 	}
 
+	/**
+	 * Factory du constructeur d'arrête pour vérifier certaines conditions si l'arrête peut être créé
+	 * @param mineDepart une mine de départ
+	 * @param mineArrivee une mine d'arrivé
+	 * @param nombreTroncons nombre de troncons
+	 * @return l'arrête si elle est créé sinon null
+	 */
 	public static Arrete creerArrete(Sommet mineDepart, Sommet mineArrivee, int nombreTroncons)
 	{
 
@@ -43,15 +61,24 @@ public class Arrete
 
 
 
+
+	/*--------------*/
+	/*     Get      */
+	/*--------------*/
+
 	public int    getTroncons() { return this.nbTroncons;    }
 	public Sommet getDepart  () { return this.sommetDepart;  }
 	public Sommet getArrivee () { return this.sommetArrivee; }
 
 
 
-	public void setTroncons(int troncons)   { this.nbTroncons    = troncons; }
-	public void setDepart  (Sommet depart)  { this.sommetDepart  = depart;   }
-	public void setArrivee (Sommet arrivee) { this.sommetArrivee = arrivee;  }
+	/*--------------*/
+	/*     Set      */
+	/*--------------*/
+
+	public void setTroncons (int    troncons) { this.nbTroncons    = troncons; }
+
+
 
 
 	/*-----------------*/
@@ -61,7 +88,7 @@ public class Arrete
 
 	public String toString()
 	{
-		return "Route de " + this.nbTroncons + " troncons entre " + this.sommetDepart + " et " + this.sommetArrivee;
+		return "Arrête de " + this.nbTroncons + " troncons entre " + this.sommetDepart + " et " + this.sommetArrivee;
 	}
 
 }

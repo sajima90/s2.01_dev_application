@@ -1,6 +1,7 @@
 package psyche.map.vue;
 
 import psyche.map.ControleurMap;
+import psyche.map.metier.Arrete;
 import psyche.map.metier.Sommet;
 
 import javax.swing.*;
@@ -12,7 +13,7 @@ import java.awt.event.ItemListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FrameModifierArrete extends JFrame implements ActionListener, ItemListener
+public class FrameModifierArrete extends JFrame implements ActionListener//, ItemListener
 {
 	/*-----------------*/
 	/*    Donnees      */
@@ -28,17 +29,13 @@ public class FrameModifierArrete extends JFrame implements ActionListener, ItemL
 	private JTable                tblDonnes;
 	private GrlDonneesModelArrete donnesTableau;
 
-	private JLabel couleurDepart;
-	private JLabel pointDepart;
-	private JLabel couleurArrive;
-	private JLabel pointArrive;
+	private JLabel idDepart;
+	private JLabel idArrive;
 	private JLabel troncons;
 	private JLabel lblVisu;
 
-	private JComboBox<String> jcbDeroulanteDepartCouleur;
-	private JComboBox<String> jcbDeroulanteDepartPoint;
-	private JComboBox<String> jcbDeroulanteArriveCouleur;
-	private JComboBox<String> jcbDeroulanteArrivePoint;
+	private JComboBox<String> jcbDeroulanteDepartId;
+	private JComboBox<String> jcbDeroulanteArriveId;
 	private JComboBox<String> jcbDeroulanteTroncons;
 
 	private ControleurMap ctrlMap;
@@ -69,7 +66,7 @@ public class FrameModifierArrete extends JFrame implements ActionListener, ItemL
 
 
 		this.panelGauche = new JPanel(new BorderLayout());
-		this.panelDroite = new JPanel(new GridLayout(3,4,0,10));
+		this.panelDroite = new JPanel(new GridLayout(5,2,0,10));
 
 		this.donnesTableau = new GrlDonneesModelArrete(this.ctrlMap);
 		this.tblDonnes     = new JTable(this.donnesTableau);
@@ -83,64 +80,36 @@ public class FrameModifierArrete extends JFrame implements ActionListener, ItemL
 		/*         Couleur mine          */
 		/*-------------------------------*/
 
-		List<String> tabMenuDeroulantCouleur = new ArrayList<>();
+		List<String> tabMenuDeroulantId = new ArrayList<>();
 
-		for ( Sommet mine : this.ctrlMap.getSommets())
+		for ( Arrete arrete : this.ctrlMap.getArretes())
 		{
-			if ( !tabMenuDeroulantCouleur.contains(mine.getCouleur().name()))
-				tabMenuDeroulantCouleur.add(mine.getCouleur().name());
+if ( !tabMenuDeroulantId.contains(String.valueOf(arrete.getDepart().getId())))
+				tabMenuDeroulantId.add(String.valueOf(arrete.getDepart().getId()));
+
+			if ( !tabMenuDeroulantId.contains(String.valueOf(arrete.getArrivee().getId())))
+				tabMenuDeroulantId.add(String.valueOf(arrete.getArrivee().getId()));
 		}
 
-		String[] tabCouleur  = new String[tabMenuDeroulantCouleur.size()];
-		tabCouleur           = tabMenuDeroulantCouleur.toArray(tabCouleur);
+		String[] tabId  = new String[tabMenuDeroulantId.size()];
+		tabId           = tabMenuDeroulantId.toArray(tabId);
 
 
-		/*-------------------------------*/
-		/*         Point des mines       */
-		/*-------------------------------*/
-
-		List<String> tabMenuDeroulantPoint = new ArrayList<>();
-
-		for ( Sommet mine : this.ctrlMap.getSommets())
-		{
-			if ( tabCouleur[0].equals(mine.getCouleur().name()))
-			{
-				tabMenuDeroulantPoint.add(String.valueOf(mine.getPoint()));
-			}
-		}
-
-		String[] tabPoint  = new String[tabMenuDeroulantPoint.size()];
-		tabPoint           = tabMenuDeroulantPoint.toArray(tabPoint);
-
-
-
-		this.jcbDeroulanteDepartCouleur = new JComboBox<>(tabCouleur);
-		this.jcbDeroulanteDepartPoint   = new JComboBox<>(tabPoint);
-
-		this.jcbDeroulanteArriveCouleur = new JComboBox<>(tabCouleur);
-		this.jcbDeroulanteArrivePoint   = new JComboBox<>(tabPoint);
+		this.jcbDeroulanteDepartId = new JComboBox<>(tabId);
+		this.jcbDeroulanteArriveId = new JComboBox<>(tabId);
 
 
 		String[] tabTroncon        = new String[] { "1", "2" };
 		this.jcbDeroulanteTroncons = new JComboBox<>(tabTroncon);
 
 
-		this.couleurDepart	= new JLabel(String.format("%21s", "Couleur mine de départ       : "));
-		this.couleurDepart.setBackground(Color.lightGray);
-		this.couleurDepart.setOpaque(true);
+		this.idDepart	= new JLabel(String.format("%21s", "Id mine de départ       : "));
+		this.idDepart.setBackground(Color.lightGray);
+		this.idDepart.setOpaque(true);
 
-		this.pointDepart    = new JLabel(String.format("%21s", "Point mine de départ      : "));
-		this.pointDepart.setBackground(Color.lightGray);
-		this.pointDepart.setOpaque(true);
-
-		this.couleurArrive 	= new JLabel(String.format("%21s", "Couleur mine de arrivée     : "));
-		this.couleurArrive.setBackground(Color.lightGray);
-		this.couleurArrive.setOpaque(true);
-
-		this.pointArrive	= new JLabel(String.format("%21s", "Point mine de arrivée     : "));
-		this.pointArrive.setBackground(Color.lightGray);
-		this.pointArrive.setOpaque(true);
-
+		this.idArrive 	= new JLabel(String.format("%21s", "Id mine de arrivée     : "));
+		this.idArrive.setBackground(Color.lightGray);
+		this.idArrive.setOpaque(true);
 
 		this.troncons  = new JLabel(String.format("%21s", "Nombre de tronçons : "));
 		this.troncons.setBackground(Color.lightGray);
@@ -158,17 +127,11 @@ public class FrameModifierArrete extends JFrame implements ActionListener, ItemL
 		this.panelGauche.add(spTableau   , BorderLayout.CENTER);
 		this.panelGauche.add(this.lblVisu, BorderLayout.SOUTH);
 
-		this.panelDroite.add(this.couleurDepart);
-		this.panelDroite.add(this.jcbDeroulanteDepartCouleur);
+		this.panelDroite.add(this.idDepart);
+		this.panelDroite.add(this.jcbDeroulanteDepartId);
 
-		this.panelDroite.add(this.pointDepart);
-		this.panelDroite.add(this.jcbDeroulanteDepartPoint);
-
-		this.panelDroite.add(this.couleurArrive);
-		this.panelDroite.add(this.jcbDeroulanteArriveCouleur);
-
-		this.panelDroite.add(this.pointArrive);
-		this.panelDroite.add(this.jcbDeroulanteArrivePoint);
+		this.panelDroite.add(this.idArrive);
+		this.panelDroite.add(this.jcbDeroulanteArriveId);
 
 		this.panelDroite.add(this.troncons);
 		this.panelDroite.add(this.jcbDeroulanteTroncons);
@@ -185,13 +148,6 @@ public class FrameModifierArrete extends JFrame implements ActionListener, ItemL
 
 		this.btnModifier .addActionListener(this);
 
-		this.jcbDeroulanteDepartPoint  .addItemListener(this);
-		this.jcbDeroulanteDepartCouleur.addItemListener(this);
-		this.jcbDeroulanteArrivePoint  .addItemListener(this);
-		this.jcbDeroulanteArriveCouleur.addItemListener(this);
-		this.jcbDeroulanteTroncons     .addItemListener(this);
-
-
 	}
 
 	public void actionPerformed(ActionEvent e)
@@ -200,89 +156,81 @@ public class FrameModifierArrete extends JFrame implements ActionListener, ItemL
 		if(e.getSource() == this.btnModifier)
 		{
 
-			Sommet mineDepart;
-			Sommet mineArrive;
-
-			if ( this.jcbDeroulanteDepartCouleur.getSelectedItem().equals("ROME") )
-				mineDepart = this.ctrlMap.getSommet( this.ctrlMap.getCouleur((String) this.jcbDeroulanteDepartCouleur.getSelectedItem()), -1);
-			else
-				mineDepart = this.ctrlMap.getSommet( this.ctrlMap.getCouleur((String) this.jcbDeroulanteDepartCouleur.getSelectedItem()), Integer.parseInt(this.jcbDeroulanteDepartPoint.getSelectedItem().toString()));
-
-
-			if ( this.jcbDeroulanteArriveCouleur.getSelectedItem().equals("ROME") )
-				mineArrive = this.ctrlMap.getSommet( this.ctrlMap.getCouleur((String) this.jcbDeroulanteArriveCouleur.getSelectedItem()), -1);
-			else
-				mineArrive = this.ctrlMap.getSommet( this.ctrlMap.getCouleur((String) this.jcbDeroulanteArriveCouleur.getSelectedItem()), Integer.parseInt(this.jcbDeroulanteArrivePoint.getSelectedItem().toString()));
-
-
-			if ( this.ctrlMap.modifierArrete(mineDepart, mineArrive, Integer.parseInt(this.jcbDeroulanteTroncons.getSelectedItem().toString())) )
+			if (this.jcbDeroulanteDepartId.getSelectedItem() != this.jcbDeroulanteArriveId.getSelectedItem() )
 			{
-				this.tblDonnes.setModel(new GrlDonneesModelArrete(this.ctrlMap));
+
+				if (this.ctrlMap.modifierArrete(
+						this.ctrlMap.getSommet(Integer.parseInt((String) this.jcbDeroulanteDepartId.getSelectedItem())),
+						this.ctrlMap.getSommet(Integer.parseInt((String) this.jcbDeroulanteArriveId.getSelectedItem())),
+						Integer.parseInt(this.jcbDeroulanteTroncons.getSelectedItem().toString())))
+				{
+					this.tblDonnes.setModel(new GrlDonneesModelArrete(this.ctrlMap));
+				}
 			}
 			else
 				JOptionPane.showMessageDialog(this, "La route n'existe pas", "Erreur", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 
-	public void itemStateChanged(ItemEvent e)
-	{
-		if (modificationComboBox || e.getStateChange() != ItemEvent.SELECTED || e.getItem() == null)
-		{
-			return;
-		}
-
-		if (e.getSource() == this.jcbDeroulanteDepartCouleur || e.getSource() == this.jcbDeroulanteArriveCouleur )
-		{
-			modificationComboBox = true;
-
-			try
-			{
-				// Suppression de tous les éléments existants dans les JComboBox
-				this.jcbDeroulanteDepartPoint.removeAllItems();
-				this.jcbDeroulanteArrivePoint.removeAllItems();
-
-				// Obtention des couleurs sélectionnées
-				String couleurDepart  = (String) this.jcbDeroulanteDepartCouleur.getSelectedItem();
-				String couleurArrivee = (String) this.jcbDeroulanteArriveCouleur.getSelectedItem();
-
-
-				if ( !couleurDepart.equals("ROME") )
-				{
-					// Parcours de la liste des mines
-					for (Sommet mine : this.ctrlMap.getSommets())
-					{
-						String mineCouleur = mine.getCouleur().name();
-						String minePoint   = String.valueOf(mine.getPoint());
-
-						// Ajout des points aux JComboBox en fonction des couleurs sélectionnées
-						if (couleurDepart.equals(mineCouleur))
-						{
-							this.jcbDeroulanteDepartPoint.addItem(minePoint);
-						}
-					}
-				}
-
-				if ( !couleurArrivee.equals("ROME") )
-				{
-					// Parcours de la liste des mines
-					for (Sommet mine : this.ctrlMap.getSommets())
-					{
-						String mineCouleur = mine.getCouleur().name();
-						String minePoint = String.valueOf(mine.getPoint());
-
-						// Ajout des points aux JComboBox en fonction des couleurs sélectionnées
-						if (couleurArrivee.equals(mineCouleur))
-						{
-							this.jcbDeroulanteArrivePoint.addItem(minePoint);
-						}
-					}
-				}
-			}
-			finally
-			{
-				modificationComboBox = false;
-			}
-		}
-
-	}
+//	public void itemStateChanged(ItemEvent e)
+//	{
+//		if (modificationComboBox || e.getStateChange() != ItemEvent.SELECTED || e.getItem() == null)
+//		{
+//			return;
+//		}
+//
+//		if (e.getSource() == this.jcbDeroulanteDepartCouleur || e.getSource() == this.jcbDeroulanteArriveCouleur )
+//		{
+//			modificationComboBox = true;
+//
+//			try
+//			{
+//				// Suppression de tous les éléments existants dans les JComboBox
+//				this.jcbDeroulanteDepartPoint.removeAllItems();
+//				this.jcbDeroulanteArrivePoint.removeAllItems();
+//
+//				// Obtention des couleurs sélectionnées
+//				String idDepart  = (String) this.jcbDeroulanteDepartCouleur.getSelectedItem();
+//				String couleurArrivee = (String) this.jcbDeroulanteArriveCouleur.getSelectedItem();
+//
+//
+//				if ( !idDepart.equals("ROME") )
+//				{
+//					// Parcours de la liste des mines
+//					for (Sommet mine : this.ctrlMap.getSommets())
+//					{
+//						String mineCouleur = mine.getCouleur().name();
+//						String minePoint   = String.valueOf(mine.getPoint());
+//
+//						// Ajout des points aux JComboBox en fonction des couleurs sélectionnées
+//						if (idDepart.equals(mineCouleur))
+//						{
+//							this.jcbDeroulanteDepartPoint.addItem(minePoint);
+//						}
+//					}
+//				}
+//
+//				if ( !couleurArrivee.equals("ROME") )
+//				{
+//					// Parcours de la liste des mines
+//					for (Sommet mine : this.ctrlMap.getSommets())
+//					{
+//						String mineCouleur = mine.getCouleur().name();
+//						String minePoint = String.valueOf(mine.getPoint());
+//
+//						// Ajout des points aux JComboBox en fonction des couleurs sélectionnées
+//						if (couleurArrivee.equals(mineCouleur))
+//						{
+//							this.jcbDeroulanteArrivePoint.addItem(minePoint);
+//						}
+//					}
+//				}
+//			}
+//			finally
+//			{
+//				modificationComboBox = false;
+//			}
+//		}
+//
+//	}
 }

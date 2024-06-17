@@ -173,7 +173,7 @@ public class FrameAjouterSommet extends JFrame implements ActionListener, ItemLi
 
 			this.txtcordX.setText("");
 			this.txtcordY.setText("");
-			this.ctrlMap    .majIHM();
+			this.ctrlMap .majIHM();
 
 			this.majIHM();
 		}

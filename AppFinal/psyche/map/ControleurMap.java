@@ -16,8 +16,8 @@ public class ControleurMap
 	/*  Données     */
 	/*--------------*/
 
-	private final Metier metier;
-	private final FrameMap frameMap;
+	private final Metier     metier;
+	private final FrameMap   frameMap;
 	private final Controleur ctrl;
 
 	private FrameAjouterSommet   frameAjouterSommet;
@@ -31,7 +31,7 @@ public class ControleurMap
 
 
 	/*--------------*/
-	/*  Méthodes    */
+	/* Instructions */
 	/*--------------*/
 
 	/**
@@ -40,63 +40,23 @@ public class ControleurMap
 
 	public ControleurMap(Controleur ctrl)
 	{
-		this.ctrl = ctrl;
-		this.metier = new Metier();
-		this.frameMap = new FrameMap(this, this.ctrl);
-		this.panelGraph = new PanelGraph(this);
+		this.ctrl           =     ctrl;
+		this.metier         = new Metier        ();
+		this.frameMap       = new FrameMap      (this, this.ctrl);
+		this.panelGraph     = new PanelGraph    (this);
 		this.panelInfoVille = new PanelInfoVille(this);
 	}
 
 
-	public void ouvrirAjouterSommet()
-	{
-		this.frameAjouterSommet = new FrameAjouterSommet(this);
-	}
 
-	/**
-	 * Crée la frame d'ajout de routes
-	 */
-	public void ouvrirAjouterArrete()
-	{
-		this.frameAjouterArrete = new FrameAjouterArrete(this);
-	}
+	/*--------------*/
+	/* 		Get     */
+	/*--------------*/
 
-	/**
-	 * Crée la frame de modification de ville
-	 */
-	public void ouvrirModifierSommet()
-	{
-		this.frameModifierSommet = new FrameModifierSommet(this);
-	}
-
-	/**
-	 * Crée la frame de modification de route
-	 */
-	public void ouvrirModifierArrete()
-	{
-		this.frameModifierArrete = new FrameModifierArrete(this);
-	}
-
-	public void ouvrirSupprimerSommet()
-	{
-		this.frameSupprimerSommet = new FrameSupprimerSommet(this);
-	}
-
-	/**
-	 * Ajoute une mine
-	 *
-	 * @param x
-	 * 		Coordonnées X de la mine
-	 * @param y
-	 * 		Coordonnées Y de la mine
-	 */
-	public Sommet ajouterSommet(int x, int y, int point, Couleur couleur)
-	{
-		this.majIHM();
-		return this.metier.ajouterSommet(x, y, point, couleur);
-	}
-
-	public Couleur getCouleur(String couleur)
+	public Sommet       getSommet (int i)          { return this.metier.getSommet(i); }
+	public List<Sommet> getSommets()               { return this.metier.getSommets(); }
+	public List<Arrete> getArretes()               { return this.metier.getArretes(); }
+	public Couleur      getCouleur(String couleur)
 	{
 		for (Couleur c : Couleur.values())
 		{
@@ -108,15 +68,78 @@ public class ControleurMap
 		return null;
 	}
 
+
+
+	/*-----------------*/
+	/* Autres Méthodes */
+	/*-----------------*/
+
 	/**
-	 * Ajoute une route
+	 * Crée la frame d'ajout de sommets
+	 */
+	public void ouvrirAjouterSommet()
+	{
+		this.frameAjouterSommet = new FrameAjouterSommet(this);
+	}
+
+
+	/**
+	 * Crée la frame d'ajout de arretes
+	 */
+	public void ouvrirAjouterArrete()
+	{
+		this.frameAjouterArrete = new FrameAjouterArrete(this);
+	}
+
+
+	/**
+	 * Crée la frame de modification de sommet
+	 */
+	public void ouvrirModifierSommet()
+	{
+		this.frameModifierSommet = new FrameModifierSommet(this);
+	}
+
+
+	/**
+	 * Crée la frame de modification de arrete
+	 */
+	public void ouvrirModifierArrete()
+	{
+		this.frameModifierArrete = new FrameModifierArrete(this);
+	}
+
+
+	/**
+	 * Crée la frame de supprimer de sommet
+	 */
+	public void ouvrirSupprimerSommet()
+	{
+		this.frameSupprimerSommet = new FrameSupprimerSommet(this);
+	}
+
+
+	/**
+	 * Ajoute d'un sommet
 	 *
-	 * @param depart
-	 * 		Sommet de départ
-	 * @param arrivee
-	 * 		Sommet d'arrivée
-	 * @param troncons
-	 * 		Nombre de tronçons de la route
+	 * @param x Coordonnées X du sommet
+	 * @param y Coordonnées Y du sommet
+	 * @return le sommet créée
+	 */
+	public Sommet ajouterSommet(int x, int y, int point, Couleur couleur)
+	{
+		this.majIHM();
+		return this.metier.ajouterSommet(x, y, point, couleur);
+	}
+
+
+
+	/**
+	 * Ajoute une Arrete
+	 *
+	 * @param depart Sommet de départ
+	 * @param arrivee Sommet d'arrivée
+	 * @param troncons Nombre de tronçons de l'Arrete
 	 */
 	public Arrete ajouterArrete(Sommet depart, Sommet arrivee, int troncons)
 	{
@@ -125,28 +148,34 @@ public class ControleurMap
 	}
 
 	/**
-	 * Modifie une mine
+	 * Modifie d'un sommet
 	 *
-	 * @param x
-	 * 		Coordonnées X de la mine
-	 * @param y
-	 * 		Coordonnées Y de la mine
+	 * @param x Coordonnées X du sommet
+	 * @param y Coordonnées Y du sommet
 	 */
-	public void modifierSommet(int x, int y, String nom)
+	public void modifierSommet(int id, int x, int y, Couleur couleur, int point)
 	{
-		this.metier.modifierSommet(x, y, this.getSommet(nom));
+		this.metier.modifierSommet(x, y, couleur, point, this.getSommet(id));
 		this.majIHM();
 	}
 
-	public boolean modifierArrete(Sommet mineDepart, Sommet mineArrivee, int nbTroncons)
+
+	/**
+	 * Modifie une arrete
+	 *
+	 * @param depart Sommet de depart de l'arrete.
+	 * @param arrivee Sommet de depart de l'arrete.
+	 * @param nbTroncons Nombre de tronçons de l'Arrete.
+	 */
+	public boolean modifierArrete(Sommet depart, Sommet arrivee, int nbTroncons)
 	{
-		if (this.metier.modifierArrete(mineDepart, mineArrivee, nbTroncons))
+		if (this.metier.modifierArrete(depart, arrivee, nbTroncons))
 		{
 			this.majIHM();
 			return true;
 		}
 
-		if (this.metier.modifierArrete(mineArrivee, mineDepart, nbTroncons))
+		if (this.metier.modifierArrete(arrivee, depart, nbTroncons))
 		{
 			this.majIHM();
 			return true;
@@ -155,54 +184,27 @@ public class ControleurMap
 		return false;
 	}
 
-	public void supprimerArrete(Sommet mineDepart, Arrete route)
+	/**
+	 * supprime l'arrete
+	 *
+	 * @param depart Sommet de depart de l'arrete.
+	 * @param arrete L'Arrete lié au sommet.
+	 */
+	public void supprimerArrete(Sommet depart, Arrete arrete)
 	{
-		this.metier.supprimerArreteSommet(mineDepart, route);
+		this.metier.supprimerArreteSommet(depart, arrete);
 		this.majIHM();
 	}
-
+	/**
+	 * supprime un sommet
+	 *
+	 * @param i indice du sommet de la liste .
+	 */
 	public void supprimerSommet(int i)
 	{
 		this.metier.supprimerSommet(i);
 	}
 
-
-	public Sommet getSommet(String nom)
-	{
-		return this.metier.getSommet(nom);
-	}
-
-	public Sommet getSommet(Couleur couleur, int point)
-	{
-		return this.metier.getSommet(couleur, point);
-	}
-
-	/**
-	 * Renvoie la liste des Mines
-	 */
-	public List<Sommet> getSommets()
-	{
-		return this.metier.getSommets();
-	}
-
-	/**
-	 * Renvoie la liste des Routes
-	 */
-	public List<Arrete> getArretes()
-	{
-		return this.metier.getArretes();
-	}
-
-	/**
-	 * Renvoie une liste de Routes liées à une mine
-	 *
-	 * @param mine
-	 * @return List<Arrete> Nom de la mine
-	 */
-	public List<Arrete> getArrete(Sommet mine)
-	{
-		return mine.getArretes();
-	}
 
 	public boolean estPossibleArrete(Sommet depart, Sommet arrivee, int troncons)
 	{
@@ -220,13 +222,13 @@ public class ControleurMap
 	/**
 	 * Renvoie une Sommet à partir de son nom
 	 *
-	 * @param villeSelect
+	 * @param sommetSelect
 	 * 		Nom de la mine dont les infos doivent être affichées.
 	 */
-	public void majIHM(Sommet villeSelect)
+	public void majIHM(Sommet sommetSelect)
 	{
 		this.frameMap.getPanelGraph().repaint();
-		this.frameMap.getPanelInfoVille().majVilleInfo(villeSelect.getX(), villeSelect.getY(), villeSelect.getCouleur(), villeSelect.getPoint());
+		this.frameMap.getPanelInfoVille().majVilleInfo(sommetSelect.getId(), sommetSelect.getX(), sommetSelect.getY(), sommetSelect.getCouleur(), sommetSelect.getPoint());
 	}
 
 	//Fichier

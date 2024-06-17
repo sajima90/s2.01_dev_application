@@ -35,7 +35,7 @@ public class FrameMap extends JFrame implements ActionListener
 	public FrameMap(ControleurMap ctrlMap, Controleur ctrl)
 	{
 		this.setTitle("Application GPS");
-		this.setSize(1187, 825);
+		this.setSize(1200, 860);
 		this.setLocation(300	,75);
 		this.setLayout(new BorderLayout());
 //		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -190,7 +190,6 @@ public class FrameMap extends JFrame implements ActionListener
 		}
 		else if (e.getSource() == this.menuiCharger)
 		{
-
 			JFileChooser fileChooser = new JFileChooser();
 			int returnValue = fileChooser.showOpenDialog(null);
 			if (returnValue == JFileChooser.APPROVE_OPTION) {

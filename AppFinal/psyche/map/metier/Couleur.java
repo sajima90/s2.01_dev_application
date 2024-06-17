@@ -6,6 +6,7 @@ import java.awt.*;
  *
  * @author Groupe 4 SAE2.01 : Guelle Clément, Cauvin Pierre, Montagne Aubin, Delpech Nicolas
  * 							  Bouquet Jules, Rougeolle Henri, Yachir Yanis
+ * 	cette classe permet de gérer les différentes couleurs
  */
 
 
@@ -15,6 +16,8 @@ public enum Couleur
 	/*--------------*/
 	/*  Enums       */
 	/*--------------*/
+
+	// Si l'utilisateur veut changer les couleurs pour son jeu il doit changer les couleurs ici
 
 	JAUNE     	(255, 255,   0),
 	BLEU_CLAIR	(173, 216, 230),
@@ -30,8 +33,9 @@ public enum Couleur
 	/*  Données     */
 	/*--------------*/
 
-
-	private int r, v, b ;
+	private int r;
+	private int v;
+	private int b;
 
 
 	/*--------------*/
@@ -46,9 +50,9 @@ public enum Couleur
 	 */
 	private Couleur(int r,int v,int b)
 	{
-		this.r = r ;
-		this.v = v ;
-		this.b = b ;
+		this.r = r;
+		this.v = v;
+		this.b = b;
 	}
 
 
@@ -58,8 +62,7 @@ public enum Couleur
 	/*--------------*/
 
 	public Color      getColor    () { return new Color(this.r,this.v,this.b); }
-	public String     getSymbole  () { return this.name();                     }
-	public static int getNbCouleur() { return values   ().length;              }
+
 
 
 	/*-----------------*/

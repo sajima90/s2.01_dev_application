@@ -1,4 +1,1 @@
-# s2.01_dev_application
-# s2.01_dev_application
-# s2.01_dev_application
-# s2.01_dev_application
+javac -encoding utf8 -d @Compile.list -d class && cd class && java psyche.Controleur && cd ..  

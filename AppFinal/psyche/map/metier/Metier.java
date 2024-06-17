@@ -22,13 +22,15 @@ public class Metier
 	private final List<Sommet> sommets;
 	private final List<Arrete> arretes;
 
+
+
 	/*--------------*/
 	/* Instructions */
 	/*--------------*/
 
 	/**
 	 * Constructeur de la classe Metier.
-	 * Initialise les listes de sommets et de arretes.
+	 * Initialise les listes de sommets et d'arretes.
 	 */
 	public Metier()
 	{
@@ -38,18 +40,46 @@ public class Metier
 		this.setFichierCharger(getFicherCharger());
 	}
 
-	
 
 
-	
+	/*--------------*/
+	/*     Get      */
+	/*--------------*/
+
+	public Sommet getSommet(int id)
+	{
+		for (Sommet sommet : this.sommets)
+			if (sommet.getId() == id)
+				return sommet;
+
+		return null;
+	}
+
+	public List<Sommet> getSommets() { return this.sommets; }
+	public List<Arrete> getArretes() { return this.arretes; }
+
+
+
+	/*--------------*/
+	/*     Set      */
+	/*--------------*/
+
+
+	/*-----------------*/
+	/* Autres Méthodes */
+	/*-----------------*/
+
+	/**
+	 * Ajoute un sommet dans la list de sommets.
+	 *
+	 * @param x coordonnée X du sommet.
+	 * @param y coordonnée Y du sommet.
+	 * @param point score du sommet.
+	 * @param couleur couleur du sommet
+	 * @return le Sommet si l'ajout du sommet est réussi, null si les coordonnées sont invalides.
+	 */
 	public Sommet ajouterSommet(int x, int y, int point, Couleur couleur)
 	{
-		for (Sommet sommet : sommets)
-			if (sommet.getCouleur().name().equals(couleur.name()) && sommet.getPoint() == point)
-			{
-				JOptionPane.showMessageDialog(null, "La Sommet existe déjà", "Erreur", JOptionPane.ERROR_MESSAGE);
-				return null;
-			}
 
 		if (x < 0 || x > 1000 || y < 0 || y > 800)
 		{
@@ -57,9 +87,8 @@ public class Metier
 			return null;
 		}
 
-		Sommet sommet = Sommet.creerSommet(x, y, point, couleur );
-		System.out.println(sommet);
-		sommets.add(sommet);
+		Sommet sommet = Sommet.creerSommet( x, y, point, couleur );
+		this.sommets.add(sommet);
 
 		return sommet;
 	}
@@ -69,106 +98,86 @@ public class Metier
 	/**
 	 * Modifie les coordonnées d'une sommet existante.
 	 *
-	 * @param x La nouvelle coordonnée X de la sommet.
-	 * @param y La nouvelle coordonnée Y de la sommet.
-	 * @return true si la modification a réussi, false si les coordonnées sont invalides ou si la sommet n'existe pas.
+	 * @param x La nouvelle coordonnée X du sommet.
+	 * @param y La nouvelle coordonnée Y du sommet.
+	 * @return true si la modification a réussi, false si les coordonnées sont invalides ou si le sommet n'existe pas.
 	 */
-	public boolean modifierSommet(int x, int y, Sommet sommet)
+	public boolean modifierSommet(int x, int y,  Couleur couleur, int point, Sommet sommet)
 	{
 		if (x < 0 || x > 1000 || y < 0 || y > 800)
 			return false;
 
-
 		if (sommet == null)
-		{
 			return false;
-		}
 
-		sommet.setX(x);
-		sommet.setY(y);
+
+		sommet.setX      (x);
+		sommet.setY      (y);
+		sommet.setCouleur(couleur);
+		sommet.setPoint  (point);
+		sommet.setNom    (couleur.name().substring(0, 1) + point);
 
 		return true;
 	}
 
 
-	public Sommet getSommet(Couleur couleur, int point)
-	{
-		for (Sommet sommet : this.sommets)
-			if (sommet.getCouleur().name().equals(couleur.name()) && sommet.getPoint() == point)
-				return sommet;
-
-		return null;
-	}
-
-	public Sommet getSommet(String nom)
-	{
-		for (Sommet sommet : this.sommets)
-			if (sommet.getNom().equals(nom))
-				return sommet;
-
-		return null;
-	}
-
 
 	/**
-	 * Supprime une sommet existante.
+	 * Supprime le sommet existante.
 	 *
-	 * @param ind L'ID de la sommet à supprimer.
-	 * @return true si la sommet a été supprimée, false si l'ID est invalide ou si la liste des sommets est vide.
+	 * @param id L'ID du sommet à supprimer.
+	 * @return true si le sommet a été supprimée, false si l'ID est invalide ou si la liste des sommets est vide.
 	 */
-	public boolean supprimerSommet(int ind)
+	public boolean supprimerSommet(int id)
 	{
-		if (this.sommets.isEmpty() || ind < 0 || ind >= this.sommets.size())
+		if (this.sommets.isEmpty() || id < 0 || id >= this.sommets.size())
 			return false;
 
-		Sommet sommetSupp = this.sommets.get(ind);
+		Sommet sommetSupp = this.sommets.get(id);
 
 		this.arretes.removeIf(Arretes -> Arretes.getDepart().equals(sommetSupp) || Arretes.getArrivee().equals(sommetSupp));
+		this.sommets.remove  (id);
 
-		this.sommets.remove(ind);
+
 		return true;
 	}
-
-
-	/**
-	 * Récupère la liste de toutes les sommets.
-	 *
-	 * @return La liste des sommets.
-	 */
-	public List<Sommet> getSommets() { return sommets; }
-
-
 
 
 
 	/**
 	 * Ajoute une Arretes entre deux sommets.
 	 *
-	 * @param depart La sommet de départ.
-	 * @param arrivee La sommet d'arrivée.
+	 * @param depart le sommet de départ.
+	 * @param arrivee le sommet d'arrivée.
 	 * @param troncons Le nombre de tronçons de la Arretes.
-	 * @return La Arretes ajoutée, ou null si une Arretes entre les mêmes sommets existe déjà.
+	 * @return L'Arretes ajoutée, ou null si une Arretes entre les mêmes sommets existe déjà.
 	 */
 	public Arrete ajouterArrete(Sommet depart, Sommet arrivee, int troncons)
 	{
-
-		if(!estPossibleArrete(depart, arrivee, troncons))
+		if( !estPossibleArrete(depart, arrivee, troncons) )
 		{
 			JOptionPane.showMessageDialog(null, "L'arrete existe déjà", "Erreur", JOptionPane.ERROR_MESSAGE);
 			return null;
 		}
 
 		Arrete arrete = Arrete.creerArrete(depart, arrivee, troncons);
-		arretes.add(arrete);
 
+		this.arretes.add      (arrete);
 		depart .addArrete(arrete);
 		arrivee.addArrete(arrete);
 
 		return arrete;
 	}
 
-
-	public boolean estPossibleArrete( Sommet depart, Sommet arrivee, int troncons)
+	/**
+	 * Regarde si il y possibilité de crée une arrete.
+	 *
+	 * @param depart le sommet de depart de l'arrete.
+	 * @param arrivee le sommet d'arrivee de l'arrete.
+	 * @param troncons Le nombre de tronçons de la Arretes.
+	 * @return true si l'on peut crée l'arrete, false si les troncons sont invalides ou si une arrete existe deja.
+	 */
+	public boolean estPossibleArrete(Sommet depart, Sommet arrivee, int troncons)
 	{
 		for (Arrete arrete : this.arretes)
 			if (arrete.getDepart().equals(depart) && arrete.getArrivee().equals(arrivee))
@@ -185,9 +194,7 @@ public class Metier
 
 		}
 
-
 		return true;
-
 	}
 
 
@@ -196,14 +203,13 @@ public class Metier
 	/**
 	 * Modifie le nombre de tronçons d'une Arretes entre deux sommets.
 	 *
-	 * @param depart La sommet de départ.
-	 * @param arrivee La sommet d'arrivée.
+	 * @param depart Le sommet de départ.
+	 * @param arrivee Le sommet d'arrivée.
 	 * @param troncon Le nouveau nombre de tronçons.
 	 * @return true si le nombre de tronçons a été modifié, false si le nombre de tronçons est invalide.
 	 */
 	public boolean modifierArrete(Sommet depart, Sommet arrivee, int troncon)
 	{
-
 		if (troncon != 1 && troncon != 2)
 		{
 			JOptionPane.showMessageDialog(null, "Nombre de tronçon invalide", "Erreur", JOptionPane.ERROR_MESSAGE);
@@ -222,18 +228,15 @@ public class Metier
 		return false;
 	}
 
-
-
 	/**
-	 * Récupère la liste de toutes les arretes.
-	 *
-	 * @return La liste des arretes.
+	 * Supprime le sommet et les arrêtes lié
+	 * @param sommet le sommet
+	 * @param arrete l'arrête à supprimer
 	 */
-	public List<Arrete> getArretes() { return this.arretes; }
-
 	public void supprimerArreteSommet(Sommet sommet, Arrete arrete)
 	{
-		sommet.supprimerArreteSommet(sommet, arrete);
+		sommet.supprimerArreteSommet(arrete);
+
 		this.arretes.remove(arrete);
 	}
 
@@ -245,6 +248,7 @@ public class Metier
 	public void resetId() { Sommet.resetId(); }
 
 
+	public String toString() { return "\n\nMetier{ \n" + "SOMMET : \n" + sommets + "\n\nARRETE : \n" + arretes; }
 
 
 
@@ -265,25 +269,14 @@ public class Metier
 
 	/**
 	 * Définit le chemin du fichier à charger.
-	 *
 	 * @param path Le chemin du fichier.
 	 */
 	public void setFichierCharger(String path) { this.gestionFichier.setFichierCharger(path); }
 
 	/**
 	 * Récupère le chemin du fichier chargé.
-	 *
 	 * @return Le chemin du fichier.
 	 */
 	public String getFicherCharger() { return this.gestionFichier.getFichierCharger(); }
-
-
-
-
-	public String toString()
-	{
-		return "\n\nMetier{ \n" + "MINE : \n" + sommets + "\n\nROUTES : \n" + arretes;
-	}
-
 
 }

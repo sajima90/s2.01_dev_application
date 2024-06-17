@@ -36,12 +36,15 @@ public class PanelInfoVille extends JPanel
 		this.setLayout(new BorderLayout());
 		this.setBackground(Color.lightGray);
 
+
 		// Panneau central avec GridLayout pour aligner les composants verticalement
 		JPanel centerPanel = new JPanel();
 		this.panelDroite   = new JPanel(new GridLayout(5, 2, 5, 5));
 
 		centerPanel.setOpaque(false);
 		this.panelDroite.setOpaque(false);
+
+		this.panelDroite.setPreferredSize(new Dimension(150, 150));
 
 
 		// Création des composants
@@ -94,9 +97,10 @@ public class PanelInfoVille extends JPanel
 	 * @param x La coordonnée X de la ville.
 	 * @param y La coordonnée Y de la ville.
 	 */
-	public void majVilleInfo(int x, int y, Couleur couleur, int point)
+	public void majVilleInfo(int id, int x, int y, Couleur couleur, int point)
 	{
-		this.lblAffNom  .setText("<html><i>" + String.valueOf(this.ctrlMap.getSommet(couleur, point).getNom())       + "</i></html>");
+
+		this.lblAffNom  .setText("<html><i>" + String.valueOf(this.ctrlMap.getSommet(id).getNom())       + "</i></html>");
 		this.lblCoordX  .setText("<html><i>" + String.valueOf(x)       + "</i></html>");
 		this.lblCoordY  .setText("<html><i>" + String.valueOf(y)       + "</i></html>");
 		this.lblAffCoul .setText("<html><i>" + String.valueOf(couleur) + "</i></html>");

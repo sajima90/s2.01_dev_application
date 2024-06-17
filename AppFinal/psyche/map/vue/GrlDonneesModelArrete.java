@@ -21,13 +21,13 @@ public class GrlDonneesModelArrete extends AbstractTableModel
 
 		int cptVille = 0;
 
-		this.tabEntetes = new String[]{"Mine Depart Couleur","Mine Depart Point","Mine Arrivé Couleur","Mine Arrivé Point","Nombres Tronçons"};
+		this.tabEntetes = new String[]{"Mine Depart ID","Mine Arrivé ID","Nombres Tronçons"};
 		this.tabDonnees = new Object[ctrlMap.getArretes().size()][this.tabEntetes.length];
 
 
 		for ( Arrete route : ctrlMap.getArretes())
 		{
-			this.tabDonnees[cptVille] = new Object[]{ (String) route.getDepart().getCouleur().name(), route.getDepart().getPoint(), (String) route.getArrivee().getCouleur().name(), route.getArrivee().getPoint(), route.getTroncons() };
+			this.tabDonnees[cptVille] = new Object[]{ String.valueOf(route.getDepart().getId()), String.valueOf(route.getArrivee().getId()), route.getTroncons() };
 			cptVille ++;
 		}
 
