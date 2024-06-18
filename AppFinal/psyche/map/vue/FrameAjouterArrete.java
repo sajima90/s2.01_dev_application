@@ -80,18 +80,18 @@ public class FrameAjouterArrete extends JFrame implements ActionListener//, Item
 		this.lblVisu = new JLabel("Visualisation des routes");
 
 		/*-------------------------------*/
-        /*         Id mine               */
-        /*-------------------------------*/
+		/*         Id mine               */
+		/*-------------------------------*/
 
-        List<String> tabMenuDeroulantId = new ArrayList<>();
+		List<String> tabMenuDeroulantId = new ArrayList<>();
 
-        for ( Sommet mine : this.ctrlMap.getSommets())
-        {
+		for ( Sommet mine : this.ctrlMap.getSommets())
+		{
 			if ( !tabMenuDeroulantId.contains(mine.getId()))
 				tabMenuDeroulantId.add(String.valueOf(mine.getId()));
-        }
+		}
 
-        String[] tabId  = new String[tabMenuDeroulantId.size()];
+		String[] tabId  = new String[tabMenuDeroulantId.size()];
 		tabId           = tabMenuDeroulantId.toArray(tabId);
 
 
@@ -167,8 +167,8 @@ public class FrameAjouterArrete extends JFrame implements ActionListener//, Item
 			{
 
 				this.ctrlMap.ajouterArrete( this.ctrlMap.getSommet( Integer.parseInt((String) this.jcbDeroulanteDepartId.getSelectedItem()) ),
-											this.ctrlMap.getSommet( Integer.parseInt((String) this.jcbDeroulanteArriveId.getSelectedItem()) ),
-																	Integer.parseInt(         this.jcbDeroulanteTroncons.getSelectedItem().toString()));
+						this.ctrlMap.getSommet( Integer.parseInt((String) this.jcbDeroulanteArriveId.getSelectedItem()) ),
+						Integer.parseInt(         this.jcbDeroulanteTroncons.getSelectedItem().toString()));
 
 				this.tblDonnes.setModel(new GrlDonneesModelArrete(this.ctrlMap));
 			}
@@ -177,66 +177,65 @@ public class FrameAjouterArrete extends JFrame implements ActionListener//, Item
 		}
 	}
 
-//	public void itemStateChanged(ItemEvent e)
-//	{
-//		if (modificationComboBox || e.getStateChange() != ItemEvent.SELECTED || e.getItem() == null)
-//		{
-//			return;
-//		}
-//
-//		if (e.getSource() == this.jcbDeroulanteArriveId || e.get
-//		{
-//			modificationComboBox = true;
-//
-//			try
-//			{
-//				// Suppression de tous les éléments existants dans les JComboBox
-//				this.jcbDeroulanteDepartPoint.removeAllItems();
-//				this.jcbDeroulanteArrivePoint.removeAllItems();
-//
-//				// Obtention des couleurs sélectionnées
-//				String idDepart  = (String) this.jcbDeroulanteDepartCouleur.getSelectedItem();
-//				String couleurArrivee = (String) this.jcbDeroulanteArriveCouleur.getSelectedItem();
-//
-//
-//				if ( !idDepart.equals("ROME") )
-//				{
-//					// Parcours de la liste des mines
-//					for (Sommet mine : this.ctrlMap.getSommets())
-//					{
-//						String mineCouleur = mine.getCouleur().name();
-//						String minePoint   = String.valueOf(mine.getPoint());
-//
-//						// Ajout des points aux JComboBox en fonction des couleurs sélectionnées
-//						if (idDepart.equals(mineCouleur))
-//						{
-//							this.jcbDeroulanteDepartPoint.addItem(minePoint);
-//						}
-//					}
-//				}
-//
-//				if ( !couleurArrivee.equals("ROME") )
-//				{
-//					// Parcours de la liste des mines
-//					for (Sommet mine : this.ctrlMap.getSommets())
-//					{
-//						String mineCouleur = mine.getCouleur().name();
-//						String minePoint = String.valueOf(mine.getPoint());
-//
-//						// Ajout des points aux JComboBox en fonction des couleurs sélectionnées
-//						if (couleurArrivee.equals(mineCouleur))
-//						{
-//							this.jcbDeroulanteArrivePoint.addItem(minePoint);
-//						}
-//					}
-//				}
-//			}
-//			finally
-//			{
-//				modificationComboBox = false;
-//			}
-//		}
+	//	public void itemStateChanged(ItemEvent e)
+	//	{
+	//		if (modificationComboBox || e.getStateChange() != ItemEvent.SELECTED || e.getItem() == null)
+	//		{
+	//			return;
+	//		}
+	//
+	//		if (e.getSource() == this.jcbDeroulanteArriveId || e.get
+	//		{
+	//			modificationComboBox = true;
+	//
+	//			try
+	//			{
+	//				// Suppression de tous les éléments existants dans les JComboBox
+	//				this.jcbDeroulanteDepartPoint.removeAllItems();
+	//				this.jcbDeroulanteArrivePoint.removeAllItems();
+	//
+	//				// Obtention des couleurs sélectionnées
+	//				String idDepart  = (String) this.jcbDeroulanteDepartCouleur.getSelectedItem();
+	//				String couleurArrivee = (String) this.jcbDeroulanteArriveCouleur.getSelectedItem();
+	//
+	//
+	//				if ( !idDepart.equals("ROME") )
+	//				{
+	//					// Parcours de la liste des mines
+	//					for (Sommet mine : this.ctrlMap.getSommets())
+	//					{
+	//						String mineCouleur = mine.getCouleur().name();
+	//						String minePoint   = String.valueOf(mine.getPoint());
+	//
+	//						// Ajout des points aux JComboBox en fonction des couleurs sélectionnées
+	//						if (idDepart.equals(mineCouleur))
+	//						{
+	//							this.jcbDeroulanteDepartPoint.addItem(minePoint);
+	//						}
+	//					}
+	//				}
+	//
+	//				if ( !couleurArrivee.equals("ROME") )
+	//				{
+	//					// Parcours de la liste des mines
+	//					for (Sommet mine : this.ctrlMap.getSommets())
+	//					{
+	//						String mineCouleur = mine.getCouleur().name();
+	//						String minePoint = String.valueOf(mine.getPoint());
+	//
+	//						// Ajout des points aux JComboBox en fonction des couleurs sélectionnées
+	//						if (couleurArrivee.equals(mineCouleur))
+	//						{
+	//							this.jcbDeroulanteArrivePoint.addItem(minePoint);
+	//						}
+	//					}
+	//				}
+	//			}
+	//			finally
+	//			{
+	//				modificationComboBox = false;
+	//			}
+	//		}
 
 	//}
 }
-

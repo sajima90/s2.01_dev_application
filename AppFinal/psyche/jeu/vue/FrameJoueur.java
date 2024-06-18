@@ -21,12 +21,12 @@ public class FrameJoueur extends JFrame
 				break;
 			case 2:
 				this.setTitle("Syndicat Astral");
-				this.setLocation(1050,420);
+				this.setLocation(1050,450);
 				break;
 		}
 
 
-		this.setSize(553, 410);
+		this.setSize(900, 410);
 
 		this.ctrlJeu = ctrlJeu;
 

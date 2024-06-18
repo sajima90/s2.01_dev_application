@@ -21,6 +21,7 @@ public class Jeton
 		return type;
 	}
 
+
 	public String toString()
 	{
 		return "Jeton {  type = " + type.toString() + " }";

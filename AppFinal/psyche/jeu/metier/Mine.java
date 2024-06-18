@@ -22,7 +22,7 @@ public class Mine
 	private int y;
 	private final int point;
 	private final String nom;
-	private Minerai minerai;
+	private Jeton jeton;
 
 	private final List<Route> routes;
 
@@ -38,7 +38,7 @@ public class Mine
 		this.couleur = couleur;
 		this.point = point;
 		this.nom = nom;
-		this.minerai = null;
+		this.jeton = null;
 	}
 
 	/**
@@ -75,12 +75,12 @@ public class Mine
 
 	public void enleverMinerai()
 	{
-		this.minerai = null;
+		this.jeton = null;
 	}
 
 	public boolean estPrise()
 	{
-		if ( this.minerai == null )
+		if ( this.jeton == null )
 			return true;
 
 		return false;
@@ -121,9 +121,9 @@ public class Mine
 		return this.nom;
 	}
 
-	public Minerai getMinerai()
+	public Jeton getJeton()
 	{
-		return this.minerai;
+		return this.jeton;
 	}
 
 	public void setX(int x)
@@ -136,7 +136,7 @@ public class Mine
 		this.y = y;
 	}
 
-	public void setMinerai( Minerai minerai ) { this.minerai = minerai; }
+	public void setJeton( Jeton jeton ) { this.jeton = jeton; }
 
 	/*-----------------*/
 	/* Autres Méthodes */

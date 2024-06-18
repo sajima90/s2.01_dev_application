@@ -22,8 +22,6 @@ public class  ControleurJeu
 	private final Controleur ctrl;
 	private FrameJoueur frameJoueur;
 
-
-
 	private List<Joueur> tabJoueur;
 
 	private FrameNom frameNom;
@@ -64,7 +62,7 @@ public class  ControleurJeu
 
 	}
 
-	public void setJoueur( FrameJoueur j)
+	public void setJoueur(FrameJoueur j)
 	{
 		this.frameJoueur = j;
 	}
@@ -127,6 +125,8 @@ public class  ControleurJeu
 	{
 		this.frameCarte.getPanelCarte().repaint();
 		this.frameJoueur.majIHM();
+
+
 	}
 
 	public Mine getMineIndice(int x, int y)
@@ -168,11 +168,14 @@ public class  ControleurJeu
 	public String changerTour()
 	{
 		System.out.println("Tour changé");
+
 		switch (this.tourJoueur)
 		{
 			case "SA":
-				return this.	tourJoueur = "CS";
+				this.majIHM();
+				return this.tourJoueur = "CS";
 			case "CS":
+				this.majIHM();
 				return this.tourJoueur = "SA";
 			default:
 				return null;
@@ -181,9 +184,17 @@ public class  ControleurJeu
 
 	public void possederMine(Mine mine)
 	{
+		this.majIHM();
+
 		System.out.println("Test possederMine");
 		this.getJoueurTour().ajouterMine(mine);
-		this.getJoueurTour().ajouterRessource( new Jeton(mine.getMinerai()));
+
+		if (mine.getJeton() != null && !mine.getNom().equals("ROME"))
+			{
+				this.getJoueurTour().ajouterRessource(new Jeton(mine.getJeton().getType()));
+			}
+
+		this.majIHM();
 	}
 
 	public boolean joueurPossedeMine (Mine mine)

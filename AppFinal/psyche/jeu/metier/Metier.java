@@ -19,8 +19,8 @@ public class Metier
 	/* Données      */
 	/*--------------*/
 
-	//						   Al,Ag,Au,Co,Fe,Ni,Pt,Ti
-	public int[] nbMinerais = {4, 4, 4, 4, 4, 4, 4, 4};
+	//						   Al,Ag,Au,Co,Fe,Ni,Pt,Ti,NR
+	public int[] nbMinerais = {4, 4, 4, 4, 4, 4, 4, 4, 8};
 
 	private final List<Mine> mines;
 	private final List<Route> routes;
@@ -55,13 +55,18 @@ public class Metier
 		{
 			if(!this.getMines().get(i).getNom().equals("ROME"))
 			{
-				int rdm = (int) (Math.random() * 8);
+				int rdm = (int) (Math.random() * 9);
 
 				//System.out.println(rdm);
 				if (this.nbMinerais[rdm] > 0)
 				{
 					this.nbMinerais[rdm]--;
-					this.getMines().get(i).setMinerai(Minerai.values()[rdm]);
+
+
+					if (rdm < 8)
+						this.getMines().get(i).setJeton(new Jeton (Minerai.values()[rdm]));
+					else
+						this.getMines().get(i).setJeton(new Jeton (Piece.values()[0]));
 				}
 				else
 					i--;
@@ -73,7 +78,7 @@ public class Metier
 	{
 		if (this.nbMinerais[indexMinerais] > 0)
 		{
-			this.getMines().get(indexMine).setMinerai(Minerai.values()[indexMinerais]);
+			this.getMine(indexMine).setJeton(new Jeton(Minerai.values()[indexMinerais]));
 		}
 
 	}

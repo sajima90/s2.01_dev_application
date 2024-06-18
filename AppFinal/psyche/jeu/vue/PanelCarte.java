@@ -2,6 +2,8 @@ package psyche.jeu.vue;
 
 import psyche.jeu.ControleurJeu;
 import psyche.jeu.metier.Mine;
+import psyche.jeu.metier.Minerai;
+import psyche.jeu.metier.Piece;
 import psyche.jeu.metier.Route;
 
 import javax.swing.*;
@@ -43,7 +45,8 @@ public class PanelCarte extends JPanel
 	 */
 	protected void paintComponent(Graphics g)
 	{
-		super.paintComponent(g);
+//		super.paintComponent(g);
+
 
 		// Charger l'image de fond
 		ImageIcon imageIcon = new ImageIcon("../psyche/theme/images/Plateau_vierge.png");
@@ -59,38 +62,38 @@ public class PanelCarte extends JPanel
 		int rectWidth = 40;
 		int rectHeight = 65;
 
-		for (Mine mine : this.ctrlJeu.getMines())
-		{
-			if (!mine.getCouleur().name().equals("ROME"))
-			{
-				if (mine.estPrise())
-				{
+		for (Mine mine : this.ctrlJeu.getMines()) {
+			if (!mine.getCouleur().name().equals("ROME")) {
+				if (mine.estPrise()) {
 					g.drawImage(getToolkit().getImage(
 									"../psyche/theme/images/transparent/" + mine.getCouleur().getLienImage() + "_clair.png"),
 							mine.getX() - 10, mine.getY() - 10, rectWidth, rectHeight, this);
-				}
-				else
-				{
+				} else {
 					g.drawImage(getToolkit().getImage(
 									"../psyche/theme/images/transparent/" + mine.getCouleur().getLienImage() + ".png"),
 							mine.getX() - 10, mine.getY() - 10, rectWidth, rectHeight, this);
 				}
 				g2d.drawString(String.valueOf(mine.getPoint()), mine.getX() + 8, mine.getY() + 12);
 
-				if (!mine.estPrise())
-				{
-					g.drawImage(getToolkit().getImage(
-									"../psyche/theme/images/ressources/" + mine.getMinerai().getLienImage()), mine.getX(),
-							mine.getY() + 30, 20, 20, this);
+				if (!mine.estPrise() && mine.getJeton() != null) { // Add null check here
+					if (mine.getJeton().getType() instanceof Minerai) {
+						Minerai m = (Minerai) mine.getJeton().getType();
+						g.drawImage(getToolkit().getImage(
+										"../psyche/theme/images/ressources/" + m.getLienImage()), mine.getX(),
+								mine.getY() + 30, 20, 20, this);
+					}
+					if (mine.getJeton().getType() instanceof Piece) {
+						Piece m = (Piece) mine.getJeton().getType();
+						g.drawImage(getToolkit().getImage(
+										"../psyche/theme/images/ressources/" + m.name() + ".png"), mine.getX(),
+								mine.getY() + 30, 20, 20, this);
+					}
 				}
-			}
-			else
-			{
+			} else {
 				g.drawImage(getToolkit().getImage(
 								"../psyche/theme/images/transparent/" + mine.getCouleur().getLienImage() + ".png"),
 						mine.getX() - 15, mine.getY() - 5, 51, 55, this);
 			}
-
 			g2d.drawString(String.valueOf(mine.getNom()), mine.getX(), mine.getY());
 		}
 
@@ -127,24 +130,24 @@ public class PanelCarte extends JPanel
 			double deltaX = (ville2EdgeX - ville1EdgeX) / (double) (troncons + 1);
 			double deltaY = (ville2EdgeY - ville1EdgeY) / (double) (troncons + 1);
 
-			// Ajouter les icônes des pions des joueurs sur les tronçons
-			for (int i = 1; i <= troncons; i++)
-			{
-				int pionX = (int) (ville1EdgeX + i * deltaX - 5);
-				int pionY = (int) (ville1EdgeY + i * deltaY - 5);
-
-				// Charger les images des pions des joueurs
-				Image pionJoueur1 = new ImageIcon("..psyche/theme/images/pion_joueur_1.png").getImage();
-				Image pionJoueur2 = new ImageIcon("../psyche/theme/images/pion_joueur_2.png").getImage();
-				if (i % 2 == 1)
-				{
-					g.drawImage(pionJoueur1, pionX, pionY, 20, 20, this);
-				}
-				else
-				{
-					g.drawImage(pionJoueur2, pionX, pionY, 20, 20, this);
-				}
-			}
+//			// Ajouter les icônes des pions des joueurs sur les tronçons
+//			for (int i = 1; i <= troncons; i++)
+//			{
+//				int pionX = (int) (ville1EdgeX + i * deltaX - 5);
+//				int pionY = (int) (ville1EdgeY + i * deltaY - 5);
+//
+//				// Charger les images des pions des joueurs
+//				Image pionJoueur1 = new ImageIcon("../psyche/theme/images/pion_joueur_1.png").getImage();
+//				Image pionJoueur2 = new ImageIcon("../psyche/theme/images/pion_joueur_2.png").getImage();
+//				if (i % 2 == 1)
+//				{
+//					g.drawImage(pionJoueur1, pionX, pionY, 20, 20, this);
+//				}
+//				else
+//				{
+//					g.drawImage(pionJoueur2, pionX, pionY, 20, 20, this);
+//				}
+//			}
 
 			// Ajouter le point de début
 			g2d.fillOval(ville1EdgeX - 5, ville1EdgeY - 5, 10, 10);
@@ -173,6 +176,7 @@ public class PanelCarte extends JPanel
 			int posX = e.getX();
 			int posY = e.getY();
 
+
 			for (Mine mine : ctrlJeu.getMines())
 			{
 				int diameter = 30;
@@ -184,19 +188,20 @@ public class PanelCarte extends JPanel
 
 				if (distance <= diameter)
 				{
-					if (mine.getMinerai() == null || mine.getNom().equals("ROME"))
+					ctrlJeu.majIHM();
+					if (mine.getJeton() == null || mine.getNom().equals("ROME") && this.mineSelect == null)
 					{
 						//Première seléction
 						this.mineSelect = mine;
 						System.out.println("Mine sélectionnée 1: " + mine);
+
 					}
 					else if (this.mineSelect != mine && this.mineSelect != null && ctrlJeu.mineEstAdjacent(
-							this.mineSelect, mine) && mine.getMinerai() != null)
+							this.mineSelect, mine) && !mine.getNom().equals("ROME"))
 					{
 						System.out.println("Mine sélectionnée 2: " + mine);
 
-						ctrlJeu.possederMine(this.mineSelect);
-						mine.enleverMinerai();
+
 
 						for (Route routeD : ctrlJeu.getRoute(this.mineSelect))
 						{
@@ -214,11 +219,11 @@ public class PanelCarte extends JPanel
 						}
 						System.out.println("Mine prise par " + ctrlJeu.getTourJoueur() + " :" + mine);
 
+						ctrlJeu.possederMine(this.mineSelect);
+						mine.enleverMinerai();
+
 						ctrlJeu.changerTour();
 						this.mineSelect = null;
-
-
-
 					}
 				}
 			}
@@ -234,6 +239,8 @@ public class PanelCarte extends JPanel
 		 */
 		public void mouseDragged(MouseEvent e)
 		{
+			ctrlJeu.majIHM();
+
 		}
 
 		/**

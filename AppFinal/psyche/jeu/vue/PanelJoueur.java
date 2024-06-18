@@ -59,51 +59,21 @@ public class PanelJoueur extends JPanel
 		}
 	}
 
-	/*public void ajouterMinerais(Minerai m)
+
+	public void paintComponent(Graphics g)
 	{
-		for(int i = 0; i < this.coordsMinerais[i].length; i++)
-		{
-			if(this.tabMinerais[i][0] == m)
-			{
-				for(int j = 0; j < this.tabMinerais.length; j++)
-				{
-					if (!(this.tabMinerais[j][i] == null))
-					{
-						this.tabMinerais[j][i] = m;
-						this.repaint();
-
-						for(int cpt1 = 0; cpt1<this.tabMinerais.length;cpt1++)
-						{
-							for(int cpt2 = 0; cpt2<this.tabMinerais[cpt1].length; cpt2++)
-							{
-								System.out.println(this.tabMinerais[cpt1][cpt2].getNom() + " ");
-							}
-							System.out.println("\n");
-						}
-						return;
-					}
-				}
-			}
-		}
-	}*/
-
-	public void actionPerformed(ActionEvent evt)
-	{
-		this.repaint();
-	}
-
-	protected void paintComponent(Graphics g)
-	{
-		super.paintComponent(g);
-
+//		super.paintComponent(g);
+//
 		// Charger l'image de fond
+
+		Graphics2D g2 = (Graphics2D) g;
 
 		if (this.joueur.getNumJoueur() == 1)
 		{
 			ImageIcon imageIcon = new ImageIcon("../psyche/theme/images/plateau_joueur_1.png");
 
 			Image backgroundImage = imageIcon.getImage();
-			g.drawImage(backgroundImage, 0, 0, this.getWidth(), this.getHeight(), this);
+			g2.drawImage(backgroundImage, 0, 0, 553, 397 , this);
 
 			this.ajoutMinerais();
 
@@ -114,11 +84,57 @@ public class PanelJoueur extends JPanel
 
 			Image backgroundImage = imageIcon.getImage();
 
-			g.drawImage(backgroundImage, 0, 0, this.getWidth(), this.getHeight(), this);
+			g2.drawImage(backgroundImage, 0, 0, 553, 397, this);
 
 			this.ajoutMinerais();
 
 		}
+
+		int posXMine = 580;
+		int posYMine = 50;
+
+
+		// TODO : Récupérer les mines du joueur
+		for (Mine m : this.joueur.getMinesObtenues())
+		{
+
+			if (!m.getNom().equals("ROME"))
+			{
+
+				g2.drawImage(getToolkit().getImage("../psyche/theme/images/opaque/" + m.getCouleur().getLienImage() + "_clair.png"), posXMine, posYMine, 40, 65, this);
+				g2.drawString(m.getPoint() + "", posXMine + 16, posYMine + 22);
+
+				posXMine += 50;
+
+				if (posXMine > 850)
+				{
+					posXMine = 580;
+					posYMine += 70;
+				}
+
+			}
+
+
+		}
+
+		int posXPiece =  65;
+		int posYPiece = 325;
+
+		// TODO : Récupérer nb pièce depuis Joueur
+		for (int i = 0; i < this.joueur.getNbPiece(); i++)
+		{
+
+			if (posXPiece < 460)
+			{
+
+				g2.drawImage(getToolkit().getImage("../psyche/theme/images/ressources/NR.png"), posXPiece, posYPiece, 50, 50, this);
+
+				posXPiece += 53;
+
+			}
+
+		}
+
 
 	}
 

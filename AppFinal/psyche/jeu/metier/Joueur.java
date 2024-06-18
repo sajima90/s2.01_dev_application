@@ -46,7 +46,7 @@ public class Joueur
 		this.nbPiece            = 0;
 		this.nom		        = nom;
 		this.score              = 0;
-		this.minesObtenues 	    = new ArrayList<Mine>   ();
+		this.minesObtenues 	    = new ArrayList<Mine> ();
 		this.tabJetonPresent 	= new ArrayList<Jeton>();
 		this.routesJoueur 	    = new ArrayList<Route>();
 
@@ -81,7 +81,7 @@ public class Joueur
 	 * @param mine
 	 * 		La mine à ajouter
 	 */
-	public void ajouterMine     ( Mine mine ) {this.minesObtenues.add(mine);      }
+	public void ajouterMine     ( Mine mine )     {this.minesObtenues.add(mine);}
 	public void ajouterRoute    ( Route route )   {this.routesJoueur.add(route);}
 
 
