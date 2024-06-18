@@ -13,7 +13,8 @@ import java.awt.event.MouseEvent;
  * Cette classe gère le panel où les villes sont représentées. Elle permet de dessiner des villes et des routes sur un
  * panneau, ainsi que de gérer les interactions avec la souris pour sélectionner et déplacer les villes.
  */
-public class PanelGraph extends JPanel {
+public class PanelGraph extends JPanel
+{
 	private ControleurMap ctrlMap;
 	private Sommet mineSelect = null;
 	private int setX, setY = 0;
@@ -23,7 +24,8 @@ public class PanelGraph extends JPanel {
 	 *
 	 * @param ctrlMap Le contrôleur associé à ce panel.
 	 */
-	public PanelGraph(ControleurMap ctrlMap) {
+	public PanelGraph(ControleurMap ctrlMap)
+	{
 		this.ctrlMap = ctrlMap;
 		this.setBackground(Color.WHITE);
 		this.setLayout(new BorderLayout());
@@ -39,7 +41,8 @@ public class PanelGraph extends JPanel {
 	 * @param g L'objet Graphics utilisé pour dessiner.
 	 */
 
-	protected void paintComponent(Graphics g) {
+	protected void paintComponent(Graphics g)
+	{
 		super.paintComponent(g);
 
 //		// Charger l'image de fond
@@ -56,7 +59,8 @@ public class PanelGraph extends JPanel {
 		int diameter = 30;
 		int radius = diameter / 2;
 
-		for (Sommet mine : this.ctrlMap.getSommets()) {
+		for (Sommet mine : this.ctrlMap.getSommets())
+		{
 			g2d.setColor(mine.getCouleur().getColor());
 			g2d.fillOval(mine.getX() - radius, mine.getY() - radius, diameter, diameter);
 			g2d.setColor(Color.BLACK);
@@ -64,7 +68,8 @@ public class PanelGraph extends JPanel {
 			g2d.drawString(mine.getNom() + " ID: " + mine.getId(), mine.getX() - radius, mine.getY() - radius - 10);
 		}
 
-		for (Arrete arrete : this.ctrlMap.getArretes()) {
+		for (Arrete arrete : this.ctrlMap.getArretes())
+		{
 			Sommet ville1 = arrete.getDepart();
 			Sommet ville2 = arrete.getArrivee();
 
@@ -90,7 +95,8 @@ public class PanelGraph extends JPanel {
 			int troncons = arrete.getTroncons();
 
 			// Vérifier s'il y a plus d'un tronçon pour dessiner les points intermédiaires
-			if (troncons > 1) {
+			if (troncons > 1)
+			{
 				int centerX = (ville1CenterX + ville2CenterX) / 2;
 				int centerY = (ville1CenterY + ville2CenterY) / 2;
 				g2d.fillOval(centerX - 5, centerY - 5, 10, 10);
@@ -121,15 +127,17 @@ public class PanelGraph extends JPanel {
 		 * @param e L'événement de souris.
 		 */
 		@Override
-		public void mousePressed(MouseEvent e) {
+		public void mousePressed(MouseEvent e)
+		{
 			posX = e.getX();
 			posY = e.getY();
 			mineSelect = null;
 			setX = 0;
 			setY = 0;
 
-			for (Sommet mine : ctrlMap.getSommets()) {
-				int diameter = 30; // Assurez-vous que le diamètre est cohérent avec celui utilisé dans paintComponent
+			for (Sommet mine : ctrlMap.getSommets())
+			{
+				int diameter = 30;
 				int radius = diameter / 2;
 				int centerX = mine.getX();
 				int centerY = mine.getY();
@@ -137,7 +145,8 @@ public class PanelGraph extends JPanel {
 				int distY = Math.abs(e.getY() - centerY);
 				double distance = Math.sqrt(distX * distX + distY * distY);
 
-				if (distance <= radius) {
+				if (distance <= radius)
+				{
 					mineSelect = mine;
 					setX = e.getX() - mine.getX();
 					setY = e.getY() - mine.getY();
@@ -149,8 +158,10 @@ public class PanelGraph extends JPanel {
 		}
 
 		@Override
-		public void mouseDragged(MouseEvent e) {
-			if (mineSelect != null) {
+		public void mouseDragged(MouseEvent e)
+		{
+			if (mineSelect != null)
+			{
 				int newX = e.getX() - setX;
 				int newY = e.getY() - setY;
 
@@ -161,8 +172,10 @@ public class PanelGraph extends JPanel {
 		}
 
 		@Override
-		public void mouseReleased(MouseEvent e) {
-			if (mineSelect != null) {
+		public void mouseReleased(MouseEvent e)
+		{
+			if (mineSelect != null)
+			{
 				int newX = e.getX() - setX;
 				int newY = e.getY() - setY;
 

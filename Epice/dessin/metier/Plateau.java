@@ -1,4 +1,4 @@
-package dessin.metier;
+ccccccccccccccccccccccccccccccccccccccccccccccccccccccpackage dessin.metier;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -21,7 +21,7 @@ public class Plateau
 	// constante :
 
 	// Nombre de case total pour les jetons
-	private static final int NB_PIECE_MAX = 15;
+	private static final int NB_PIECE_MAX = 32;
 
 
 	// variables  :

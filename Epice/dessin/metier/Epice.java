@@ -9,14 +9,14 @@ package dessin.metier;
 
 public enum Epice implements IRessource
 {
-	SESAME(Couleur.BLANC),
-	CURCUMA(Couleur.JAUNE),
-	PAPRIKA(Couleur.ROUGE),
-	SAFRAN(Couleur.ORANGE),
-	SUMAC(Couleur.VERT),
-	CANNELLE(Couleur.MARRON),
-	CARDAMONE(Couleur.VIOLET),
-	POIVRE(Couleur.NOIR);
+	ALUMINIUM(Couleur.JAUNE),
+	ARGENT(Couleur.GRIS),
+	OR(Couleur.OR),
+	COBALT(Couleur.OCRE),
+	FER(Couleur.ORANGE),
+	NICKEL(Couleur.BLEU_CLAIR),
+	PLATINE(Couleur.ROSE),
+	TITANE(Couleur.VERT);
 
 	private final Couleur couleur;
 
@@ -41,6 +41,15 @@ public enum Epice implements IRessource
 		return this.name() + " (" + this.couleur.getSymbole() + ")";
 	}
 
-
+	public String getSymbole()
+	{
+		switch (this.name())
+		{
+		case "ALUMINIUM":
+			return "Al";
+		case "ARGENT":
+			return "Ag";
+		}
+		return "";
+	}
 }
-

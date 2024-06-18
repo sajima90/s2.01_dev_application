@@ -21,6 +21,7 @@ public class FrameNom extends JFrame implements ActionListener
 
 		this.setTitle("Choix des camps");
 		this.setSize(500, 300);
+		this.setLocation(250,250);
 		this.setLayout(null);
 
 		this.ctrlJeu = ctrlJeu;
@@ -69,25 +70,24 @@ public class FrameNom extends JFrame implements ActionListener
 		if (e.getSource() == this.btnCS)
 		{
 			this.ctrlJeu.ajouterJoueur(new Joueur("CS"));
-			new FrameJoueur(this.ctrlJeu.getJoueur(0), this.ctrlJeu);
+			this.ctrlJeu.setJoueur( new FrameJoueur(this.ctrlJeu.getJoueur(0), this.ctrlJeu) );
 
 			this.ctrlJeu.ajouterJoueur(new Joueur("SA"));
-			new FrameJoueur(this.ctrlJeu.getJoueur(1), this.ctrlJeu);
+			this.ctrlJeu.setJoueur( new FrameJoueur(this.ctrlJeu.getJoueur(1), this.ctrlJeu ));
 
 		}
 		if (e.getSource() == this.btnSA)
 		{
 			this.ctrlJeu.ajouterJoueur(new Joueur("SA"));
-			new FrameJoueur(this.ctrlJeu.getJoueur(0), this.ctrlJeu);
+			this.ctrlJeu.setJoueur( new FrameJoueur(this.ctrlJeu.getJoueur(0), this.ctrlJeu));
 
 			this.ctrlJeu.ajouterJoueur(new Joueur("CS"));
-			new FrameJoueur(this.ctrlJeu.getJoueur(0), this.ctrlJeu);
+			this.ctrlJeu.setJoueur( new FrameJoueur(this.ctrlJeu.getJoueur(1), this.ctrlJeu));
 		}
 
 		this.setVisible(false);
-
+		this.setResizable(false);
 	}
-
 
 
 }

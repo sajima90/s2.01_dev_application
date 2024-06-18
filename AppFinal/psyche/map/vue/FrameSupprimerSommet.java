@@ -28,7 +28,9 @@ public class FrameSupprimerSommet extends JFrame implements ActionListener
 
 		this.ctrlMap = ctrlMap;
 
-		//Creation des composants
+		/*-------------------------*/
+		/* Création des composants */
+		/*-------------------------*/
 		this.donnesTableau = new GrlDonneesModelSommet(this.ctrlMap);
 		this.tblDonnes     = new JTable     (this.donnesTableau);
 		spTableau          = new JScrollPane(this.tblDonnes	   );
@@ -36,11 +38,15 @@ public class FrameSupprimerSommet extends JFrame implements ActionListener
 		this.btnSupprimer  = new JButton("Supprimer");
 
 
-		//Positionnement des composants
+		/*-------------------------*/
+		/* Position des composants */
+		/*-------------------------*/
 		this.add(btnSupprimer);
 		this.add(spTableau   );
 
-		//Activation des composants
+		/*---------------------------*/
+		/* Activation des composants */
+		/*---------------------------*/
 		this.btnSupprimer.addActionListener(this);
 
 		this.setVisible(true);

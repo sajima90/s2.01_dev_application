@@ -38,6 +38,7 @@ public class Mine
 		this.couleur = couleur;
 		this.point = point;
 		this.nom = nom;
+		this.minerai = null;
 	}
 
 	/**
@@ -77,6 +78,13 @@ public class Mine
 		this.minerai = null;
 	}
 
+	public boolean estPrise()
+	{
+		if ( this.minerai == null )
+			return true;
+
+		return false;
+	}
 
 	public int getId()
 	{

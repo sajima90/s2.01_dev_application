@@ -6,12 +6,15 @@ package psyche;
  *
  */
 
+import psyche.jeu.metier.Mine;
 import psyche.vue.FrameMenu;
+import psyche.scenario.ControleurScenario;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.List;
 
 public class Controleur
 {
@@ -21,6 +24,7 @@ public class Controleur
 	/*--------------*/
 
 	private final FrameMenu FrameMenu;
+	private ControleurScenario ctrlScen;
 
 
 	/*--------------*/
@@ -28,18 +32,34 @@ public class Controleur
 	/*--------------*/
 
 	/**
-	 * Constructeur de Controleur
+	 * Constructeur de Controleur sans scénario
 	 */
-
 	public Controleur()
 	{
+		this.FrameMenu = new FrameMenu(this);
+	}
+
+	/**
+	 * Constructeur de Controleur avec scénario
+	 */
+	public Controleur(String fichierScenario)
+	{
+		this.ctrlScen = new ControleurScenario(this, fichierScenario);
 		this.FrameMenu = new FrameMenu(this);
 	}
 
 
 	public static void main(String[] args)
 	{
-		new Controleur();
+		if (args.length > 0)
+		{
+			new Controleur(args[0]);
+		}
+		else
+		{
+			new Controleur();
+		}
+
 	}
 
 	public void setVisible()
@@ -55,5 +75,33 @@ public class Controleur
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+
+	/*--------------*/
+	/*  Scénarios   */
+	/*--------------*/
+
+	public List<Mine> getMines()
+	{
+		return this.FrameMenu.getMines();
+	}
+
+	public void ouvrirFenetreModifier()
+	{
+		this.FrameMenu.ouvrirFenetreModifier();
+	}
+
+	public void ouvrirFenetreJouer()
+	{
+		this.FrameMenu.ouvrirFenetreJouer();
+	}
+
+	public void fermerFenetreJouer()
+	{
+		this.FrameMenu.fermerFenetreJouer();
+	}
+	public void fermerFenetreModifier()
+	{
+		this.FrameMenu.fermerFenetreModifier();
 	}
 }

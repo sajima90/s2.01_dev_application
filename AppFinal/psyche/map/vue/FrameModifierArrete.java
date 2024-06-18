@@ -63,8 +63,6 @@ public class FrameModifierArrete extends JFrame implements ActionListener//, Ite
 		/*-------------------------*/
 		/* Création des composants */
 		/*-------------------------*/
-
-
 		this.panelGauche = new JPanel(new BorderLayout());
 		this.panelDroite = new JPanel(new GridLayout(5,2,0,10));
 

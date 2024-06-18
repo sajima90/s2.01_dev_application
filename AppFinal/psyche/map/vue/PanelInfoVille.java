@@ -47,7 +47,9 @@ public class PanelInfoVille extends JPanel
 		this.panelDroite.setPreferredSize(new Dimension(150, 150));
 
 
-		// Création des composants
+		/*-------------------------*/
+		/* Création des composants */
+		/*-------------------------*/
 		this.lblNom        = new JLabel("<html><b>Nom :</b></html>");
 		this.lblAffNom   = new JLabel("<html><i>-</i></html>");
 
@@ -65,7 +67,9 @@ public class PanelInfoVille extends JPanel
 
 
 
-		// Positionnement des composants dans le panneau central
+		/*-------------------------*/
+		/* Position des composants */
+		/*-------------------------*/
 		this.panelDroite.add(this.lblNom);
 		this.panelDroite.add(this.lblAffNom);
 		this.panelDroite.add(this.lblX);

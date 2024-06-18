@@ -270,4 +270,10 @@ public class ControleurMap
 		this.metier.setFichierCharger(path);
 		this.majIHM();
 	}
+
+	//Scénario
+	public void fermerFenetre ()
+	{
+		this.frameMap.dispose();
+	}
 }

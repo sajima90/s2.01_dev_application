@@ -83,9 +83,9 @@ public class FrameAjouterSommet extends JFrame implements ActionListener, ItemLi
 
 		this.lblVisu = new JLabel("Visualisation des mines");
 
-
+		/*---------------------------------------*/
 		/* Création des Labels et leurs couleurs */
-
+		/*---------------------------------------*/
 		this.lblcordX = new JLabel("CoordX   :");
 		this.lblcordX.setBackground(Color.lightGray);
 		this.lblcordX.setFont(new Font("Outfit", Font.BOLD, 12));

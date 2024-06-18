@@ -123,8 +123,6 @@ public class FrameMap extends JFrame implements ActionListener
 		this.add(panelInfoVille, BorderLayout.EAST);
 		this.add(panelGraph,BorderLayout.CENTER);
 
-
-
 		/*-------------------------------*/
 		/*   Activation des composants   */
 		/*-------------------------------*/

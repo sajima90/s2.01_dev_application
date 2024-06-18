@@ -1,4 +1,4 @@
-package dessin.metier;
+package psyche.jeu.metier;
 
 /**
  *

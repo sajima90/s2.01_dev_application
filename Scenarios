@@ -1,0 +1,47 @@
+Scenario prévu pour montrer ce que couvre l'application :
+
+!! Ne pas oublier qu'un fil conducteur doit être présent quand on présente quelque chose !!
+
+Montrez ce qu'il se passe partie métier ?
+
+
+Fonctionnalités à montrer :
+- Création d'une map pour pouvoir commencer une partie
+- Modification d'une mpa
+
+Avant début partie :
+- Retourner jeton ressource face caché + placement random jeton sur mine
+
+
+- Déroulement de la partie
+- Possession des routes & mines
+- Ajout des jetons mines et ressources sur le plateau individuel
+- Avancement des jetons de score
+
+
+- Finalité de la partie
+- Compter les points
+- Définir le vainqueur
+
+
+Scénario 1 :
+
+-lancer appli
+-modifier map
+-montrer toute fonctionnalité de modifier map
+-sauvegarder la map
+-retourner à la page accueil
+-appuyer sur jouer
+- Minerais placés aléatoirement
+
+
+Scénario 2 :
+- Faire quelques tours vers la fin de partie pour montrer :
+	- Prise d'une mine par un joueur
+	- Les joueurs gagnent les minerais
+- Compter les points
+- Gagnant annoncé
+
+
+-- Scénarios --
+Pouvoir 

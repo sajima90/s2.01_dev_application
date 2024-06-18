@@ -23,8 +23,8 @@ public enum Couleur
 	BLEU_CLAIR	(173, 216, 230),
 	GRIS      	(128, 128, 128),
 	VERT      	( 34, 139,  34),
-	ROSE      	(255, 192, 203),
-	OCRE      	(205, 133,  63),
+	ROUGE      	(255, 192, 203),
+	MARRON     	(205, 133,  63),
 	ROME      	(  0,   0, 255);
 
 

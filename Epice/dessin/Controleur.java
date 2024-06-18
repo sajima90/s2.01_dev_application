@@ -51,17 +51,17 @@ public class Controleur
 		{
 			switch (((Epice) metier.getListJeton().get(indice).getType()).name())
 			{
-			case "SESAME":
+			case "ALUMINIUM":
 				return "../images/sesame.png";
-			case "CURCUMA":
+			case "ARGENT":
 				return "../images/curcuma.png";
-			case "PAPRIKA":
+			case "OR":
 				return "../images/paprika.png";
-			case "SAFRAN":
+			case "COBALT":
 				return "../images/safran.png";
-			case "SUMAC":
+			case "FER":
 				return "../images/sumac.png";
-			case "CANNELLE":
+			case "":
 				return "../images/cannelle.png";
 			case "CARDAMONE":
 				return "../images/cardamone.png";

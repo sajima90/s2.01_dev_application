@@ -8,6 +8,7 @@ import psyche.Controleur;
 import psyche.jeu.metier.*;
 import psyche.jeu.vue.*;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,17 +17,18 @@ public class  ControleurJeu
 	/*--------------*/
 	/* Données      */
 	/*--------------*/
-	private static int nbJoueur = -1;
-	private final Metier metier;
+	private final Metier joue;
 	private final FrameCarte frameCarte;
 	private final Controleur ctrl;
+	private FrameJoueur frameJoueur;
 
-	private final PanelCarte panelCarte;
+
+
 	private List<Joueur> tabJoueur;
 
 	private FrameNom frameNom;
 
-	private String tourJoueur;
+	private String tourJoueur = "SA";
 
 	/*--------------*/
 	/* Méthodes */
@@ -38,21 +40,16 @@ public class  ControleurJeu
 
 	public ControleurJeu(Controleur ctrl)
 	{
-		this.ctrl       = ctrl;
-		this.metier     = new Metier();
-		this.frameCarte = new FrameCarte(this);
-		this.panelCarte = new PanelCarte(this);
-		this.tabJoueur  = new ArrayList<Joueur>();
-		this.frameNom   = new FrameNom(this);
+		this.ctrl        = ctrl;
+		this.tabJoueur   = new ArrayList<Joueur>();
+		this.joue      = new Metier();
+		this.frameCarte  = new FrameCarte(this);
+		this.frameNom    = new FrameNom(this);
+
+		this.frameJoueur = null;
 	}
 
 	public void ajouterJoueur(Joueur j) {this.tabJoueur.add(j);}
-
-	public String getNomJoueur()
-	{
-		return this.tabJoueur.get(++nbJoueur).getNom();
-
-	}
 
 	public Joueur getJoueur(int indice) {return this.tabJoueur.get(indice);}
 
@@ -66,6 +63,18 @@ public class  ControleurJeu
 		}
 
 	}
+
+	public void setJoueur( FrameJoueur j)
+	{
+		this.frameJoueur = j;
+	}
+
+
+	public void approprierRoute (Joueur joueur, Route route)
+	{
+		joueur.ajouterRoute(route);
+	}
+	
 
 	public Couleur getCouleur(String couleur)
 	{
@@ -81,7 +90,7 @@ public class  ControleurJeu
 
 	public Mine getMine(int i)
 	{
-		return this.metier.getMine(i);
+		return this.joue.getMine(i);
 	}
 
 	/**
@@ -89,7 +98,7 @@ public class  ControleurJeu
 	 */
 	public List<Mine> getMines()
 	{
-		return this.metier.getMines();
+		return this.joue.getMines();
 	}
 
 	/**
@@ -97,7 +106,7 @@ public class  ControleurJeu
 	 */
 	public List<Route> getRoutes()
 	{
-		return this.metier.getRoutes();
+		return this.joue.getRoutes();
 	}
 
 	/**
@@ -117,11 +126,12 @@ public class  ControleurJeu
 	public void majIHM()
 	{
 		this.frameCarte.getPanelCarte().repaint();
+		this.frameJoueur.majIHM();
 	}
 
 	public Mine getMineIndice(int x, int y)
 	{
-		return metier.getMineIndice(x, y);
+		return joue.getMineIndice(x, y);
 	}
 
 	public void setVisible () { this.ctrl.setVisible(); }
@@ -135,7 +145,7 @@ public class  ControleurJeu
 	 */
 	public String getFichierCharger()
 	{
-		return this.metier.getFichierCharger();
+		return this.joue.getFichierCharger();
 	}
 
 	/**
@@ -146,7 +156,7 @@ public class  ControleurJeu
 	 */
 	public void setFichierCharger(String path)
 	{
-		this.metier.setFichierCharger(path);
+		this.joue.setFichierCharger(path);
 		this.majIHM();
 	}
 
@@ -157,10 +167,11 @@ public class  ControleurJeu
 
 	public String changerTour()
 	{
+		System.out.println("Tour changé");
 		switch (this.tourJoueur)
 		{
 			case "SA":
-				return this.tourJoueur = "CS";
+				return this.	tourJoueur = "CS";
 			case "CS":
 				return this.tourJoueur = "SA";
 			default:
@@ -168,12 +179,17 @@ public class  ControleurJeu
 		}
 	}
 
-	public void possederMine(Mine mineSelect)
+	public void possederMine(Mine mine)
 	{
-		getJoueurTour().ajouterMine(mineSelect);
-		mineSelect.enleverMinerai();
+		System.out.println("Test possederMine");
+		this.getJoueurTour().ajouterMine(mine);
+		this.getJoueurTour().ajouterRessource( new Jeton(mine.getMinerai()));
 	}
 
+	public boolean joueurPossedeMine (Mine mine)
+	{
+		return this.getJoueurTour().PossedeMine(mine);
+	}
 
 	public boolean mineEstAdjacent (Mine mine1, Mine mine2)
 	{
@@ -186,5 +202,36 @@ public class  ControleurJeu
 			}
 		}
 		return false;
+	}
+
+	public String getPiece()
+	{
+		return "../images/ressources/NR.png";
+	}
+
+	public String getMinerais(int indice)
+	{
+		Joueur joueurActuel = this.getJoueurTour();
+
+		if (joueurActuel.getListJeton().get(indice) != null && joueurActuel.getListJeton().size() > 1 )
+		{
+			String lien =  ((Minerai) joueurActuel.getListJeton().get(indice).getType()).getLienImage();
+			return "../theme/images/ressources/" + lien;
+		}
+
+		return "";
+	}
+
+	public int getNbPiece()
+	{
+		return this.getJoueurTour().getNbPiece();
+	}
+
+	//Scénarios
+	public void fermerFenetre ()
+	{
+		this.frameCarte.dispose();
+		this.frameJoueur.dispose();
+		this.frameNom.dispose();
 	}
 }

@@ -33,3 +33,6 @@ psyche/jeu/vue/FrameNom.java
 psyche/jeu/vue/PanelCarte.java
 psyche/jeu/vue/PanelContour.java
 psyche/jeu/vue/PanelJoueur.java
+
+psyche/scenario/ControleurScenario.java
+psyche/scenario/FrameScenario.java

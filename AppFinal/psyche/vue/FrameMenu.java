@@ -4,11 +4,13 @@ import psyche.Controleur;
 //import psyche.jeu.ControleurJeu;
 //import psyche.jeu.ControleurJeu;
 import psyche.jeu.ControleurJeu;
+import psyche.jeu.metier.Mine;
 import psyche.map.ControleurMap;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.List;
 
 public class FrameMenu extends JFrame implements ActionListener, MouseListener
 {
@@ -17,6 +19,9 @@ public class FrameMenu extends JFrame implements ActionListener, MouseListener
 	private JButton btnModifier;
 	//private PanelGraph panelGraph;
 	private Controleur ctrl;
+	//Necessaire pour scenarios
+	private ControleurMap ctrlMap;
+	private ControleurJeu ctrlJeu;
 
 	public FrameMenu(Controleur ctrl)
 	{
@@ -113,17 +118,48 @@ public class FrameMenu extends JFrame implements ActionListener, MouseListener
 		setVisible(true);
 	}
 
+	public List<Mine> getMines()
+	{
+		return this.ctrlJeu.getMines();
+	}
+
+	/*-------------------------*/
+	/*  Méthodes de scénarios  */
+	/*-------------------------*/
+
+	public void ouvrirFenetreModifier()
+	{
+		ctrlMap = new ControleurMap(this.ctrl);
+		System.out.println("Modifier");
+		this.setVisible(false);
+	}
+
+	public void ouvrirFenetreJouer()
+	{
+		ctrlJeu = new ControleurJeu(this.ctrl);
+		System.out.println("Jouer");
+		this.setVisible(false);
+	}
+
+	public void fermerFenetreModifier()
+	{
+		this.ctrlMap.fermerFenetre();
+	}
+	public void fermerFenetreJouer()
+	{
+		this.ctrlJeu.fermerFenetre();
+	}
+
+
 	public void actionPerformed(ActionEvent e)
 	{
 		if (e.getSource() == this.btnModifier)
 		{
-			new ControleurMap(this.ctrl);
-			System.out.println("Modifier");
+			ouvrirFenetreModifier();
 		}
 		else if (e.getSource() == this.btnJouer)
 		{
-			 new ControleurJeu(this.ctrl);
-			System.out.println("Jouer");
+			ouvrirFenetreJouer();
 		}
 	}
 
@@ -167,12 +203,12 @@ public class FrameMenu extends JFrame implements ActionListener, MouseListener
 	{
 		if(e.getSource() == this.btnModifier)
 		{
-			this.setVisible(false);
+			//this.setVisible(false);
 		}
 
 		if(e.getSource() == this.btnJouer)
 		{
-			this.setVisible(false);
+			//this.setVisible(false);
 		}
 	}
 

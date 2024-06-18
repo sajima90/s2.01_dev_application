@@ -112,8 +112,9 @@ public class FrameModifierSommet extends JFrame implements ActionListener, ItemL
 
 		this.lblVisu = new JLabel("Visualisation des Sommets");
 
-
+		/*---------------------------------------*/
 		/* Création des Labels et leurs couleurs */
+		/*---------------------------------------*/
 
 		this.lblcordX = new JLabel("CoordX   :");
 		this.lblcordX.setBackground(Color.lightGray);

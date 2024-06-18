@@ -59,6 +59,9 @@ public class FrameCarte extends JFrame
 		this.add(panelBas, BorderLayout.SOUTH);
 		this.add(panelGauche, BorderLayout.WEST);
 		this.add(panelDroite, BorderLayout.EAST);
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+
 	}
 
 	public PanelCarte getPanelCarte()

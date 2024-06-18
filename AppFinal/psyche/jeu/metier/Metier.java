@@ -53,16 +53,19 @@ public class Metier
 	{
 		for(int i = 0; i<this.getMines().size();i++)
 		{
-			int rdm = (int) (Math.random() * 8);
-
-			//System.out.println(rdm);
-			if (this.nbMinerais[rdm] > 0)
+			if(!this.getMines().get(i).getNom().equals("ROME"))
 			{
-				this.nbMinerais[rdm]--;
-				this.getMines().get(i).setMinerai(Minerai.values()[rdm]);
+				int rdm = (int) (Math.random() * 8);
+
+				//System.out.println(rdm);
+				if (this.nbMinerais[rdm] > 0)
+				{
+					this.nbMinerais[rdm]--;
+					this.getMines().get(i).setMinerai(Minerai.values()[rdm]);
+				}
+				else
+					i--;
 			}
-			else
-				i--;
 		}
 	}
 
