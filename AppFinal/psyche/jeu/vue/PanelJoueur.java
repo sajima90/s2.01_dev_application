@@ -1,15 +1,13 @@
 package psyche.jeu.vue;
 
 import psyche.jeu.ControleurJeu;
+import psyche.jeu.metier.Jeton;
 import psyche.jeu.metier.Joueur;
 import psyche.jeu.metier.Mine;
-import psyche.jeu.metier.Route;
 import psyche.jeu.metier.Minerai;
-
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 
 public class PanelJoueur extends JPanel
 {
@@ -67,11 +65,6 @@ public class PanelJoueur extends JPanel
 
 		Graphics2D g2 = (Graphics2D) g;
 
-		for (int i = 0; i < this.joueur.getListJeton().size()-1; i++)
-		{
-			if (this.joueur.getListJeton().get(i).getType() instanceof Minerai && !(((Minerai) this.joueur.getListJeton().get(i).getType()).getNom().equals("ROME")) && this.joueur.getListJeton().get(i) != null)
-				System.out.println(this.joueur.getNom() + " -> " + ((Minerai) this.joueur.getListJeton().get(i).getType()).getNom());
-		}
 
 		if (this.joueur.getNom().equals("CS"))
 		{
@@ -80,7 +73,6 @@ public class PanelJoueur extends JPanel
 			Image backgroundImage = imageIcon.getImage();
 			g2.drawImage(backgroundImage, 0, 0, 553, 397 , this);
 
-//			this.ajoutMinerais();
 		}
 		else
 		{
@@ -90,7 +82,6 @@ public class PanelJoueur extends JPanel
 
 			g2.drawImage(backgroundImage, 0, 0, 553, 397, this);
 
-//			this.ajoutMinerais();
 		}
 
 		int posXMine = 580;
@@ -103,7 +94,6 @@ public class PanelJoueur extends JPanel
 			if (!m.getNom().equals("ROME"))
 			{
 
-				System.out.println(m);
 
 				g2.drawImage(getToolkit().getImage("../psyche/theme/images/opaque/" + m.getCouleur().getLienImage() + "_clair.png"), posXMine, posYMine, 40, 65, this);
 				g2.drawString(m.getPoint() + "", posXMine + 16, posYMine + 22);
@@ -139,34 +129,40 @@ public class PanelJoueur extends JPanel
 
 		}
 
-	}
+		int posXMinerai =  11;
+		int posYMinerai = 218;
+		Jeton dernierElm = null;
 
-	public void ajoutMinerais()
-	{
-
-		for (int lig = 0; lig < 4; lig++)
+		// afficher les minerais
+		for (Jeton j : this.joueur.getListJeton())
 		{
-			for (int col = 0; col < 8; col++)
+			if (j != null && j.getType() != null && j.getType() instanceof Minerai)
 			{
-				if (this.joueur.getListJeton().get(lig*8 + col) != null && this.joueur.getListJeton().size() > 1)
-				{
-					String lien = ((Minerai) this.joueur.getListJeton().get(lig*8 + col).getType()).getLienImage();
-					Icon img = new ImageIcon("../psyche/theme/images/ressources/" + lien);
 
-					this.tabMinerais[lig][col].setIcon(img);
-					this.tabMinerais[lig][col].setOpaque(false);
+//				System.out.println((dernierElm != null && ((Minerai) j.getType()).getNom().equals(((Minerai) dernierElm.getType()).getNom())));
+
+				if (dernierElm != null && ((Minerai) j.getType()).getNom().equals(((Minerai) dernierElm.getType()).getNom()))
+				{
+					posYMinerai -= 54;
+
+					g2.drawImage(getToolkit().getImage("../psyche/theme/images/ressources/" + ((Minerai) j.getType()).getLienImage()), posXMinerai,posYMinerai, 50, 50, this);
 				}
+				else
+				{
+					posXMinerai +=  53;
+					posYMinerai = 218; // Reset posYMinerai to its initial value
+
+					g2.drawImage(getToolkit().getImage("../psyche/theme/images/ressources/" + ((Minerai) j.getType()).getLienImage()), posXMinerai,posYMinerai, 50, 50, this);
+				}
+
+
+				dernierElm = j;
+
+
 			}
 		}
 
-		for (int indice = 0; indice <= this.ctrlJeu.getNbPiece(); indice++)
-		{
-			Icon img = new ImageIcon(this.ctrlJeu.getPiece());
-
-			this.tabPiece[indice].setBounds(this.coordsPiece[indice],266,  100, 100);
-			this.tabPiece[indice].setIcon(img);
-			this.tabPiece[indice].setOpaque(false);
-		}
 
 	}
+
 }

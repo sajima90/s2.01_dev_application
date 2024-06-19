@@ -27,6 +27,7 @@ public class Joueur
 
 	private int nbPiece;
 	private int             score;
+	private int nbJetonPossession;
 	private String			nom		;
 
 	private boolean estSonTour;
@@ -46,6 +47,7 @@ public class Joueur
 		this.nbPiece            = 0;
 		this.nom		        = nom;
 		this.score              = 0;
+		this.nbJetonPossession  = 25;
 		this.minesObtenues 	    = new ArrayList<Mine> ();
 		this.tabJetonPresent 	= new ArrayList<Jeton>();
 		this.routesJoueur 	    = new ArrayList<Route>();
@@ -60,11 +62,12 @@ public class Joueur
 	/*   Get    */
 	/*----------*/
 
-	public int                getScore            ()    {return this.score;            }
-	public List<Mine>         getMinesObtenues    ()	{ return this.minesObtenues;   }
-	public List<Jeton>        getJetonObtenues    ()    { return this.tabJetonPresent; }
-	public String             getNom			  ()    { return this.nom;             }
-	public int 				  getNumJoueur        ()    { return this.numJoueur;	   }
+	public int                getScore            ()    {return this.score;              }
+	public List<Mine>         getMinesObtenues    ()	{ return this.minesObtenues;     }
+	public List<Jeton>        getJetonObtenues    ()    { return this.tabJetonPresent;   }
+	public String             getNom			  ()    { return this.nom;               }
+	public int 				  getNumJoueur        ()    { return this.numJoueur;	     }
+	public int                getNbJetonPossession()    { return this.nbJetonPossession; }
 
 
 	/*-------------------------*/
@@ -81,7 +84,9 @@ public class Joueur
 	public void ajouterRoute    ( Route route )   {this.routesJoueur.add(route);}
 
 
-	public void setNom	   ( String nom			   ) {	this.nom = nom;						}
+	public void setNom              ( String nom )        { this.nom                = nom; }
+	public void setNbJetonPossession( int    nbTroncons ) { this.nbJetonPossession -= nbTroncons; }
+
 
 
 	/*---------------------*/
@@ -113,15 +118,12 @@ public class Joueur
 
 		for (int i = 0; i < this.getListJeton().size()-1 ; i++)
 		{
-			System.out.println("\n\n\n LE MINERAI AJOUTER" + ((Minerai) this.getListJeton().get(i).getType()).getNom() + "\n\n\n");
-			if ( this.getListJeton().get(i) != null )
-				System.out.println("\n\n\n LE MINERAI AJOUTER" + ((Minerai) this.getListJeton().get(i).getType()).getNom() + "\n\n\n");
+//			if ( this.getListJeton().get(i) != null )
+//				System.out.println("\n\n\n LE MINERAI AJOUTER" + ((Minerai) this.getListJeton().get(i).getType()).getNom() + "\n\n\n");
 		}
 
 		if(ressource.getType() instanceof Minerai)
 		{
-			System.out.println("COUCOUOCUCOUCOUCOUCOUCOUCUUCCUOC");
-
 			if (this.compteurJetons(this.tabJetonPresent, ressource) == 0)
 			{
 				if (this.getNbEpicesDifferentPlateau() < Joueur.NB_COLONNE_MAX)
@@ -140,7 +142,6 @@ public class Joueur
 					this.tabJetonPresent.add(ressource);
 
 					this.tabJetonPresent = this.trieTab(this.tabJetonPresent);
-
 
 					return true;
 				}
@@ -354,7 +355,7 @@ public class Joueur
 		// Ajout du nombre de fois pour laquel l'épice est présente dans tabNbElementJeton
 		// Ajout des épices déjà vu dans tabTestJetonPresent Obligé car les épice sont différentes mais pas leur nom
 
-		for (int nbElement = Joueur.NB_LIGNE_MAX-1; nbElement > 0; nbElement--)
+		for (int nbElement = Joueur.NB_LIGNE_MAX; nbElement > 0; nbElement--)
 		{
 			for(Jeton jeton : listeJeton)
 			{
@@ -374,7 +375,7 @@ public class Joueur
 		for (int cpt=0; cpt < tabJetonOrdreDecroissant.size(); cpt ++)
 		{
 			nbElementDansTabElement = tabNbElementJeton.get(cpt);
-			nbElementNull           = 3 - nbElementDansTabElement;
+			nbElementNull           = 4 - nbElementDansTabElement;
 
 			while ( nbElementDansTabElement > 0)
 			{

@@ -75,7 +75,7 @@ public class Mine
 
 	public void enleverMinerai()
 	{
-		System.out.println("Le jeton de la mine n'esqt pas la ");
+//		System.out.println("Le jeton de la mine n'esqt pas la ");
 		this.jeton = null;
 	}
 

@@ -14,283 +14,243 @@ import java.awt.event.MouseEvent;
 public class PanelCarte extends JPanel
 {
 
-	private final ControleurJeu ctrlJeu;
-	private Mine mineSelect = null;
+	private final ControleurJeu controleurJeu;
+	private final Mine mineSelectionnee = null;
 
-	// Ajouter des variables pour les images des pions des joueurs
-	/**
-	 * Constructeur du panel graphique.
-	 *
-	 * @param ctrlJeu
-	 * 		Le contrôleur associé à ce panel.
-	 */
-	public PanelCarte(ControleurJeu ctrlJeu)
+	public PanelCarte(ControleurJeu controleurJeu)
 	{
-		this.ctrlJeu = ctrlJeu;
+		this.controleurJeu = controleurJeu;
 		this.setBackground(Color.WHITE);
 		this.setLayout(new BorderLayout());
 
-		GereSouris gereSouris = new GereSouris();
-		this.addMouseListener(gereSouris);
-		this.addMouseMotionListener(gereSouris);
-
-
+		GestionSouris gestionSouris = new GestionSouris();
+		this.addMouseListener(gestionSouris);
+		this.addMouseMotionListener(gestionSouris);
 	}
 
-	/**
-	 * Redessine les composants graphiques du panel.
-	 *
-	 * @param g
-	 * 		L'objet Graphics utilisé pour dessiner.
-	 */
 	protected void paintComponent(Graphics g)
 	{
-//		super.paintComponent(g);
+		super.paintComponent(g);
 
-
-		// Charger l'image de fond
 		ImageIcon imageIcon = new ImageIcon("../psyche/theme/images/Plateau_vierge.png");
-		Image backgroundImage = imageIcon.getImage();
+		Image imageDeFond = imageIcon.getImage();
 
-		// Dessiner l'image de fond
-		g.drawImage(backgroundImage, 0, 0, this.getWidth(), this.getHeight(), this);
+		g.drawImage(imageDeFond, 0, 0, this.getWidth(), this.getHeight(), this);
 
 		Graphics2D g2d = (Graphics2D) g;
 		g.drawRect(0, 0, 1000, 800);
 
-		// Largeur et hauteur des rectangles représentant les mines
-		int rectWidth = 40;
-		int rectHeight = 65;
+		int largeurRect = 40;
+		int hauteurRect = 65;
 
-		for (Mine mine : this.ctrlJeu.getMines())
+		for (Mine mine : this.controleurJeu.getMines())
 		{
 			if (!mine.getCouleur().name().equals("ROME"))
 			{
 				if (mine.estPrise())
 				{
-					g.drawImage(getToolkit().getImage("../psyche/theme/images/transparent/" + mine.getCouleur().getLienImage() + "_clair.png"), mine.getX() - 10, mine.getY() - 10, rectWidth, rectHeight, this);
+					g.drawImage(getToolkit().getImage(
+									"../psyche/theme/images/transparent/" + mine.getCouleur().getLienImage() + "_clair.png"),
+							mine.getX() - 10, mine.getY() - 10, largeurRect, hauteurRect, this);
 				}
 				else
 				{
-					g.drawImage(getToolkit().getImage("../psyche/theme/images/transparent/" + mine.getCouleur().getLienImage() + ".png"), mine.getX() - 10, mine.getY() - 10, rectWidth, rectHeight, this);
+					g.drawImage(getToolkit().getImage(
+									"../psyche/theme/images/transparent/" + mine.getCouleur().getLienImage() + ".png"),
+							mine.getX() - 10, mine.getY() - 10, largeurRect, hauteurRect, this);
 				}
 
 				g2d.drawString(String.valueOf(mine.getPoint()), mine.getX() + 8, mine.getY() + 12);
 
 				if (!mine.estPrise() && mine.getJeton() != null)
 				{
-					// Add null check here
-					if (mine.getJeton().getType() instanceof Minerai)
+					if (mine.getJeton().getType() instanceof Minerai minerai)
 					{
-						Minerai m = (Minerai) mine.getJeton().getType();
-						g.drawImage(getToolkit().getImage("../psyche/theme/images/ressources/" + m.getLienImage()), mine.getX(), mine.getY() + 30, 20, 20, this);
+						g.drawImage(
+								getToolkit().getImage("../psyche/theme/images/ressources/" + minerai.getLienImage()),
+								mine.getX() - 7, mine.getY() + 20, 35, 35, this);
 					}
-					if (mine.getJeton().getType() instanceof Piece)
+					if (mine.getJeton().getType() instanceof Piece piece)
 					{
-						Piece m = (Piece) mine.getJeton().getType();
-						g.drawImage(getToolkit().getImage("../psyche/theme/images/ressources/" + m.name() + ".png"), mine.getX(), mine.getY() + 30, 20, 20, this);
+						g.drawImage(getToolkit().getImage("../psyche/theme/images/ressources/" + piece.name() + ".png"),
+								mine.getX() - 7, mine.getY() + 20, 35, 35, this);
 					}
 				}
 			}
 			else
 			{
-				g.drawImage(getToolkit().getImage("../psyche/theme/images/transparent/" + mine.getCouleur().getLienImage() + ".png"), mine.getX() - 15, mine.getY() - 5, 51, 55, this);
+				g.drawImage(getToolkit().getImage(
+								"../psyche/theme/images/transparent/" + mine.getCouleur().getLienImage() + ".png"),
+						mine.getX() - 15, mine.getY() - 5, 51, 55, this);
 			}
 
 			g2d.drawString(String.valueOf(mine.getNom()), mine.getX(), mine.getY());
 		}
 
-		for (Route route : this.ctrlJeu.getRoutes())
+		for (Route route : this.controleurJeu.getRoutes())
 		{
-			Mine ville1 = route.getDepart();
-			Mine ville2 = route.getArrivee();
+			Mine depart = route.getDepart();
+			Mine arrivee = route.getArrivee();
 
-			// Calculer les coordonnées centrales des rectangles représentant les mines
-			int ville1CenterX = ville1.getX() + rectWidth / 2 - 10;
-			int ville1CenterY = ville1.getY() + rectHeight / 2 - 10;
-			int ville2CenterX = ville2.getX() + rectWidth / 2 - 10;
-			int ville2CenterY = ville2.getY() + rectHeight / 2 - 10;
+			int centreXDepart = depart.getX() + largeurRect / 2 - 10;
+			int centreYDepart = depart.getY() + hauteurRect / 2 - 10;
+			int centreXArrivee = arrivee.getX() + largeurRect / 2 - 10;
+			int centreYArrivee = arrivee.getY() + hauteurRect / 2 - 10;
 
-			// Calculer la distance entre les centres des mines
-			double distance = Math.sqrt(Math.pow(ville2CenterX - ville1CenterX, 2) + Math.pow(ville2CenterY - ville1CenterY, 2));
+			double distance = Math.sqrt(
+					Math.pow(centreXArrivee - centreXDepart, 2) + Math.pow(centreYArrivee - centreYDepart, 2));
 
-			// Calculer les points de départ et d'arrivée des routes proportionnellement à la distance
-			int offsetAdjustment = 28;
+			int ajustementOffset = 28;
 
-			int ville1EdgeX = (int) (ville1CenterX + (offsetAdjustment * (ville2CenterX - ville1CenterX) / distance));
-			int ville1EdgeY = (int) (ville1CenterY + (offsetAdjustment * (ville2CenterY - ville1CenterY) / distance));
-			int ville2EdgeX = (int) (ville2CenterX - (offsetAdjustment * (ville2CenterX - ville1CenterX) / distance));
-			int ville2EdgeY = (int) (ville2CenterY - (offsetAdjustment * (ville2CenterY - ville1CenterY) / distance));
+			int bordXDepart = (int) (centreXDepart + (ajustementOffset * (centreXArrivee - centreXDepart) / distance));
+			int bordYDepart = (int) (centreYDepart + (ajustementOffset * (centreYArrivee - centreYDepart) / distance));
+			int bordXArrivee = (int) (centreXArrivee - (ajustementOffset * (centreXArrivee - centreXDepart) / distance));
+			int bordYArrivee = (int) (centreYArrivee - (ajustementOffset * (centreYArrivee - centreYDepart) / distance));
 
-			// Dessiner la ligne continue entre les centres des rectangles
 			g2d.setColor(Color.BLACK);
 			g2d.setStroke(new BasicStroke(3.0f));
-			g2d.drawLine(ville1EdgeX, ville1EdgeY, ville2EdgeX, ville2EdgeY);
+			g2d.drawLine(bordXDepart, bordYDepart, bordXArrivee, bordYArrivee);
 
-			// Dessiner les points espacés le long de la ligne
-			int troncons = route.getTroncons();
-			double deltaX = (ville2EdgeX - ville1EdgeX) / (double) (troncons + 1);
-			double deltaY = (ville2EdgeY - ville1EdgeY) / (double) (troncons + 1);
+			int nombreTroncons = route.getTroncons();
+			double deltaX = (bordXArrivee - bordXDepart) / (double) (nombreTroncons + 1);
+			double deltaY = (bordYArrivee - bordYDepart) / (double) (nombreTroncons + 1);
 
-
-
-			// Vérifier s'il y a plus d'un tronçon pour dessiner les points intermédiaires
-			if (troncons > 1)
+			if (nombreTroncons > 1)
 			{
-				int centerX = (ville1CenterX + ville2CenterX) / 2;
-				int centerY = (ville1CenterY + ville2CenterY) / 2;
-				g2d.fillOval(centerX - 5, centerY - 5, 10, 10);
+				int centreX = (centreXDepart + centreXArrivee) / 2;
+				int centreY = (centreYDepart + centreYArrivee) / 2;
+				g2d.fillOval(centreX - 5, centreY - 5, 10, 10);
 			}
-			else if (troncons == 1)
+			else if (nombreTroncons == 1)
 			{
-				// Si un seul tronçon, ne pas dessiner de points intermédiaires
 				g2d.setColor(Color.BLACK);
 				g2d.setStroke(new BasicStroke(2.0f));
-
 			}
 
-
-
-			// Ajouter le point de début
-			g2d.fillOval(ville1EdgeX - 5, ville1EdgeY - 5, 10, 10);
-
-			// Ajouter le point de fin
-			g2d.fillOval(ville2EdgeX - 5, ville2EdgeY - 5, 10, 10);
+			g2d.fillOval(bordXDepart - 5, bordYDepart - 5, 10, 10);
+			g2d.fillOval(bordXArrivee - 5, bordYArrivee - 5, 10, 10);
 
 			if (route.getProprietaire() != null)
 			{
-				// Determine the icon based on the player
-				String iconPath = route.getProprietaire().getNom().equals("SA") ? "../psyche/theme/images/pion_joueur_2.png" : "../psyche/theme/images/pion_joueur_1.png";
-				Image icon = getToolkit().getImage(iconPath);
+				String cheminIcone = route.getProprietaire().getNom().equals("SA") ?
+						"../psyche/theme/images/pion_joueur_2.png" :
+						"../psyche/theme/images/pion_joueur_1.png";
+				Image icone = getToolkit().getImage(cheminIcone);
 
-				// Calculate the middle point of the route
-				int midPointX = (ville1EdgeX + ville2EdgeX) / 2;
-				int midPointY = (ville1EdgeY + ville2EdgeY) / 2;
+				int milieuX = (bordXDepart + bordXArrivee) / 2;
+				int milieuY = (bordYDepart + bordYArrivee) / 2;
 
 				if (route.getTroncons() == 1)
 				{
-					g.drawImage(icon, midPointX - 10, midPointY - 10, 20, 20, this);
+					g.drawImage(icone, milieuX - 10, milieuY - 10, 20, 20, this);
 				}
-
-				else if (route.getTroncons() == 2 )
+				else if (route.getTroncons() == 2)
 				{
-					// Calculate the quarter point of the route
-					int quarterPointX = (ville1EdgeX + midPointX) / 2;
-					int quarterPointY = (ville1EdgeY + midPointY) / 2;
+					int quartX = (bordXDepart + milieuX) / 2;
+					int quartY = (bordYDepart + milieuY) / 2;
 
-					int threeQuarterPointX = (ville2EdgeX + midPointX) / 2;
-					int threeQuarterPointY = (ville2EdgeY + midPointY) / 2;
+					int troisQuartX = (bordXArrivee + milieuX) / 2;
+					int troisQuartY = (bordYArrivee + milieuY) / 2;
 
-					// Draw the icon at the quarter point of the route
-					g.drawImage(icon, quarterPointX - 10, quarterPointY - 10, 20, 20, this);
-					g.drawImage(icon, threeQuarterPointX - 10, threeQuarterPointY - 10, 20, 20, this);
+					g.drawImage(icone, quartX - 10, quartY - 10, 20, 20, this);
+					g.drawImage(icone, troisQuartX - 10, troisQuartY - 10, 20, 20, this);
 				}
 
-				this.ctrlJeu.setProprietaireRoute(this.ctrlJeu.getJoueurActuel(), route);
+				this.controleurJeu.setProprietaire(route, route.getProprietaire());
 			}
-
-
-
-
-
 		}
-
 	}
 
-	/**
-	 * Classe interne pour gérer les événements de souris.
-	 */
-	private class GereSouris extends MouseAdapter
+	private class GestionSouris extends MouseAdapter
 	{
-		private Mine mineSelect = null;
+		private Mine mineSelectionnee = null;
 
-
-
-		/**
-		 * Gère l'événement lorsque la souris est pressée.
-		 *
-		 * @param e
-		 * 		L'événement de souris.
-		 */
-		@Override
 		public void mousePressed(MouseEvent e)
 		{
 			int posX = e.getX();
 			int posY = e.getY();
 
-
-			for (Mine mine : ctrlJeu.getMines())
+			for (Mine mine : controleurJeu.getMines())
 			{
-				int diameter = 30;
-				int centerX = mine.getX();
-				int centerY = mine.getY();
-				int distX = Math.abs(e.getX() - mine.getX());
-				int distY = Math.abs(e.getY() - mine.getY());
-				double distance = Math.sqrt(distX * distX + distY * distY);
+				int largeurRect = 40;
+				int hauteurRect = 65;
 
-				if (distance <= diameter)
+				int rectX = mine.getX() - 10;
+				int rectY = mine.getY() - 10;
+
+				if (posX >= rectX && posX <= rectX + largeurRect && posY >= rectY && posY <= rectY + hauteurRect)
 				{
-					if ((mine.getJeton() == null || mine.getNom().equals("ROME")) && this.mineSelect == null)
+					if ((mine.getJeton() == null || mine.getNom().equals("ROME")) && this.mineSelectionnee == null)
 					{
-						//Première seléction
-						this.mineSelect = mine;
+						this.mineSelectionnee = mine;
 						System.out.println("Mine sélectionnée 1: " + mine + mine.estPrise());
 					}
-					else if (this.mineSelect != mine && ctrlJeu.mineEstAdjacent(this.mineSelect, mine))
+					else if (this.mineSelectionnee != mine && controleurJeu.mineEstAdjacent(this.mineSelectionnee,
+							mine))
 					{
-						System.out.println("Mine sélectionnée 2: " + mine  + mine.estPrise());
+						System.out.println("Mine sélectionnée 2: " + mine + mine.estPrise());
 
-
-						for (Route routeD : ctrlJeu.getRoute(this.mineSelect))
+						for (Route routeDepart : controleurJeu.getRoute(this.mineSelectionnee))
 						{
-							for (Route routeA : ctrlJeu.getRoute(mine))
+							for (Route routeArrivee : controleurJeu.getRoute(mine))
 							{
-								if (routeD == routeA)
+								if (routeDepart == routeArrivee && routeDepart.getProprietaire() == null)
 								{
-									ctrlJeu.approprierRoute(ctrlJeu.getJoueurActuel(), routeD);
+									if ((controleurJeu.getJoueurActuel()
+											.getNbJetonPossession() - routeDepart.getTroncons()) >= 0)
+									{
+										controleurJeu.setProprietaire(routeDepart, controleurJeu.getJoueurActuel());
+										controleurJeu.getJoueurActuel().setNbJetonPossession(routeDepart.getTroncons());
 
-									System.out.println("Route prise par " + ctrlJeu.getJoueurActuel() + " :" + routeD);
-									ctrlJeu.setProprietaireRoute(ctrlJeu.getJoueurActuel(), routeD);
-									ctrlJeu.setProprietaireRoute(ctrlJeu.getJoueurActuel(), routeA);
+										if (!mine.estPrise())
+										{
+											controleurJeu.possederMine(mine);
+											controleurJeu.changerTour();
+										}
 
-
+										System.out.println("Joueur " + controleurJeu.getJoueur1()
+												.getNom() + " à " + controleurJeu.getJoueur1()
+												.getNbJetonPossession() + controleurJeu.getJoueur1()
+												.getJetonObtenues() + "\n" + "Joueur " + controleurJeu.getJoueur2()
+												.getNom() + " à " + controleurJeu.getJoueur2()
+												.getNbJetonPossession() + controleurJeu.getJoueur2()
+												.getJetonObtenues());
+									}
 								}
 							}
 						}
-						System.out.println("Mine prise par " + ctrlJeu.getJoueurActuel() + " :" + mine);
-
-						ctrlJeu.possederMine(mine);
-
-						ctrlJeu.changerTour();
-						this.mineSelect = null;
-
+						this.mineSelectionnee = null;
 					}
 				}
 			}
 
-			ctrlJeu.majIHM();
+			boolean toutesMinesPrise = true;
+			for (Mine m : controleurJeu.getMines())
+			{
+				if (!m.estPrise())
+				{
+					toutesMinesPrise = false;
+					break;
+				}
+			}
+
+			boolean plusDeJeton = controleurJeu.getJoueurActuel().getNbJetonPossession() == 0;
+
+			if (toutesMinesPrise || plusDeJeton)
+			{
+				controleurJeu.finPartie();
+				System.out.println("Fin de la partie");
+			}
+
+			controleurJeu.majIHM();
 		}
 
-		/**
-		 * Gère l'événement lorsque la souris est déplacée tout en étant pressée.
-		 *
-		 * @param e
-		 * 		L'événement de souris.
-		 */
 		public void mouseDragged(MouseEvent e)
 		{
-			ctrlJeu.majIHM();
 		}
 
-		/**
-		 * Gère l'événement lorsque la souris est relâchée.
-		 *
-		 * @param e
-		 * 		L'événement de souris.
-		 */
 		public void mouseReleased(MouseEvent e)
 		{
-			ctrlJeu.majIHM();
 		}
 	}
 }

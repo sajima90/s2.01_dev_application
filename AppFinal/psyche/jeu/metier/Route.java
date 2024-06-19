@@ -75,6 +75,10 @@ public class Route
 		this.proprietaire = proprietaire;
 	}
 
+	public Joueur getProprietaire()
+	{
+		return this.proprietaire;
+	}
 
 	/*-----------------*/
 	/* Autres Méthodes */
@@ -85,9 +89,6 @@ public class Route
 		return "Route de " + this.nbTroncons + " troncons entre " + this.mineDepart + " et " + this.mineArrivee;
 	}
 
-	public Joueur getProprietaire()
-	{
-		return this.proprietaire;
-	}
+
 }
  

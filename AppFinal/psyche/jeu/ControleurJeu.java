@@ -35,10 +35,10 @@ public class  ControleurJeu
 
 	public ControleurJeu(Controleur ctrl)
 	{
-		this.ctrl        = ctrl;
-		this.metier      = new Metier    ();
-		this.frameCarte  = new FrameCarte(this);
-		this.frameNom    = new FrameNom  (this);
+		this.ctrl         = ctrl;
+		this.metier       = new Metier    ();
+		this.frameCarte   = new FrameCarte(this);
+		this.frameNom     = new FrameNom  (this);
 		this.frameJoueur1 = null;
 		this.frameJoueur2 = null;
 
@@ -170,14 +170,10 @@ public class  ControleurJeu
 	public void possederMine(Mine mine)
 	{
 
-		System.out.println("Test possederMine");
-		this.getJoueurActuel().ajouterMine(mine);
-
-		System.out.println("EFSUVZEIGSVBFHJKEFGVJgvfuehefis      " + mine.estPrise());
-
-		if ( mine.estPrise() )
+		if ( !mine.estPrise() )
 		{
-			System.out.println("Ajout de la ressource : au joueur " + this.getJoueurActuel().getNumJoueur());
+			this.getJoueurActuel().ajouterMine(mine);
+			System.out.println("Ajout de la ressource : au joueur " + this.getJoueurActuel().getNom());
 			this.getJoueurActuel().ajouterRessource(mine.getJeton());
 		}
 		else
@@ -212,6 +208,12 @@ public class  ControleurJeu
 		return false;
 	}
 
+	public void setProprietaire(Route route, Joueur joueur)
+	{
+		this.metier.setProprietaire(route, joueur);
+	}
+
+
 
 	public String getPiece()
 	{
@@ -237,12 +239,6 @@ public class  ControleurJeu
 	}
 
 
-	public void setProprietaireRoute(Joueur joueur, Route route)
-	{
-		this.metier.setProprietaire(route, joueur);
-
-	}
-
 
 	//Scénarios
 	public void fermerFenetre ()
@@ -261,6 +257,15 @@ public class  ControleurJeu
 	public void setFrameJoueur2(FrameJoueur frameJoueur)
 	{
 		this.frameJoueur2 = frameJoueur;
+	}
+
+
+	public void finPartie()
+	{
+		this.frameCarte.setVisible(false);
+		this.frameJoueur1.setVisible(false);
+		this.frameJoueur2.setVisible(false);
+		//new FrameFinPartie();
 	}
 
 }

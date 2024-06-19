@@ -184,7 +184,7 @@ public class Metier
 
 		System.out.println("Mine créée : " + couleur.name().substring(0, 1) + point);
 		Mine mine = Mine.creerMine(x, y, point, couleur);
-		System.out.println(mine);
+		//System.out.println(mine);
 		mines.add(mine);
 
 		return mine;
@@ -259,6 +259,8 @@ public class Metier
 			this.joueur1.setTour(true);
 			this.joueur2.setTour(false);
 		}
+//		System.out.println("Changement de tour : " + this.joueur1.estSonTour()+ ": " + this.joueur1.getNom() + " " + this.joueur2.estSonTour() + ": " + this.joueur2.getNom());
+
 	}
 
 
