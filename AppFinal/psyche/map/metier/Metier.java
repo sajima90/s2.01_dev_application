@@ -90,6 +90,7 @@ public class Metier
 		Sommet sommet = Sommet.creerSommet( x, y, point, couleur );
 		this.sommets.add(sommet);
 
+		this.enregistrer();
 		return sommet;
 	}
 
@@ -166,6 +167,7 @@ public class Metier
 		depart .addArrete(arrete);
 		arrivee.addArrete(arrete);
 
+		this.enregistrer();
 		return arrete;
 	}
 
@@ -278,5 +280,28 @@ public class Metier
 	 * @return Le chemin du fichier.
 	 */
 	public String getFicherCharger() { return this.gestionFichier.getFichierCharger(); }
+
+
+
+	/*-------------------------*/
+	/* Méthodes de scénarios */
+	/*-------------------------*/
+	public void supprimerSommets() {
+		this.sommets.removeAll(this.sommets);
+		Sommet.resetId();
+		this.enregistrer();
+	}
+
+	public void supprimerArretes() {
+		this.arretes.removeAll(this.arretes);
+		this.enregistrer();
+	}
+
+	public void suppDonneesMap() {
+		Sommet.resetId();
+		this.sommets.removeAll(this.sommets);
+		this.arretes.removeAll(this.arretes);
+		this.enregistrer();
+	}
 
 }

@@ -271,9 +271,33 @@ public class ControleurMap
 		this.majIHM();
 	}
 
-	//Scénario
-	public void fermerFenetre ()
-	{
+
+	/*-------------------------*/
+	/* Méthodes de scénarios */
+	/*-------------------------*/
+
+
+	/*-------------------------*/
+	/* Méthodes de scénarios */
+	/*-------------------------*/
+
+	public void fermerFenetre() {
 		this.frameMap.dispose();
+	}
+
+	public void supprimerSommets() {
+		this.metier.supprimerSommets();
+	}
+
+	public void supprimerArretes() {
+		this.metier.supprimerArretes();
+	}
+
+	public void suppDonneesMap() {
+		this.metier.suppDonneesMap();
+	}
+
+	public void fermerMap() {
+		this.frameMap.fermerMap();
 	}
 }

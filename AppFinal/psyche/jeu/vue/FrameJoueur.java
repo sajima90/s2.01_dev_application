@@ -54,4 +54,8 @@ public class FrameJoueur extends JFrame
 	{
 		this.panelJ.repaint();
 	}
+	public void fermerJoueur() {
+		this.dispose();
+	}
+
 }

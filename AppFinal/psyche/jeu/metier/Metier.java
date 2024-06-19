@@ -15,7 +15,7 @@ public class Metier
 	/*--------------*/
 
 	//						   Al,Ag,Au,Co,Fe,Ni,Pt,Ti,NR
-	public int[] nbMinerais = {4, 4, 4, 4, 4, 4, 4, 4, 8};
+	private int[] nbMinerais = {4, 4, 4, 4, 4, 4, 4, 4, 8};
 
 	private final List<Mine>  mines;
 	private final List<Route> routes;
@@ -42,6 +42,25 @@ public class Metier
 		this.setFichierCharger(getFichierCharger());
 
 		this.initMinerais();
+	}
+
+	/**
+	 * Constructeur de la classe Metier pour les scénarios
+	 * Initialise les listes de mines et de routes.
+	 */
+	public Metier(int[][] initMinerai)
+	{
+		this.mines    = new ArrayList<>();
+		this.routes   = new ArrayList<>();
+		this.joueur1 = null;
+		this.joueur2 = null;
+
+		this.setFichierCharger(getFichierCharger());
+
+		for (int i = 0; i < initMinerai.length; i++)
+		{
+			this.initMinerais(initMinerai[i][0],initMinerai[i][1]);
+		}
 	}
 
 	/*------------*/
@@ -87,11 +106,15 @@ public class Metier
 		}
 	}
 
+
 	public void initMinerais(int indexMine, int indexMinerais)
 	{
 		if (this.nbMinerais[indexMinerais] > 0)
 		{
-			this.getMine(indexMine).setJeton(new Jeton(Minerai.values()[indexMinerais]));
+			if (indexMinerais < 8)
+				this.getMine(indexMinerais).setJeton(new Jeton (Minerai.values()[indexMinerais]));
+			else
+				this.getMine(indexMinerais).setJeton(new Jeton (Piece.values()[0]));
 		}
 
 	}
@@ -326,5 +349,35 @@ public class Metier
 
 	public int getPointsLignesJ1() { return this.joueur1.calculerPointsLignes(); }
 	public int getPointsLignesJ2() { return this.joueur2.calculerPointsLignes(); }
+
+
+
+
+
+	/*-------------------------*/
+	/* Méthodes de scénarios */
+	/*-------------------------*/
+
+	public ArrayList<Joueur> suppDonneesJeu() {
+
+		ArrayList<Joueur> joueurs = new ArrayList<>();
+		System.out.println(this.joueur1 + "----------------------------------------------------------------");
+		joueurs.add(this.joueur1);
+		joueurs.add(this.joueur2);
+
+		Joueur.resetNbJoueur();
+		Mine.resetId();
+		this.mines.removeAll(this.mines);
+		this.routes.removeAll(this.routes);
+
+		return joueurs;
+	}
+
+//	public void setJoueurs(ArrayList<Joueur> joueurs) {
+//
+//		.joueur1 = joueurs.get(0);
+//		this.joueur2 = joueurs.get(1);
+//	}
+
 
 }

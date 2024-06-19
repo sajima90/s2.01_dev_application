@@ -500,4 +500,12 @@ public class Joueur
 	{
 		this.estSonTour = b;
 	}
+
+
+
+
+	// Scénario
+	public static void resetNbJoueur() {
+		Joueur.nbJoueur = 0;
+	}
 }

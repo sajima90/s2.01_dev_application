@@ -15,7 +15,7 @@ public class PanelCarte extends JPanel
 {
 
 	private final ControleurJeu controleurJeu;
-	private final Mine mineSelectionnee = null;
+	private Mine mineSelectionnee = null;
 
 	public PanelCarte(ControleurJeu controleurJeu)
 	{
@@ -253,4 +253,58 @@ public class PanelCarte extends JPanel
 		{
 		}
 	}
+
+
+
+
+	public void cliquer(int posX, int posY) {
+
+		for (Mine mine : this.controleurJeu.getMines()) {
+			int diameter = 30;
+			int centerX = mine.getX();
+			int centerY = mine.getY();
+			int distX = Math.abs(posX - mine.getX());
+			int distY = Math.abs(posY - mine.getY());
+			double distance = Math.sqrt(distX * distX + distY * distY);
+
+			if (distance <= diameter) {
+				if ((mine.getJeton() == null || mine.getNom().equals("ROME")) && this.mineSelectionnee == null) {
+					// Première seléction
+					this.mineSelectionnee = mine;
+					System.out.println("Mine sélectionnée 1: " + mine + mine.estPrise());
+				} else if (this.mineSelectionnee != mine && this.controleurJeu.mineEstAdjacent(this.mineSelectionnee, mine)) {
+					System.out.println("Mine sélectionnée 2: " + mine + mine.estPrise());
+
+					for (Route routeD : this.controleurJeu.getRoute(this.mineSelectionnee)) {
+						for (Route routeA : this.controleurJeu.getRoute(mine)) {
+							if (routeD == routeA) {
+								this.controleurJeu.approprierRoute(this.controleurJeu.getJoueurActuel(), routeD);
+
+								System.out.println("Route prise par " + this.controleurJeu.getJoueurActuel() + " :" + routeD);
+								this.controleurJeu.setProprietaire(routeD, this.controleurJeu.getJoueurActuel());
+								this.controleurJeu.setProprietaire(routeA, this.controleurJeu.getJoueurActuel());
+
+							}
+						}
+					}
+					System.out.println("Mine prise par " + this.controleurJeu.getJoueurActuel() + " :" + mine);
+
+					this.controleurJeu.possederMine(mine);
+
+					this.controleurJeu.changerTour();
+					this.mineSelectionnee = null;
+
+				}
+			}
+		}
+
+		this.controleurJeu.majIHM();
+
+	}
+
+
+
+
+
+
 }

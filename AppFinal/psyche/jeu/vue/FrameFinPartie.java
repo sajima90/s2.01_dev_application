@@ -17,7 +17,7 @@ public class FrameFinPartie extends JFrame
 		this.ctrlJeu = ctrlJeu;
 
 		this.setTitle("Fin de Partie");
-		this.setSize(500, 500);
+		this.setSize(500, 800);
 		this.setLayout(new BorderLayout());
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 

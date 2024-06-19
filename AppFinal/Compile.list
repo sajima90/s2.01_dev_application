@@ -36,3 +36,4 @@ psyche/jeu/vue/PanelJoueur.java
 
 psyche/scenario/ControleurScenario.java
 psyche/scenario/FrameScenario.java
+psyche/scenario/MetierScenario.java

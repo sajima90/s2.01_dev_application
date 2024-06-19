@@ -64,8 +64,15 @@ public class FrameCarte extends JFrame
 
 	}
 
-	public PanelCarte getPanelCarte()
-	{
+	public PanelCarte getPanelCarte() {
 		return this.panelCarte;
+	}
+
+	public void fermerJeu() {
+		this.dispose();
+	}
+
+	public void simulerClic(int posX, int posY) {
+		panelCarte.cliquer(posX, posY);
 	}
 }

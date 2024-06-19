@@ -1,4 +1,5 @@
 package psyche.jeu.vue;
+
 import psyche.jeu.ControleurJeu;
 import psyche.jeu.metier.Couleur;
 
@@ -6,8 +7,7 @@ import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
 
-public class PanelTabScore extends JPanel
-{
+public class PanelTabScore extends JPanel {
 	private JLabel lblMineJaune;
 	private JLabel lblMineBleu;
 	private JLabel lblMineGris;
@@ -17,144 +17,121 @@ public class PanelTabScore extends JPanel
 
 	private ControleurJeu ctrlJeu;
 
+	public PanelTabScore(ControleurJeu ctrlJeu) {
+		this.setLayout(new GridBagLayout());
+		GridBagConstraints gbc = new GridBagConstraints();
+		gbc.fill = GridBagConstraints.BOTH;
+		gbc.insets = new Insets(2, 2, 2, 2);
 
-	public PanelTabScore(ControleurJeu ctrlJeu)
-	{
-		this.setLayout(new GridLayout(22, 3));
 		this.ctrlJeu = ctrlJeu;
 
-		// Chargement des images depuis le dossier theme/transparent
-		ImageIcon mineJaune = new ImageIcon("../psyche/theme/images/transparent/Mine_Jaune_lite.png");
-		ImageIcon mineBleu = new ImageIcon("../psyche/theme/images/transparent/Mine_Bleu_lite.png");
-		ImageIcon mineGris = new ImageIcon("../psyche/theme/images/transparent/Mine_Gris_lite.png");
-		ImageIcon mineVert = new ImageIcon("../psyche/theme/images/transparent/Mine_Vert_lite.png");
-		ImageIcon mineRouge = new ImageIcon("../psyche/theme/images/transparent/Mine_Rouge_lite.png");
-		ImageIcon mineMarron = new ImageIcon("../psyche/theme/images/transparent/Mine_Marron_lite.png");
+		// Dimensions souhaitées pour les images
+		int imgWidth = 30;
+		int imgHeight = 30;
 
-		// Chargement des images pour les labels "Corporation Solaire" et "Syndicat Astral"
-		ImageIcon corpSolImage = new ImageIcon("../psyche/theme/images/pion_joueur_1.png");
-		ImageIcon syndAstralImage = new ImageIcon("../psyche/theme/images/pion_joueur_2.png");
+		// Chargement et redimensionnement des images depuis le dossier theme/transparent
+		ImageIcon mineJaune = resizeImageIcon(new ImageIcon("../psyche/theme/images/transparent/Mine_Jaune_lite.png"), imgWidth, imgHeight);
+		ImageIcon mineBleu = resizeImageIcon(new ImageIcon("../psyche/theme/images/transparent/Mine_Bleu_lite.png"), imgWidth, imgHeight);
+		ImageIcon mineGris = resizeImageIcon(new ImageIcon("../psyche/theme/images/transparent/Mine_Gris_lite.png"), imgWidth, imgHeight);
+		ImageIcon mineVert = resizeImageIcon(new ImageIcon("../psyche/theme/images/transparent/Mine_Vert_lite.png"), imgWidth, imgHeight);
+		ImageIcon mineRouge = resizeImageIcon(new ImageIcon("../psyche/theme/images/transparent/Mine_Rouge_lite.png"), imgWidth, imgHeight);
+		ImageIcon mineMarron = resizeImageIcon(new ImageIcon("../psyche/theme/images/transparent/Mine_Marron_lite.png"), imgWidth, imgHeight);
 
+		// Chargement et redimensionnement des images pour les labels "Corporation Solaire" et "Syndicat Astral"
+		ImageIcon corpSolImage = resizeImageIcon(new ImageIcon("../psyche/theme/images/pion_joueur_1.png"), imgWidth, imgHeight);
+		ImageIcon syndAstralImage = resizeImageIcon(new ImageIcon("../psyche/theme/images/pion_joueur_2.png"), imgWidth, imgHeight);
 
-
-		// Initialisation des JLabels avec les images chargées
-		this.lblMineJaune  = createLabeledIcon(mineJaune);
-		this.lblMineJaune.setOpaque(true);
-		this.lblMineBleu   = createLabeledIcon(mineBleu);
-		this.lblMineBleu.setOpaque(true);
-		this.lblMineGris   = createLabeledIcon(mineGris);
-		this.lblMineGris.setOpaque(true);
-		this.lblMineVert   = createLabeledIcon(mineVert);
-		this.lblMineVert.setOpaque(true);
-		this.lblMineRouge  = createLabeledIcon(mineRouge);
-		this.lblMineRouge.setOpaque(true);
+		// Initialisation des JLabels avec les images redimensionnées
+		this.lblMineJaune = createLabeledIcon(mineJaune);
+		this.lblMineBleu = createLabeledIcon(mineBleu);
+		this.lblMineGris = createLabeledIcon(mineGris);
+		this.lblMineVert = createLabeledIcon(mineVert);
+		this.lblMineRouge = createLabeledIcon(mineRouge);
 		this.lblMineMarron = createLabeledIcon(mineMarron);
-		this.lblMineMarron.setOpaque(true);
 
 		// Création des labels avec texte et icône
 		JLabel corpSolLabel = createLabeledIconWithText(corpSolImage, "Corporation Solaire");
 		JLabel syndAstralLabel = createLabeledIconWithText(syndAstralImage, "Syndicat Astral");
 
-
 		// Ajout des composants dans le JPanel avec des bordures pour chaque cellule
-		this.addEmptyLabel();
-		this.add(corpSolLabel);
-		this.add(syndAstralLabel);
+		addComponent(gbc, createTitleLabel("Fiche de Score", new Color(232, 183, 36), true), 0, 0, 3, 1);
 
-		this.addEmptyLabel();
-		this.addEmptyLabel();
-		this.addEmptyLabel();
+		addComponent(gbc, createEmptyLabel(), 0, 1, 1, 1);
+		addComponent(gbc, corpSolLabel, 1, 1, 1, 1);
+		addComponent(gbc, syndAstralLabel, 2, 1, 1, 1);
 
-		this.addLabeledComponent("Points des Mines", new Color(232, 221, 36));
-		this.addLabeledComponent(" ",new Color(232, 221, 36));
-		this.addLabeledComponent(" ",new Color(232, 221, 36));
 
-		this.add(this.lblMineJaune).setPreferredSize(new Dimension(500,500));
-		this.addLabeledComponent(" " + this.ctrlJeu.calculerScoreMineJ1(Couleur.JAUNE));
-		this.addLabeledComponent(" " + this.ctrlJeu.calculerScoreMineJ2(Couleur.JAUNE));
+		addComponent(gbc, createLabeledComponent("Points des Mines", new Color(232, 221, 36), true), 0, 4, 3, 1);
 
-		this.add(this.lblMineBleu);
-		this.addLabeledComponent(" " + this.ctrlJeu.calculerScoreMineJ1(Couleur.BLEU_CLAIR));
-		this.addLabeledComponent(" " + this.ctrlJeu.calculerScoreMineJ2(Couleur.BLEU_CLAIR));
+		addComponent(gbc, this.lblMineJaune, 0, 5, 1, 1);
+		addComponent(gbc, createLabeledComponent("" + this.ctrlJeu.calculerScoreMineJ1(Couleur.JAUNE), null, false), 1, 5, 1, 1);
+		addComponent(gbc, createLabeledComponent("" + this.ctrlJeu.calculerScoreMineJ2(Couleur.JAUNE), null, false), 2, 5, 1, 1);
 
-		this.add(this.lblMineGris);
-		this.addLabeledComponent(" " + this.ctrlJeu.calculerScoreMineJ1(Couleur.GRIS));
-		this.addLabeledComponent(" " + this.ctrlJeu.calculerScoreMineJ2(Couleur.GRIS));
+		addComponent(gbc, this.lblMineBleu, 0, 6, 1, 1);
+		addComponent(gbc, createLabeledComponent("" + this.ctrlJeu.calculerScoreMineJ1(Couleur.BLEU_CLAIR), null, false), 1, 6, 1, 1);
+		addComponent(gbc, createLabeledComponent("" + this.ctrlJeu.calculerScoreMineJ2(Couleur.BLEU_CLAIR), null, false), 2, 6, 1, 1);
 
-		this.add(this.lblMineVert);
-		this.addLabeledComponent(" " + this.ctrlJeu.calculerScoreMineJ1(Couleur.VERT));
-		this.addLabeledComponent(" " + this.ctrlJeu.calculerScoreMineJ2(Couleur.VERT));
+		addComponent(gbc, this.lblMineGris, 0, 7, 1, 1);
+		addComponent(gbc, createLabeledComponent("" + this.ctrlJeu.calculerScoreMineJ1(Couleur.GRIS), null, false), 1, 7, 1, 1);
+		addComponent(gbc, createLabeledComponent("" + this.ctrlJeu.calculerScoreMineJ2(Couleur.GRIS), null, false), 2, 7, 1, 1);
 
-		this.add(this.lblMineRouge);
-		this.addLabeledComponent(" " + this.ctrlJeu.calculerScoreMineJ1(Couleur.ROUGE));
-		this.addLabeledComponent(" " + this.ctrlJeu.calculerScoreMineJ2(Couleur.ROUGE));
+		addComponent(gbc, this.lblMineVert, 0, 8, 1, 1);
+		addComponent(gbc, createLabeledComponent("" + this.ctrlJeu.calculerScoreMineJ1(Couleur.VERT), null, false), 1, 8, 1, 1);
+		addComponent(gbc, createLabeledComponent("" + this.ctrlJeu.calculerScoreMineJ2(Couleur.VERT), null, false), 2, 8, 1, 1);
 
-		this.add(this.lblMineMarron);
-		this.addLabeledComponent(" " + this.ctrlJeu.calculerScoreMineJ1(Couleur.MARRON));
-		this.addLabeledComponent(" " + this.ctrlJeu.calculerScoreMineJ2(Couleur.MARRON));
+		addComponent(gbc, this.lblMineRouge, 0, 9, 1, 1);
+		addComponent(gbc, createLabeledComponent("" + this.ctrlJeu.calculerScoreMineJ1(Couleur.ROUGE), null, false), 1, 9, 1, 1);
+		addComponent(gbc, createLabeledComponent("" + this.ctrlJeu.calculerScoreMineJ2(Couleur.ROUGE), null, false), 2, 9, 1, 1);
 
-		this.addLabeledComponent("S/Total", new Color(232, 221, 36));
-		this.addLabeledComponent(" " + this.ctrlJeu.calculerScoreMinesTotaleJ1(),new Color(232, 221, 36));
-		this.addLabeledComponent(" " + this.ctrlJeu.calculerScoreMinesTotaleJ2(),new Color(232, 221, 36));
+		addComponent(gbc, this.lblMineMarron, 0, 10, 1, 1);
+		addComponent(gbc, createLabeledComponent("" + this.ctrlJeu.calculerScoreMineJ1(Couleur.MARRON), null, false), 1, 10, 1, 1);
+		addComponent(gbc, createLabeledComponent("" + this.ctrlJeu.calculerScoreMineJ2(Couleur.MARRON), null, false), 2, 10, 1, 1);
 
-		this.addEmptyLabel();
-		this.addEmptyLabel();
-		this.addEmptyLabel();
+		addComponent(gbc, createLabeledComponent("S/Total", new Color(232, 221, 36), true), 0, 11, 1, 1);
+		addComponent(gbc, createLabeledComponent("" + this.ctrlJeu.calculerScoreMinesTotaleJ1(), null, false), 1, 11, 1, 1);
+		addComponent(gbc, createLabeledComponent("" + this.ctrlJeu.calculerScoreMinesTotaleJ2(), null, false), 2, 11, 1, 1);
 
-		this.addLabeledComponent("Plateau Individuel" ,new Color(232, 221, 36));
-		this.addLabeledComponent(" ",new Color(232, 221, 36));
-		this.addLabeledComponent(" ",new Color(232, 221, 36));
+		addComponent(gbc, createLabeledComponent("Plateau Individuel", new Color(232, 221, 36), true), 0, 12, 3, 1);
 
-		this.addLabeledComponent("Score Pièces");
-		this.addLabeledComponent(" " + this.ctrlJeu.calculerScorePiece1());
-		this.addLabeledComponent(" " + this.ctrlJeu.calculerScorePiece2());
+		addComponent(gbc, createLabeledComponent("Score Pièces", null, false), 0, 13, 1, 1);
+		addComponent(gbc, createLabeledComponent("" + this.ctrlJeu.calculerScorePiece1(), null, false), 1, 13, 1, 1);
+		addComponent(gbc, createLabeledComponent("" + this.ctrlJeu.calculerScorePiece2(), null, false), 2, 13, 1, 1);
 
-		this.addLabeledComponent("Score des Colonnes");
-		this.addLabeledComponent(" " + this.ctrlJeu.getPointsColonnesJ1());
-		this.addLabeledComponent(" " + this.ctrlJeu.getPointsColonnesJ2());
+		addComponent(gbc, createLabeledComponent("Scores des Colonnes", null, false), 0, 14, 1, 1);
+		addComponent(gbc, createLabeledComponent("" + this.ctrlJeu.getPointsColonnesJ1(), null, false), 1, 14, 1, 1);
+		addComponent(gbc, createLabeledComponent("" + this.ctrlJeu.getPointsColonnesJ2(), null, false), 2, 14, 1, 1);
 
-		this.addLabeledComponent("Score des Lignes");
-		this.addLabeledComponent(" " + this.ctrlJeu.getPointsLignesJ1());
-		this.addLabeledComponent(" " + this.ctrlJeu.getPointsLignesJ2());
+		addComponent(gbc, createLabeledComponent("Scores des Lignes", null, false), 0, 15, 1, 1);
+		addComponent(gbc, createLabeledComponent("" + this.ctrlJeu.getPointsLignesJ1(), null, false), 1, 15, 1, 1);
+		addComponent(gbc, createLabeledComponent("" + this.ctrlJeu.getPointsLignesJ2(), null, false), 2, 15, 1, 1);
 
-		this.addLabeledComponent("S/Totale",new Color(232, 221, 36));
-		this.addLabeledComponent(" " + (this.ctrlJeu.calculerScorePiece1() + this.ctrlJeu.calculerScoreMineraiJ1()),new Color(232, 221, 36));
-		this.addLabeledComponent(" "+ (this.ctrlJeu.calculerScorePiece2() + this.ctrlJeu.calculerScoreMineraiJ2()),new Color(232, 221, 36));
+		addComponent(gbc, createLabeledComponent("S/Totale", new Color(232, 221, 36), true), 0, 16, 1, 1);
+		addComponent(gbc, createLabeledComponent("" + (this.ctrlJeu.calculerScorePiece1() + this.ctrlJeu.calculerScoreMineraiJ1()), null, false), 1, 16, 1, 1);
+		addComponent(gbc, createLabeledComponent("" + (this.ctrlJeu.calculerScorePiece2() + this.ctrlJeu.calculerScoreMineraiJ2()), null, false), 2, 16, 1, 1);
 
-		this.addEmptyLabel();
-		this.addEmptyLabel();
-		this.addEmptyLabel();
+		addComponent(gbc, createLabeledComponent("Jetons Possession restants", null, false), 0, 17, 1, 1);
+		addComponent(gbc, createLabeledComponent("" + this.ctrlJeu.getJetonPossessionJ1(), null, false), 1, 17, 1, 1);
+		addComponent(gbc, createLabeledComponent("" + this.ctrlJeu.getJetonPossessionJ2(), null, false), 2, 17, 1, 1);
 
-		this.addLabeledComponent("Jetons Possession restants");
-		this.addLabeledComponent(" " + this.ctrlJeu.getJetonPossessionJ1());
-		this.addLabeledComponent(" " + this.ctrlJeu.getJetonPossessionJ2());
+		addComponent(gbc, createLabeledComponent("Bonus", new Color(232, 221, 36), true), 0, 18, 1, 1);
+		addComponent(gbc, createLabeledComponent("" + this.ctrlJeu.pointBonusJ1(), null, false), 1, 18, 1, 1);
+		addComponent(gbc, createLabeledComponent("" + this.ctrlJeu.pointBonusJ2(), null, false), 2, 18, 1, 1);
 
-		this.addLabeledComponent("Bonus",new Color(232, 221, 36));
-		this.addLabeledComponent(" " + this.ctrlJeu.pointBonusJ1(),new Color(232, 221, 36));
-		this.addLabeledComponent(" " + this.ctrlJeu.pointBonusJ2(),new Color(232, 221, 36));
-
-		this.addEmptyLabel();
-		this.addEmptyLabel();
-		this.addEmptyLabel();
-
-		this.addLabeledComponent("Total",new Color(232, 183, 36));
-		this.addLabeledComponent(" " + this.ctrlJeu.scoreTotalJ1(),new Color(232, 183, 36));
-		this.addLabeledComponent(" " + this.ctrlJeu.scoreTotalJ2(),new Color(232, 183, 36));
+		addComponent(gbc, createLabeledComponent("Total", new Color(232, 183, 36), true), 0, 19, 1, 1);
+		addComponent(gbc, createLabeledComponent("" + this.ctrlJeu.scoreTotalJ1(), null, false), 1, 19, 1, 1);
+		addComponent(gbc, createLabeledComponent("" + this.ctrlJeu.scoreTotalJ2(), null, false), 2, 19, 1, 1);
 	}
 
-	private JLabel createLabeledIcon(ImageIcon icon)
-	{
+	private JLabel createLabeledIcon(ImageIcon icon) {
 		JLabel label = new JLabel();
 		label.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
 		label.setIcon(icon);
 		label.setOpaque(true);
-
 		return label;
 	}
 
-	private JLabel createLabeledIconWithText(ImageIcon icon, String text)
-	{
-		JLabel label = new JLabel(text);
+	private JLabel createLabeledIconWithText(ImageIcon icon, String text) {
+		JLabel label = new JLabel(text, JLabel.CENTER);
 		label.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
 		label.setIcon(icon);
 		label.setHorizontalTextPosition(JLabel.CENTER);
@@ -163,26 +140,47 @@ public class PanelTabScore extends JPanel
 		return label;
 	}
 
-	private void addLabeledComponent(String text)
-	{
-		addLabeledComponent(text, null);
-	}
-
-	private void addLabeledComponent(String text, Color backgroundColor)
-	{
-		JLabel label = new JLabel(text);
+	private JLabel createLabeledComponent(String text, Color backgroundColor, boolean isHeader) {
+		JLabel label = new JLabel(text, JLabel.CENTER);
 		label.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
 		if (backgroundColor != null) {
 			label.setBackground(backgroundColor);
 			label.setOpaque(true);
 		}
-		this.add(label);
+		if (isHeader) {
+			label.setFont(label.getFont().deriveFont(Font.BOLD));
+		}
+		return label;
 	}
 
-	private void addEmptyLabel()
-	{
+	private JLabel createEmptyLabel() {
 		JLabel emptyLabel = new JLabel();
 		emptyLabel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
-		this.add(emptyLabel);
+		return emptyLabel;
+	}
+
+	private JLabel createTitleLabel(String text, Color backgroundColor, boolean isBold) {
+		JLabel label = new JLabel(text, JLabel.CENTER);
+		label.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
+		label.setOpaque(true);
+		label.setBackground(backgroundColor);
+		if (isBold) {
+			label.setFont(label.getFont().deriveFont(Font.BOLD));
+		}
+		return label;
+	}
+
+	private void addComponent(GridBagConstraints gbc, Component comp, int x, int y, int width, int height) {
+		gbc.gridx = x;
+		gbc.gridy = y;
+		gbc.gridwidth = width;
+		gbc.gridheight = height;
+		this.add(comp, gbc);
+	}
+
+	private ImageIcon resizeImageIcon(ImageIcon icon, int width, int height) {
+		Image img = icon.getImage();
+		Image resizedImg = img.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+		return new ImageIcon(resizedImg);
 	}
 }

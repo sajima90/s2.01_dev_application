@@ -64,28 +64,44 @@ public class FrameNom extends JFrame implements ActionListener
 		this.setVisible(true);
 	}
 
-	public void actionPerformed(ActionEvent e)
-	{
-		if (e.getSource() == this.btnCS)
-		{
-			this.ctrlJeu.setJoueur1("CS").setTour(true);
-			this.ctrlJeu.setFrameJoueur1(new FrameJoueur(this.ctrlJeu.getJoueur1(), this.ctrlJeu));
-
-			this.ctrlJeu.setJoueur2("SA");
-			this.ctrlJeu.setFrameJoueur2(new FrameJoueur(this.ctrlJeu.getJoueur2(), this.ctrlJeu ));
-
+	public void actionPerformed(ActionEvent e) {
+		if (e.getSource() == this.btnCS) {
+			this.selectionnerCS();
 		}
-		if (e.getSource() == this.btnSA)
-		{
-			this.ctrlJeu.setJoueur1("SA").setTour(true);
-			this.ctrlJeu.setFrameJoueur1(new FrameJoueur(this.ctrlJeu.getJoueur1(), this.ctrlJeu));
-
-			this.ctrlJeu.setJoueur2("CS");
-			this.ctrlJeu.setFrameJoueur2(new FrameJoueur(this.ctrlJeu.getJoueur2(), this.ctrlJeu));
+		if (e.getSource() == this.btnSA) {
+			this.selectionnerSA();
 		}
-
-		this.setVisible  (false);
-		this.setResizable(false);
 	}
 
+	public void selectionnerCS() {
+		this.ctrlJeu.setJoueur1("CS").setTour(true);
+		this.ctrlJeu.setFrameJoueur1(new FrameJoueur(this.ctrlJeu.getJoueur1(), this.ctrlJeu));
+
+		this.ctrlJeu.setJoueur2("SA");
+		this.ctrlJeu.setFrameJoueur2(new FrameJoueur(this.ctrlJeu.getJoueur2(), this.ctrlJeu));
+
+		this.setResizable(false);
+
+		this.fermerCamps();
+	}
+
+	public void selectionnerSA() {
+		this.ctrlJeu.setJoueur1("SA").setTour(true);
+		this.ctrlJeu.setFrameJoueur1(new FrameJoueur(this.ctrlJeu.getJoueur1(), this.ctrlJeu));
+
+		this.ctrlJeu.setJoueur2("CS");
+		this.ctrlJeu.setFrameJoueur2(new FrameJoueur(this.ctrlJeu.getJoueur2(), this.ctrlJeu));
+
+		this.setResizable(false);
+
+		this.fermerCamps();
+	}
+
+	/*-------------------------*/
+	/* Méthodes de scénarios */
+	/*-------------------------*/
+
+	public void fermerCamps() {
+		this.dispose();
+	}
 }

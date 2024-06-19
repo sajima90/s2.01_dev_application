@@ -19,7 +19,7 @@ public class  ControleurJeu
 	/*--------------*/
 
 	private final Controleur  ctrl;
-	private final Metier      metier;
+	private Metier      metier;
 	private final FrameCarte  frameCarte;
 	private       FrameJoueur frameJoueur1;
 	private       FrameJoueur frameJoueur2;
@@ -240,24 +240,6 @@ public class  ControleurJeu
 
 
 
-	//Scénarios
-	public void fermerFenetre ()
-	{
-		this.frameCarte  .dispose();
-		this.frameJoueur1.dispose();
-		this.frameJoueur2.dispose();
-		this.frameNom    .dispose();
-	}
-
-	public void setFrameJoueur1(FrameJoueur frameJoueur)
-	{
-		this.frameJoueur1 = frameJoueur;
-	}
-
-	public void setFrameJoueur2(FrameJoueur frameJoueur)
-	{
-		this.frameJoueur2 = frameJoueur;
-	}
 
 
 	public void finPartie()
@@ -295,4 +277,86 @@ public class  ControleurJeu
 	public int getPointsColonnesJ2() { return this.metier.getPointsColonnesJ2(); }
 
 	public int getPointsLignesJ1() { return this.metier.getPointsLignesJ1(); }
-	public int getPointsLignesJ2() { return this.metier.getPointsLignesJ2(); }}
+	public int getPointsLignesJ2() { return this.metier.getPointsLignesJ2(); }
+
+
+
+	/*-------------------------*/
+	/* Méthodes de scénarios */
+	/*-------------------------*/
+
+	//Scénarios
+	public void fermerFenetre ()
+	{
+		this.frameCarte  .dispose();
+		this.frameJoueur1.dispose();
+		this.frameJoueur2.dispose();
+		this.frameNom    .dispose();
+	}
+
+
+	public void setFrameJoueur1(FrameJoueur frameJoueur) {
+		this.frameJoueur1 = frameJoueur;
+	}
+
+	public void setFrameJoueur2(FrameJoueur frameJoueur) {
+		this.frameJoueur2 = frameJoueur;
+	}
+
+	public void choisirCamp(int campChoisi) {
+		if (campChoisi == 0)
+			frameNom.selectionnerSA();
+		if (campChoisi == 1)
+			frameNom.selectionnerCS();
+	}
+
+	public ArrayList<Joueur> suppDonneesJeu() {
+		return this.metier.suppDonneesJeu();
+	}
+
+	public void fermerJeu() {
+		this.frameCarte.fermerJeu();
+		this.frameNom.fermerCamps();
+	}
+
+	public void fermerJoueur() {
+		this.frameJoueur1.fermerJoueur();
+		this.frameJoueur2.fermerJoueur();
+	}
+
+	public void setJoueurs(ArrayList<Joueur> joueurs) {
+//		this.metier.setJoueurs(joueurs);
+		majSituation();
+
+	}
+
+	public void majSituation() {
+
+		this.frameJoueur1.majIHM();
+		this.frameJoueur2.majIHM();
+	}
+
+	// public ArrayList<Joueur> getJoueurs() {
+	// System.out.println(
+	// "GROS CACA GROS CACA GROS CACA GROS CACA GROS CACA GROS CACA GROS CACA GROS
+	// CACA GROS CACA GROS CACA GROS CACA GROS CACA GROS CACA GROS CACA GROS CACA
+	// GROS CACA GROS CACA "
+	// + this.ctrl.getJoueurs());
+	// return this.ctrl.getJoueurs();
+	//
+	// }
+
+	public void simulerClic(int posX, int posY) {
+		this.frameCarte.simulerClic(posX, posY);
+	}
+
+	public Metier getMetierJeu() {
+		return this.metier;
+	}
+
+	public void setMetier(Metier metier) {
+		this.metier = metier;
+	}
+
+
+}

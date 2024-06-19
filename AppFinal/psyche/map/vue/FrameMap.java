@@ -211,4 +211,10 @@ public class FrameMap extends JFrame implements ActionListener
 //			e.printStackTrace();
 //		}
 //	}
+
+
+	public void fermerMap() {
+		this.dispose();
+	}
+
 }
