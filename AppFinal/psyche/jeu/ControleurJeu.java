@@ -243,10 +243,10 @@ public class  ControleurJeu
 	//Scénarios
 	public void fermerFenetre ()
 	{
-		this.frameCarte .dispose();
+		this.frameCarte  .dispose();
 		this.frameJoueur1.dispose();
 		this.frameJoueur2.dispose();
-		this.frameNom   .dispose();
+		this.frameNom    .dispose();
 	}
 
 	public void setFrameJoueur1(FrameJoueur frameJoueur)
@@ -262,10 +262,37 @@ public class  ControleurJeu
 
 	public void finPartie()
 	{
-		this.frameCarte.setVisible(false);
-		this.frameJoueur1.setVisible(false);
-		this.frameJoueur2.setVisible(false);
-		//new FrameFinPartie();
+		this.frameCarte  .setVisible(false);
+		/*this.frameJoueur1.setVisible(false);
+		this.frameJoueur2.setVisible(false); */
+		new FrameFinPartie(this);
 	}
 
-}
+	/*---------------------------SCORE--------------------------------*/
+
+	public int scoreTotalJ1() {return this.metier.scoreTotalJ1();}
+	public int scoreTotalJ2() {return this.metier.scoreTotalJ2();}
+
+	public int calculerScoreMineJ1(Couleur couleur){ return this.metier.calculerScoreMineJ1(couleur);}
+	public int calculerScoreMineJ2(Couleur couleur){ return this.metier.calculerScoreMineJ2(couleur);}
+
+	public int calculerScoreMinesTotaleJ1() { return this.metier.calculerScoreMinesTotaleJ1(); }
+	public int calculerScoreMinesTotaleJ2() { return this.metier.calculerScoreMinesTotaleJ2(); }
+
+	public int calculerScorePiece1() { return this.metier.calculerScorePieceJ1(); }
+	public int calculerScorePiece2() { return this.metier.calculerScorePieceJ2(); }
+
+	public int calculerScoreMineraiJ1() { return this.metier.calculerScoreMineraiJ1();}
+	public int calculerScoreMineraiJ2() { return this.metier.calculerScoreMineraiJ2();}
+
+	public int getJetonPossessionJ1() { return this.metier.getJetonPossessionJ1(); }
+	public int getJetonPossessionJ2() { return this.metier.getJetonPossessionJ2(); }
+
+	public int pointBonusJ1() { return this.metier.pointBonusJ1();}
+	public int pointBonusJ2() { return this.metier.pointBonusJ2();}
+
+	public int getPointsColonnesJ1() { return this.metier.getPointsColonnesJ1(); }
+	public int getPointsColonnesJ2() { return this.metier.getPointsColonnesJ2(); }
+
+	public int getPointsLignesJ1() { return this.metier.getPointsLignesJ1(); }
+	public int getPointsLignesJ2() { return this.metier.getPointsLignesJ2(); }}

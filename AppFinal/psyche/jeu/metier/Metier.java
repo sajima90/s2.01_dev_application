@@ -280,4 +280,51 @@ public class Metier
 	{
 		return joueur2;
 	}
+
+
+
+	//---------------------------------------------------------------Score-----------------------------------------------------------------------------------------//
+
+
+
+	public int scoreTotalJ1() { return this.joueur1.score() + this.pointBonusJ1(); }
+	public int scoreTotalJ2() { return this.joueur2.score() + this.pointBonusJ2(); }
+
+	public int calculerScoreMineJ1(Couleur couleur){ return this.joueur1.calculerScoreMines(couleur);}
+	public int calculerScoreMineJ2(Couleur couleur){ return this.joueur2.calculerScoreMines(couleur);}
+
+	public int calculerScoreMinesTotaleJ1() {return this.joueur1.calculerScoreMinesTotale();}
+	public int calculerScoreMinesTotaleJ2() { return this.joueur2.calculerScoreMinesTotale(); }
+
+	public int calculerScorePieceJ1() { return this.joueur1.calculerScorePiece(); }
+	public int calculerScorePieceJ2() { return this.joueur2.calculerScorePiece(); }
+
+	public int calculerScoreMineraiJ1() { return this.joueur1.calculerPointsColonnes() + this.joueur1.calculerPointsLignes();}
+	public int calculerScoreMineraiJ2() { return this.joueur2.calculerPointsColonnes() + this.joueur2.calculerPointsLignes();}
+
+	public int getJetonPossessionJ1() { return this.joueur1.getNbJetonPossession(); }
+	public int getJetonPossessionJ2() { return this.joueur2.getNbJetonPossession(); }
+
+	public int pointBonusJ1()
+	{
+		if ( this.joueur1.getNbJetonPossession() >= this.joueur2.getNbJetonPossession() )
+			return 10;
+		else
+			return 0;
+	}
+
+	public int pointBonusJ2()
+	{
+		if ( this.joueur2.getNbJetonPossession() >= this.joueur1.getNbJetonPossession() )
+			return 10;
+		else
+			return 0;
+	}
+
+	public int getPointsColonnesJ1() { return this.joueur1.calculerPointsColonnes(); }
+	public int getPointsColonnesJ2() { return this.joueur2.calculerPointsColonnes(); }
+
+	public int getPointsLignesJ1() { return this.joueur1.calculerPointsLignes(); }
+	public int getPointsLignesJ2() { return this.joueur2.calculerPointsLignes(); }
+
 }
