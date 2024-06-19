@@ -15,6 +15,8 @@ public class FrameNom extends JFrame implements ActionListener
 	private JButton btnCS;
 	private JButton btnSA;
 
+	private String premierJoueur;
+
 
 	public FrameNom(ControleurJeu ctrlJeu)
 	{
@@ -71,6 +73,7 @@ public class FrameNom extends JFrame implements ActionListener
 		{
 			this.ctrlJeu.ajouterJoueur(new Joueur("CS"));
 			this.ctrlJeu.setJoueur( new FrameJoueur(this.ctrlJeu.getJoueur(0), this.ctrlJeu) );
+			this.premierJoueur = "CS";
 
 			this.ctrlJeu.ajouterJoueur(new Joueur("SA"));
 			this.ctrlJeu.setJoueur( new FrameJoueur(this.ctrlJeu.getJoueur(1), this.ctrlJeu ));
@@ -80,6 +83,7 @@ public class FrameNom extends JFrame implements ActionListener
 		{
 			this.ctrlJeu.ajouterJoueur(new Joueur("SA"));
 			this.ctrlJeu.setJoueur( new FrameJoueur(this.ctrlJeu.getJoueur(0), this.ctrlJeu));
+			this.premierJoueur = "SA";
 
 			this.ctrlJeu.ajouterJoueur(new Joueur("CS"));
 			this.ctrlJeu.setJoueur( new FrameJoueur(this.ctrlJeu.getJoueur(1), this.ctrlJeu));
@@ -89,5 +93,13 @@ public class FrameNom extends JFrame implements ActionListener
 		this.setResizable(false);
 	}
 
+	public String getPremierJoueur()
+	{
+		return this.premierJoueur;
+	}
 
+	public void setPremierJoueur(String nom)
+	{
+		this.premierJoueur = nom;
+	}
 }

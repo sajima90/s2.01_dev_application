@@ -13,6 +13,8 @@ public class FrameJoueur extends JFrame
 	public FrameJoueur(Joueur j, ControleurJeu ctrlJeu)
 	{
 
+		System.out.println(j.getNom() + "fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
+
 		switch (j.getNumJoueur())
 		{
 			case 1:
@@ -26,18 +28,20 @@ public class FrameJoueur extends JFrame
 		}
 
 
-		this.setSize(900, 410);
+		this.setSize(900, 425);
 
 		this.ctrlJeu = ctrlJeu;
 
 		/*-------------------------*/
 		/* Création des composants */
 		/*-------------------------*/
+
 		this.panelJ = new PanelJoueur(j, this.ctrlJeu);
 
 		/*-------------------------*/
 		/* Position des composants */
 		/*-------------------------*/
+
 		this.add(this.panelJ);
 
 

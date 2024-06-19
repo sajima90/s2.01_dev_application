@@ -30,8 +30,6 @@ public class Joueur
 	private String			nom		;
 
 
-	private PanelJoueur     attribJoueur;
-
 	/*--------------*/
 	/*  Méthodes    */
 	/*--------------*/
@@ -51,13 +49,8 @@ public class Joueur
 		this.routesJoueur 	    = new ArrayList<Route>();
 
 
-		this.attribJoueur = null;
 		this.numJoueur = ++Joueur.nbJoueur;
 
-		for (int i = 0; i < 32; i++)
-		{
-			this.tabJetonPresent.add(null);
-		}
 	}
 
 	/*----------*/
@@ -101,14 +94,18 @@ public class Joueur
 	{
 		int valPiece = 0;
 
+		if (ressource == null) {
+			return false;
+		}
 
 		for (int i = 0; i < this.getListJeton().size()-1 ; i++)
 		{
+			System.out.println("\n\n\n LE MINERAI AJOUTER" + ((Minerai) this.getListJeton().get(i).getType()).getNom() + "\n\n\n");
 			if ( this.getListJeton().get(i) != null )
 				System.out.println("\n\n\n LE MINERAI AJOUTER" + ((Minerai) this.getListJeton().get(i).getType()).getNom() + "\n\n\n");
 		}
 
-		if(ressource.getType() instanceof Jeton)
+		if(ressource.getType() instanceof Minerai)
 		{
 			System.out.println("COUCOUOCUCOUCOUCOUCOUCOUCUUCCUOC");
 

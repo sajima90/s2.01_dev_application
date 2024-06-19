@@ -15,12 +15,14 @@ public class Route
 	private int nbTroncons;
 	private Mine mineDepart;
 	private Mine mineArrivee;
+	private Joueur proprietaire;
 
 	Route(Mine mineDepart, Mine mineArrivee, int nbTroncons)
 	{
 		this.mineDepart = mineDepart;
 		this.mineArrivee = mineArrivee;
 		this.nbTroncons = nbTroncons;
+		this.proprietaire = null;
 	}
 
 	public static Route creerRoute(Mine mineDepart, Mine mineArrivee, int nombreTroncons)
@@ -68,6 +70,11 @@ public class Route
 		this.mineArrivee = arrivee;
 	}
 
+	public void setProprietaire(Joueur proprietaire)
+	{
+		this.proprietaire = proprietaire;
+	}
+
 
 	/*-----------------*/
 	/* Autres Méthodes */
@@ -78,5 +85,9 @@ public class Route
 		return "Route de " + this.nbTroncons + " troncons entre " + this.mineDepart + " et " + this.mineArrivee;
 	}
 
+	public Joueur getProprietaire()
+	{
+		return this.proprietaire;
+	}
 }
  

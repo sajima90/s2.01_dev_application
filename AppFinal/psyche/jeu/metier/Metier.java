@@ -182,7 +182,7 @@ public class Metier
 
 		if (!estPossibleRoute(depart, arrivee, troncons))
 		{
-			JOptionPane.showMessageDialog(null, "L'route existe déjà", "Erreur", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "La route existe déjà", "Erreur", JOptionPane.ERROR_MESSAGE);
 			return null;
 		}
 

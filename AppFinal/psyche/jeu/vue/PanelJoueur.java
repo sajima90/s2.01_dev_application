@@ -44,8 +44,7 @@ public class PanelJoueur extends JPanel
 			for (int col = 0; col < 8; col++)
 			{
 				this.tabMinerais[lig][col] = new JLabel();
-				this.tabMinerais[lig][col].setBounds(this.coordsMinerais[lig][0], this.coordsMinerais[lig][1], 80,
-						80); // Positionnement manuel
+				this.tabMinerais[lig][col].setBounds(this.coordsMinerais[lig][0], this.coordsMinerais[lig][1], 80, 80); // Positionnement manuel
 				this.add(this.tabMinerais[lig][col]);
 			}
 		}
@@ -68,15 +67,20 @@ public class PanelJoueur extends JPanel
 
 		Graphics2D g2 = (Graphics2D) g;
 
-		if (this.joueur.getNumJoueur() == 1)
+		for (int i = 0; i < this.joueur.getListJeton().size()-1; i++)
+		{
+			if (this.joueur.getListJeton().get(i).getType() instanceof Minerai && !(((Minerai) this.joueur.getListJeton().get(i).getType()).getNom().equals("ROME")) && this.joueur.getListJeton().get(i) != null)
+				System.out.println(this.joueur.getNom() + " -> " + ((Minerai) this.joueur.getListJeton().get(i).getType()).getNom());
+		}
+
+		if (this.joueur.getNom().equals("CS"))
 		{
 			ImageIcon imageIcon = new ImageIcon("../psyche/theme/images/plateau_joueur_1.png");
 
 			Image backgroundImage = imageIcon.getImage();
 			g2.drawImage(backgroundImage, 0, 0, 553, 397 , this);
 
-			this.ajoutMinerais();
-
+//			this.ajoutMinerais();
 		}
 		else
 		{
@@ -86,8 +90,7 @@ public class PanelJoueur extends JPanel
 
 			g2.drawImage(backgroundImage, 0, 0, 553, 397, this);
 
-			this.ajoutMinerais();
-
+//			this.ajoutMinerais();
 		}
 
 		int posXMine = 580;
@@ -97,9 +100,10 @@ public class PanelJoueur extends JPanel
 		// TODO : Récupérer les mines du joueur
 		for (Mine m : this.joueur.getMinesObtenues())
 		{
-
 			if (!m.getNom().equals("ROME"))
 			{
+
+				System.out.println(m);
 
 				g2.drawImage(getToolkit().getImage("../psyche/theme/images/opaque/" + m.getCouleur().getLienImage() + "_clair.png"), posXMine, posYMine, 40, 65, this);
 				g2.drawString(m.getPoint() + "", posXMine + 16, posYMine + 22);
@@ -135,46 +139,31 @@ public class PanelJoueur extends JPanel
 
 		}
 
-
 	}
 
 	public void ajoutMinerais()
 	{
-		int indexMinerai = 0;
 
-		if ( this.joueur.getJetonObtenues().get(0) != null )
-			System.out.println(((Minerai) this.joueur.getJetonObtenues().get(0).getType()).getNom() + "-----------------------------------------------------------");
-
-
-		for (int lig = 0; lig <= this.tabMinerais.length - 1; lig++)
+		for (int lig = 0; lig < 4; lig++)
 		{
-			int compteurMinerai = 3-lig;
-
-			for (int col = 0; col <= this.tabMinerais[lig].length - 1; col++)
+			for (int col = 0; col < 8; col++)
 			{
-
-				this.tabMinerais[lig][col].setBounds(this.coordsMinerais[indexMinerai][0], this.coordsMinerais[indexMinerai][1], 100, 100); // Positionnement manuel
-
-				if ( this.ctrlJeu.getMinerais(compteurMinerai) != null )
+				if (this.joueur.getListJeton().get(lig*8 + col) != null && this.joueur.getListJeton().size() > 1)
 				{
-					Icon img = new ImageIcon(this.ctrlJeu.getMinerais(compteurMinerai));
+					String lien = ((Minerai) this.joueur.getListJeton().get(lig*8 + col).getType()).getLienImage();
+					Icon img = new ImageIcon("../psyche/theme/images/ressources/" + lien);
 
 					this.tabMinerais[lig][col].setIcon(img);
 					this.tabMinerais[lig][col].setOpaque(false);
 				}
-
-				compteurMinerai+=4;
-				indexMinerai   ++ ;
 			}
-
 		}
-
 
 		for (int indice = 0; indice <= this.ctrlJeu.getNbPiece(); indice++)
 		{
 			Icon img = new ImageIcon(this.ctrlJeu.getPiece());
 
-			this.tabPiece[indice].setBounds(this.coordsPiece[indice],266,  100, 100); // Positionnement manuel
+			this.tabPiece[indice].setBounds(this.coordsPiece[indice],266,  100, 100);
 			this.tabPiece[indice].setIcon(img);
 			this.tabPiece[indice].setOpaque(false);
 		}

@@ -4,7 +4,7 @@
 3  , V3  , 429  , 188  , VERT      , 3    
 4  , V2  , 344  , 197  , VERT      , 2    
 5  , V6  , 277  , 247  , VERT      , 6    
-6  , ROME, 478  , 460  , ROME      , -1   
+6  , R-1 , 532  , 423  , ROME      , -1   
 7  , B6  , 365  , 291  , BLEU_CLAIR, 6    
 8  , B8  , 448  , 280  , BLEU_CLAIR, 8    
 9  , B3  , 337  , 389  , BLEU_CLAIR, 3    

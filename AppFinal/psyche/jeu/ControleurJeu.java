@@ -26,8 +26,6 @@ public class  ControleurJeu
 
 	private FrameNom frameNom;
 
-	private String tourJoueur = "SA";
-
 	/*--------------*/
 	/* Méthodes */
 	/*--------------*/
@@ -40,10 +38,9 @@ public class  ControleurJeu
 	{
 		this.ctrl        = ctrl;
 		this.tabJoueur   = new ArrayList<Joueur>();
-		this.joue      = new Metier();
+		this.joue        = new Metier();
 		this.frameCarte  = new FrameCarte(this);
 		this.frameNom    = new FrameNom(this);
-
 		this.frameJoueur = null;
 	}
 
@@ -53,7 +50,7 @@ public class  ControleurJeu
 
 	public Joueur getJoueurTour ()
 	{
-		switch (this.tourJoueur)
+		switch (this.frameNom.getPremierJoueur())
 		{
 			case "SA" : return this.getJoueur(0);
 			case "CS" : return this.getJoueur(1);
@@ -125,8 +122,6 @@ public class  ControleurJeu
 	{
 		this.frameCarte.getPanelCarte().repaint();
 		this.frameJoueur.majIHM();
-
-
 	}
 
 	public Mine getMineIndice(int x, int y)
@@ -162,39 +157,50 @@ public class  ControleurJeu
 
 	public String getTourJoueur()
 	{
-		return this.tourJoueur;
+		return this.frameNom.getPremierJoueur();
 	}
 
-	public String changerTour()
+	public void changerTour()
 	{
-		System.out.println("Tour changé");
+		System.out.print(this.frameNom.getPremierJoueur());
 
-		switch (this.tourJoueur)
+		switch (this.frameNom.getPremierJoueur())
 		{
 			case "SA":
-				this.majIHM();
-				return this.tourJoueur = "CS";
+				 this.majIHM();
+				 this.frameNom.setPremierJoueur("CS");
+				 break;
 			case "CS":
 				this.majIHM();
-				return this.tourJoueur = "SA";
-			default:
-				return null;
+				this.frameNom.setPremierJoueur("SA");
+				break;
 		}
+
+		System.out.println(" -> " + this.frameNom.getPremierJoueur());
 	}
 
 	public void possederMine(Mine mine)
 	{
-		this.majIHM();
 
 		System.out.println("Test possederMine");
+		System.out.println(this.frameNom.getPremierJoueur());
 		this.getJoueurTour().ajouterMine(mine);
+		System.out.println(this.frameNom.getPremierJoueur());
 
-		if (mine.getJeton() != null && !mine.getNom().equals("ROME"))
-			{
-				this.getJoueurTour().ajouterRessource(new Jeton(mine.getJeton().getType()));
-			}
+		System.out.println("EFSUVZEIGSVBFHJKEFGVJgvfuehefis      " + mine.estPrise());
 
-		this.majIHM();
+		if ( mine.estPrise() )
+		{
+			System.out.println("Ajout de la ressource : au joueur " + this.getJoueurTour().getNumJoueur());
+			this.getJoueurTour().ajouterRessource(mine.getJeton());
+		}
+		else
+		{
+			System.out.println("Mine vide");
+
+		}
+		mine.enleverMinerai();
+
 	}
 
 	public boolean joueurPossedeMine (Mine mine)
@@ -204,6 +210,10 @@ public class  ControleurJeu
 
 	public boolean mineEstAdjacent (Mine mine1, Mine mine2)
 	{
+		if (mine1 == null || mine2 == null) {
+			return false;
+		}
+
 		for (Route r1 : mine1.getRoutes())
 		{
 			for (Route r2 : mine2.getRoutes())
@@ -237,6 +247,13 @@ public class  ControleurJeu
 	{
 		return this.getJoueurTour().getNbPiece();
 	}
+
+
+	public void setProprietaireRoute(Joueur joueur, Route route)
+	{
+		route.setProprietaire(joueur);
+	}
+
 
 	//Scénarios
 	public void fermerFenetre ()
