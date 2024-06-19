@@ -112,8 +112,7 @@ public class PanelCarte extends JPanel
 			int ville2CenterY = ville2.getY() + rectHeight / 2 - 10;
 
 			// Calculer la distance entre les centres des mines
-			double distance = Math.sqrt(
-					Math.pow(ville2CenterX - ville1CenterX, 2) + Math.pow(ville2CenterY - ville1CenterY, 2));
+			double distance = Math.sqrt(Math.pow(ville2CenterX - ville1CenterX, 2) + Math.pow(ville2CenterY - ville1CenterY, 2));
 
 			// Calculer les points de départ et d'arrivée des routes proportionnellement à la distance
 			int offsetAdjustment = 28;
@@ -168,18 +167,26 @@ public class PanelCarte extends JPanel
 				int midPointX = (ville1EdgeX + ville2EdgeX) / 2;
 				int midPointY = (ville1EdgeY + ville2EdgeY) / 2;
 
-				// Draw the icon in the middle of the route
-				g.drawImage(icon, midPointX - 10, midPointY - 10, 20, 20, this);
+				if (route.getTroncons() == 1)
+				{
+					g.drawImage(icon, midPointX - 10, midPointY - 10, 20, 20, this);
+				}
 
-				// If the route has two sections, draw another icon
-				if (route.getTroncons() > 1) {
+				else if (route.getTroncons() == 2 )
+				{
 					// Calculate the quarter point of the route
-					int quarterPointX = midPointX / 2;
-					int quarterPointY = midPointY / 2;
+					int quarterPointX = (ville1EdgeX + midPointX) / 2;
+					int quarterPointY = (ville1EdgeY + midPointY) / 2;
+
+					int threeQuarterPointX = (ville2EdgeX + midPointX) / 2;
+					int threeQuarterPointY = (ville2EdgeY + midPointY) / 2;
 
 					// Draw the icon at the quarter point of the route
 					g.drawImage(icon, quarterPointX - 10, quarterPointY - 10, 20, 20, this);
+					g.drawImage(icon, threeQuarterPointX - 10, threeQuarterPointY - 10, 20, 20, this);
 				}
+
+				this.ctrlJeu.setProprietaireRoute(this.ctrlJeu.getJoueurActuel(), route);
 			}
 
 
@@ -223,13 +230,13 @@ public class PanelCarte extends JPanel
 
 				if (distance <= diameter)
 				{
-					if (mine.getJeton() == null || mine.getNom().equals("ROME") && this.mineSelect == null)
+					if ((mine.getJeton() == null || mine.getNom().equals("ROME")) && this.mineSelect == null)
 					{
 						//Première seléction
 						this.mineSelect = mine;
 						System.out.println("Mine sélectionnée 1: " + mine + mine.estPrise());
 					}
-					else if (this.mineSelect != mine && ctrlJeu.mineEstAdjacent(this.mineSelect, mine) && !mine.getNom().equals("ROME"))
+					else if (this.mineSelect != mine && ctrlJeu.mineEstAdjacent(this.mineSelect, mine))
 					{
 						System.out.println("Mine sélectionnée 2: " + mine  + mine.estPrise());
 
@@ -240,17 +247,17 @@ public class PanelCarte extends JPanel
 							{
 								if (routeD == routeA)
 								{
-									ctrlJeu.approprierRoute(ctrlJeu.getJoueurTour(), routeD);
+									ctrlJeu.approprierRoute(ctrlJeu.getJoueurActuel(), routeD);
 
-									System.out.println("Route prise par " + ctrlJeu.getTourJoueur() + " :" + routeD);
-									ctrlJeu.setProprietaireRoute(ctrlJeu.getJoueurTour(), routeD);
-									ctrlJeu.setProprietaireRoute(ctrlJeu.getJoueurTour(), routeA);
+									System.out.println("Route prise par " + ctrlJeu.getJoueurActuel() + " :" + routeD);
+									ctrlJeu.setProprietaireRoute(ctrlJeu.getJoueurActuel(), routeD);
+									ctrlJeu.setProprietaireRoute(ctrlJeu.getJoueurActuel(), routeA);
 
 
 								}
 							}
 						}
-						System.out.println("Mine prise par " + ctrlJeu.getTourJoueur() + " :" + mine);
+						System.out.println("Mine prise par " + ctrlJeu.getJoueurActuel() + " :" + mine);
 
 						ctrlJeu.possederMine(mine);
 

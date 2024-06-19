@@ -55,8 +55,8 @@ public class FrameCarte extends JFrame
 		/*------------------------------------*/
 		/*         Position du contour        */
 		/*------------------------------------*/
-		this.add(panelHaut, BorderLayout.NORTH);
-		this.add(panelBas, BorderLayout.SOUTH);
+		this.add(panelHaut  , BorderLayout.NORTH);
+		this.add(panelBas   , BorderLayout.SOUTH);
 		this.add(panelGauche, BorderLayout.WEST);
 		this.add(panelDroite, BorderLayout.EAST);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

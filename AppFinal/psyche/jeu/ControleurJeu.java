@@ -17,14 +17,13 @@ public class  ControleurJeu
 	/*--------------*/
 	/* Données      */
 	/*--------------*/
-	private final Metier joue;
-	private final FrameCarte frameCarte;
-	private final Controleur ctrl;
-	private FrameJoueur frameJoueur;
 
-	private List<Joueur> tabJoueur;
-
-	private FrameNom frameNom;
+	private final Controleur  ctrl;
+	private final Metier      metier;
+	private final FrameCarte  frameCarte;
+	private       FrameJoueur frameJoueur1;
+	private       FrameJoueur frameJoueur2;
+	private       FrameNom    frameNom;
 
 	/*--------------*/
 	/* Méthodes */
@@ -37,31 +36,35 @@ public class  ControleurJeu
 	public ControleurJeu(Controleur ctrl)
 	{
 		this.ctrl        = ctrl;
-		this.tabJoueur   = new ArrayList<Joueur>();
-		this.joue        = new Metier();
+		this.metier      = new Metier    ();
 		this.frameCarte  = new FrameCarte(this);
-		this.frameNom    = new FrameNom(this);
-		this.frameJoueur = null;
-	}
-
-	public void ajouterJoueur(Joueur j) {this.tabJoueur.add(j);}
-
-	public Joueur getJoueur(int indice) {return this.tabJoueur.get(indice);}
-
-	public Joueur getJoueurTour ()
-	{
-		switch (this.frameNom.getPremierJoueur())
-		{
-			case "SA" : return this.getJoueur(0);
-			case "CS" : return this.getJoueur(1);
-			default : return null;
-		}
+		this.frameNom    = new FrameNom  (this);
+		this.frameJoueur1 = null;
+		this.frameJoueur2 = null;
 
 	}
 
-	public void setJoueur(FrameJoueur j)
+	public Joueur getJoueurActuel() { return this.metier.getJoueurActuel(); }
+
+
+	public Joueur setJoueur1(String nom)
 	{
-		this.frameJoueur = j;
+		return this.metier.setJoueur1(nom);
+	}
+
+	public Joueur setJoueur2(String nom)
+	{
+		return this.metier.setJoueur2(nom);
+	}
+
+	public Joueur getJoueur1()
+	{
+		return this.metier.getJoueur1();
+	}
+
+	public Joueur getJoueur2()
+	{
+		return this.metier.getJoueur2();
 	}
 
 
@@ -85,7 +88,7 @@ public class  ControleurJeu
 
 	public Mine getMine(int i)
 	{
-		return this.joue.getMine(i);
+		return this.metier.getMine(i);
 	}
 
 	/**
@@ -93,7 +96,7 @@ public class  ControleurJeu
 	 */
 	public List<Mine> getMines()
 	{
-		return this.joue.getMines();
+		return this.metier.getMines();
 	}
 
 	/**
@@ -101,7 +104,7 @@ public class  ControleurJeu
 	 */
 	public List<Route> getRoutes()
 	{
-		return this.joue.getRoutes();
+		return this.metier.getRoutes();
 	}
 
 	/**
@@ -121,12 +124,13 @@ public class  ControleurJeu
 	public void majIHM()
 	{
 		this.frameCarte.getPanelCarte().repaint();
-		this.frameJoueur.majIHM();
+		this.frameJoueur1.majIHM();
+		this.frameJoueur2.majIHM();
 	}
 
 	public Mine getMineIndice(int x, int y)
 	{
-		return joue.getMineIndice(x, y);
+		return metier.getMineIndice(x, y);
 	}
 
 	public void setVisible () { this.ctrl.setVisible(); }
@@ -140,7 +144,7 @@ public class  ControleurJeu
 	 */
 	public String getFichierCharger()
 	{
-		return this.joue.getFichierCharger();
+		return this.metier.getFichierCharger();
 	}
 
 	/**
@@ -151,48 +155,30 @@ public class  ControleurJeu
 	 */
 	public void setFichierCharger(String path)
 	{
-		this.joue.setFichierCharger(path);
+		this.metier.setFichierCharger(path);
 		this.majIHM();
-	}
-
-	public String getTourJoueur()
-	{
-		return this.frameNom.getPremierJoueur();
 	}
 
 	public void changerTour()
 	{
-		System.out.print(this.frameNom.getPremierJoueur());
 
-		switch (this.frameNom.getPremierJoueur())
-		{
-			case "SA":
-				 this.majIHM();
-				 this.frameNom.setPremierJoueur("CS");
-				 break;
-			case "CS":
-				this.majIHM();
-				this.frameNom.setPremierJoueur("SA");
-				break;
-		}
+		this.metier.changerTour();
+		this.majIHM();
 
-		System.out.println(" -> " + this.frameNom.getPremierJoueur());
 	}
 
 	public void possederMine(Mine mine)
 	{
 
 		System.out.println("Test possederMine");
-		System.out.println(this.frameNom.getPremierJoueur());
-		this.getJoueurTour().ajouterMine(mine);
-		System.out.println(this.frameNom.getPremierJoueur());
+		this.getJoueurActuel().ajouterMine(mine);
 
 		System.out.println("EFSUVZEIGSVBFHJKEFGVJgvfuehefis      " + mine.estPrise());
 
 		if ( mine.estPrise() )
 		{
-			System.out.println("Ajout de la ressource : au joueur " + this.getJoueurTour().getNumJoueur());
-			this.getJoueurTour().ajouterRessource(mine.getJeton());
+			System.out.println("Ajout de la ressource : au joueur " + this.getJoueurActuel().getNumJoueur());
+			this.getJoueurActuel().ajouterRessource(mine.getJeton());
 		}
 		else
 		{
@@ -205,12 +191,13 @@ public class  ControleurJeu
 
 	public boolean joueurPossedeMine (Mine mine)
 	{
-		return this.getJoueurTour().PossedeMine(mine);
+		return this.getJoueurActuel().PossedeMine(mine);
 	}
 
 	public boolean mineEstAdjacent (Mine mine1, Mine mine2)
 	{
-		if (mine1 == null || mine2 == null) {
+		if (mine1 == null || mine2 == null)
+		{
 			return false;
 		}
 
@@ -225,6 +212,7 @@ public class  ControleurJeu
 		return false;
 	}
 
+
 	public String getPiece()
 	{
 		return "../images/ressources/NR.png";
@@ -232,7 +220,7 @@ public class  ControleurJeu
 
 	public String getMinerais(int indice)
 	{
-		Joueur joueurActuel = this.getJoueurTour();
+		Joueur joueurActuel = this.getJoueurActuel();
 
 		if (joueurActuel.getListJeton().get(indice) != null && joueurActuel.getListJeton().size() > 1 )
 		{
@@ -245,21 +233,34 @@ public class  ControleurJeu
 
 	public int getNbPiece()
 	{
-		return this.getJoueurTour().getNbPiece();
+		return this.getJoueurActuel().getNbPiece();
 	}
 
 
 	public void setProprietaireRoute(Joueur joueur, Route route)
 	{
-		route.setProprietaire(joueur);
+		this.metier.setProprietaire(route, joueur);
+
 	}
 
 
 	//Scénarios
 	public void fermerFenetre ()
 	{
-		this.frameCarte.dispose();
-		this.frameJoueur.dispose();
-		this.frameNom.dispose();
+		this.frameCarte .dispose();
+		this.frameJoueur1.dispose();
+		this.frameJoueur2.dispose();
+		this.frameNom   .dispose();
 	}
+
+	public void setFrameJoueur1(FrameJoueur frameJoueur)
+	{
+		this.frameJoueur1 = frameJoueur;
+	}
+
+	public void setFrameJoueur2(FrameJoueur frameJoueur)
+	{
+		this.frameJoueur2 = frameJoueur;
+	}
+
 }

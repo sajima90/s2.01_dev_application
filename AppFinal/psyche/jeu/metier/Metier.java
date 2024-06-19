@@ -4,11 +4,6 @@
  */
 package psyche.jeu.metier;
 
-import psyche.jeu.metier.Mine;
-import psyche.jeu.metier.Route;
-import psyche.jeu.metier.Couleur;
-import psyche.map.metier.Sommet;
-
 import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,8 +17,10 @@ public class Metier
 	//						   Al,Ag,Au,Co,Fe,Ni,Pt,Ti,NR
 	public int[] nbMinerais = {4, 4, 4, 4, 4, 4, 4, 4, 8};
 
-	private final List<Mine> mines;
+	private final List<Mine>  mines;
 	private final List<Route> routes;
+	private       Joueur joueur1;
+	private       Joueur joueur2;
 
 	private final GestionFichier gestionFichier = new GestionFichier(this);
 
@@ -37,8 +34,10 @@ public class Metier
 	 */
 	public Metier()
 	{
-		this.mines  = new ArrayList<>();
-		this.routes = new ArrayList<>();
+		this.mines    = new ArrayList<>();
+		this.routes   = new ArrayList<>();
+		this.joueur1 = null;
+		this.joueur2 = null;
 
 		this.setFichierCharger(getFichierCharger());
 
@@ -48,6 +47,20 @@ public class Metier
 	/*------------*/
 	/* Méthodes   */
 	/*------------*/
+
+
+	public Joueur setJoueur1( String nom)
+	{
+		return this.joueur1 = new Joueur(nom);
+	}
+
+	public Joueur setJoueur2(String nom)
+	{
+		return this.joueur2 = new Joueur(nom);
+	}
+
+
+
 
 	public void initMinerais()
 	{
@@ -218,9 +231,51 @@ public class Metier
 
 	}
 
+	//------------------------------------------------Methodes Joueur-------------------------------------------------------------------------//
+
+
+	public void setProprietaire(Route route, Joueur proprietaire)
+	{
+		route.setProprietaire(proprietaire);
+	}
+
+
+
+
 	public String toString()
 	{
 		return "\n\nMetier{ \n" + "MINE : \n" + mines + "\n\nROUTES : \n" + routes;
 	}
 
+	public void changerTour()
+	{
+		if (this.joueur1.estSonTour())
+		{
+			this.joueur1.setTour(false);
+			this.joueur2.setTour(true);
+		}
+		else
+		{
+			this.joueur1.setTour(true);
+			this.joueur2.setTour(false);
+		}
+	}
+
+
+	public Joueur getJoueurActuel()
+	{
+		if (this.joueur1.estSonTour())
+			return joueur1;
+		return joueur2;
+	}
+
+	public Joueur getJoueur1()
+	{
+		return joueur1;
+	}
+
+	public Joueur getJoueur2()
+	{
+		return joueur2;
+	}
 }

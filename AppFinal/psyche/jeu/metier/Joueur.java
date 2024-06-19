@@ -29,6 +29,8 @@ public class Joueur
 	private int             score;
 	private String			nom		;
 
+	private boolean estSonTour;
+
 
 	/*--------------*/
 	/*  Méthodes    */
@@ -47,6 +49,7 @@ public class Joueur
 		this.minesObtenues 	    = new ArrayList<Mine> ();
 		this.tabJetonPresent 	= new ArrayList<Jeton>();
 		this.routesJoueur 	    = new ArrayList<Route>();
+		this.estSonTour         = false;
 
 
 		this.numJoueur = ++Joueur.nbJoueur;
@@ -59,7 +62,7 @@ public class Joueur
 
 	public int                getScore            ()    {return this.score;            }
 	public List<Mine>         getMinesObtenues    ()	{ return this.minesObtenues;   }
-	public List<Jeton>        getJetonObtenues    ()    { return this.tabJetonPresent;}
+	public List<Jeton>        getJetonObtenues    ()    { return this.tabJetonPresent; }
 	public String             getNom			  ()    { return this.nom;             }
 	public int 				  getNumJoueur        ()    { return this.numJoueur;	   }
 
@@ -84,6 +87,16 @@ public class Joueur
 	/*---------------------*/
 	/*   Autres méthodes   */
 	/*---------------------*/
+
+	public boolean estSonTour()
+	{
+		return this.estSonTour;
+	}
+
+
+
+
+
 
 	/**
 	 * La méthode ajoute la ressource au plateau, tout en vérifiant si elle peut y être ajouté ou non.
@@ -443,5 +456,10 @@ public class Joueur
 				return true;
 		}
 		return false;
+	}
+
+	public void setTour(boolean b)
+	{
+		this.estSonTour = b;
 	}
 }

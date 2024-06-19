@@ -11,11 +11,8 @@ public class FrameNom extends JFrame implements ActionListener
 {
 	private ControleurJeu ctrlJeu;
 
-
 	private JButton btnCS;
 	private JButton btnSA;
-
-	private String premierJoueur;
 
 
 	public FrameNom(ControleurJeu ctrlJeu)
@@ -71,35 +68,24 @@ public class FrameNom extends JFrame implements ActionListener
 	{
 		if (e.getSource() == this.btnCS)
 		{
-			this.ctrlJeu.ajouterJoueur(new Joueur("CS"));
-			this.ctrlJeu.setJoueur( new FrameJoueur(this.ctrlJeu.getJoueur(0), this.ctrlJeu) );
-			this.premierJoueur = "CS";
+			this.ctrlJeu.setJoueur1("CS").setTour(true);
+			this.ctrlJeu.setFrameJoueur1(new FrameJoueur(this.ctrlJeu.getJoueur1(), this.ctrlJeu));
 
-			this.ctrlJeu.ajouterJoueur(new Joueur("SA"));
-			this.ctrlJeu.setJoueur( new FrameJoueur(this.ctrlJeu.getJoueur(1), this.ctrlJeu ));
+			this.ctrlJeu.setJoueur2("SA");
+			this.ctrlJeu.setFrameJoueur2(new FrameJoueur(this.ctrlJeu.getJoueur2(), this.ctrlJeu ));
 
 		}
 		if (e.getSource() == this.btnSA)
 		{
-			this.ctrlJeu.ajouterJoueur(new Joueur("SA"));
-			this.ctrlJeu.setJoueur( new FrameJoueur(this.ctrlJeu.getJoueur(0), this.ctrlJeu));
-			this.premierJoueur = "SA";
+			this.ctrlJeu.setJoueur1("SA").setTour(true);
+			this.ctrlJeu.setFrameJoueur1(new FrameJoueur(this.ctrlJeu.getJoueur1(), this.ctrlJeu));
 
-			this.ctrlJeu.ajouterJoueur(new Joueur("CS"));
-			this.ctrlJeu.setJoueur( new FrameJoueur(this.ctrlJeu.getJoueur(1), this.ctrlJeu));
+			this.ctrlJeu.setJoueur2("CS");
+			this.ctrlJeu.setFrameJoueur2(new FrameJoueur(this.ctrlJeu.getJoueur2(), this.ctrlJeu));
 		}
 
-		this.setVisible(false);
+		this.setVisible  (false);
 		this.setResizable(false);
 	}
 
-	public String getPremierJoueur()
-	{
-		return this.premierJoueur;
-	}
-
-	public void setPremierJoueur(String nom)
-	{
-		this.premierJoueur = nom;
-	}
 }
