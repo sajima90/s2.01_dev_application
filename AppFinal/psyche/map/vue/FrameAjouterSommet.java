@@ -1,12 +1,10 @@
 /**
- * @author CAUVIN Pierre, AUBIN Montagne, DELPECHE Nicolas, GUELLE Clément
- * Cette classe gère les routes.
+ * @author CAUVIN Pierre, AUBIN Montagne, DELPECHE Nicolas, GUELLE Clément Cette classe gère les routes.
  */
 package psyche.map.vue;
 
 import psyche.map.ControleurMap;
 import psyche.map.metier.Couleur;
-
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,41 +15,39 @@ import java.awt.event.ItemListener;
 
 public class FrameAjouterSommet extends JFrame implements ActionListener, ItemListener
 {
-	private ControleurMap ctrlMap;
+	private final ControleurMap ctrlMap;
 
-	private JPanel panelGauche;
-	private JPanel panelDroite;
+	private final JPanel panelGauche;
+	private final JPanel panelDroite;
 
-	private JTable                tblDonnes;
-	private GrlDonneesModelSommet donnesTableau;
+	private final JTable tblDonnes;
+	private final GrlDonneesModelSommet donnesTableau;
 
-	private JButton    btnAjouter;
+	private final JButton btnAjouter;
 
-	private JTextField txtcordX;
-	private JTextField txtcordY;
+	private final JTextField txtcordX;
+	private final JTextField txtcordY;
 
-	private JLabel lblVisu;
-	private JLabel lblcordX;
-	private JLabel lblcordY;
+	private final JLabel lblVisu;
+	private final JLabel lblcordX;
+	private final JLabel lblcordY;
 
-	private JComboBox<Couleur> jcbDeroulanteCouleur;
-	private JComboBox<String>  jcbDeroulantePoint;
+	private final JComboBox<Couleur> jcbDeroulanteCouleur;
+	private final JComboBox<String> jcbDeroulantePoint;
 
-	private String[] tabPointMine1;
-	private String[] tabPointMine2;
-	private String[] tabPointMine3;
-
-
+	private final String[] tabPointMine1;
+	private final String[] tabPointMine2;
+	private final String[] tabPointMine3;
 
 	public FrameAjouterSommet(ControleurMap ctrlMap)
 	{
 
 		this.setTitle("Ajouter Sommet");
 		this.setSize(600, 300);
-		this.setLayout(new GridLayout(1,2,10,20));
+		this.setLayout(new GridLayout(1, 2, 10, 20));
 		this.getContentPane().setBackground(Color.gray);
 
-		this.ctrlMap  = ctrlMap;
+		this.ctrlMap = ctrlMap;
 
 		JScrollPane spTableau;
 
@@ -62,21 +58,20 @@ public class FrameAjouterSommet extends JFrame implements ActionListener, ItemLi
 		/*-------------------------------*/
 		/*         Point des mines       */
 		/*-------------------------------*/
-		tabPointMine1 = new String[] {"1","2","3","4","5"};	//or  , rouge , marron
-		tabPointMine2 = new String[] {"2","3","4","6","8"};	//bleu, vert
-		tabPointMine3 = new String[] {"0","1","2","3","4"}; //gris
+		tabPointMine1 = new String[] { "1", "2", "3", "4", "5" };    //or  , rouge , marron
+		tabPointMine2 = new String[] { "2", "3", "4", "6", "8" };    //bleu, vert
+		tabPointMine3 = new String[] { "0", "1", "2", "3", "4" }; //gris
 
-
-		Font font = new Font("Roboto Slab",Font.BOLD,10);
+		Font font = new Font("Roboto Slab", Font.BOLD, 10);
 
 		this.jcbDeroulanteCouleur = new JComboBox<>(Couleur.values());
-		this.jcbDeroulantePoint   = new JComboBox<>(tabPointMine1);
+		this.jcbDeroulantePoint = new JComboBox<>(tabPointMine1);
 
 		this.panelGauche = new JPanel(new BorderLayout());
-		this.panelDroite = new JPanel(new GridLayout(5,2,0,10));
+		this.panelDroite = new JPanel(new GridLayout(5, 2, 0, 10));
 
 		this.donnesTableau = new GrlDonneesModelSommet(this.ctrlMap);
-		this.tblDonnes     = new JTable(this.donnesTableau);
+		this.tblDonnes = new JTable(this.donnesTableau);
 		this.tblDonnes.setFillsViewportHeight(true);
 
 		spTableau = new JScrollPane(this.tblDonnes);
@@ -109,7 +104,7 @@ public class FrameAjouterSommet extends JFrame implements ActionListener, ItemLi
 		/* Positionnement des composants */
 		/*-------------------------------*/
 
-		this.panelGauche.add(spTableau   , BorderLayout.CENTER);
+		this.panelGauche.add(spTableau, BorderLayout.CENTER);
 		this.panelGauche.add(this.lblVisu, BorderLayout.SOUTH);
 
 		this.panelDroite.add(this.lblcordX);
@@ -120,7 +115,6 @@ public class FrameAjouterSommet extends JFrame implements ActionListener, ItemLi
 
 		this.panelDroite.add(this.jcbDeroulanteCouleur);
 		this.panelDroite.add(this.jcbDeroulantePoint);
-
 
 		this.panelDroite.add(new JLabel());
 		this.panelDroite.add(this.btnAjouter);
@@ -134,12 +128,11 @@ public class FrameAjouterSommet extends JFrame implements ActionListener, ItemLi
 		/*-------------------------------*/
 
 		this.jcbDeroulanteCouleur.addItemListener(this);
-		this.jcbDeroulantePoint  .addItemListener(this);
+		this.jcbDeroulantePoint.addItemListener(this);
 
 		this.btnAjouter.addActionListener(this);
-		this.txtcordX  .addActionListener(this);
-		this.txtcordY  .addActionListener(this);
-
+		this.txtcordX.addActionListener(this);
+		this.txtcordY.addActionListener(this);
 
 		this.setVisible(true);
 	}
@@ -151,29 +144,32 @@ public class FrameAjouterSommet extends JFrame implements ActionListener, ItemLi
 			String cordX = this.txtcordX.getText();
 			String cordY = this.txtcordY.getText();
 
-
 			if (cordX == null && cordY == null)
-				JOptionPane.showMessageDialog(this, "Veuillez remplir tous les champs", "Erreur", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(this, "Veuillez remplir tous les champs", "Erreur",
+						JOptionPane.ERROR_MESSAGE);
 
 			try
 			{
 				cordX = String.valueOf(Integer.parseInt(cordX));
 				cordY = String.valueOf(Integer.parseInt(cordY));
-			}
-			catch (NumberFormatException ex)
+			} catch (NumberFormatException ex)
 			{
-				JOptionPane.showMessageDialog(this, "Erreur pour la saisie des coordonnées", "Erreur", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(this, "Erreur pour la saisie des coordonnées", "Erreur",
+						JOptionPane.ERROR_MESSAGE);
 				return;
 			}
 
 			if (this.jcbDeroulanteCouleur.getSelectedItem().toString().equals("ROME"))
-				this.ctrlMap.ajouterSommet( Integer.parseInt(cordX), Integer.parseInt(cordY), -1, Couleur.valueOf(this.jcbDeroulanteCouleur.getSelectedItem().toString()) );
+				this.ctrlMap.ajouterSommet(Integer.parseInt(cordX), Integer.parseInt(cordY), -1,
+						Couleur.valueOf(this.jcbDeroulanteCouleur.getSelectedItem().toString()));
 			else
-				this.ctrlMap    .ajouterSommet( Integer.parseInt(cordX), Integer.parseInt(cordY), Integer.parseInt(this.jcbDeroulantePoint.getSelectedItem().toString()), Couleur.valueOf(this.jcbDeroulanteCouleur.getSelectedItem().toString()) );
+				this.ctrlMap.ajouterSommet(Integer.parseInt(cordX), Integer.parseInt(cordY),
+						Integer.parseInt(this.jcbDeroulantePoint.getSelectedItem().toString()),
+						Couleur.valueOf(this.jcbDeroulanteCouleur.getSelectedItem().toString()));
 
 			this.txtcordX.setText("");
 			this.txtcordY.setText("");
-			this.ctrlMap .majIHM();
+			this.ctrlMap.majIHM();
 
 			this.majIHM();
 		}
@@ -184,7 +180,6 @@ public class FrameAjouterSommet extends JFrame implements ActionListener, ItemLi
 		this.tblDonnes.setModel(new GrlDonneesModelSommet(this.ctrlMap));
 	}
 
-
 	public void itemStateChanged(ItemEvent e)
 	{
 
@@ -193,22 +188,22 @@ public class FrameAjouterSommet extends JFrame implements ActionListener, ItemLi
 
 			switch (this.jcbDeroulanteCouleur.getSelectedItem().toString())
 			{
-				case "VERT", "BLEU_CLAIR" ->
-				{
-					this.jcbDeroulantePoint.setModel(new DefaultComboBoxModel<>(tabPointMine2));
-				}
-				case "GRIS" ->
-				{
-					this.jcbDeroulantePoint.setModel(new DefaultComboBoxModel<>(tabPointMine3));
-				}
-				case "ROME" ->
-				{
-					this.jcbDeroulantePoint.setModel(new DefaultComboBoxModel<>());
-				}
-				default ->
-				{
-					this.jcbDeroulantePoint.setModel(new DefaultComboBoxModel<>(tabPointMine1));
-				}
+			case "VERT", "BLEU_CLAIR" ->
+			{
+				this.jcbDeroulantePoint.setModel(new DefaultComboBoxModel<>(tabPointMine2));
+			}
+			case "GRIS" ->
+			{
+				this.jcbDeroulantePoint.setModel(new DefaultComboBoxModel<>(tabPointMine3));
+			}
+			case "ROME" ->
+			{
+				this.jcbDeroulantePoint.setModel(new DefaultComboBoxModel<>());
+			}
+			default ->
+			{
+				this.jcbDeroulantePoint.setModel(new DefaultComboBoxModel<>(tabPointMine1));
+			}
 			}
 
 		}

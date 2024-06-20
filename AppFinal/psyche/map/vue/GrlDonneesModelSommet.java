@@ -1,6 +1,5 @@
 /**
- * @author CAUVIN Pierre, AUBIN Montagne, DELPECHE Nicolas, GUELLE Clément
- * Cette classe gère les routes.
+ * @author CAUVIN Pierre, AUBIN Montagne, DELPECHE Nicolas, GUELLE Clément Cette classe gère les routes.
  */
 
 package psyche.map.vue;
@@ -13,9 +12,8 @@ import javax.swing.table.AbstractTableModel;
 public class GrlDonneesModelSommet extends AbstractTableModel
 {
 
-	private String[]   tabEntetes;
-	private Object[][] tabDonnees;
-
+	private final String[] tabEntetes;
+	private final Object[][] tabDonnees;
 
 	public GrlDonneesModelSommet(ControleurMap ctrlMap)
 	{
@@ -27,12 +25,13 @@ public class GrlDonneesModelSommet extends AbstractTableModel
 
 		for (Sommet mine : ctrlMap.getSommets())
 		{
-			this.tabDonnees[cptMine] = new Object[] { mine.getId(), mine.getCouleur(), mine.getPoint(), mine.getX(), mine.getY() };
+			this.tabDonnees[cptMine] = new Object[] { mine.getId(), mine.getCouleur(), mine.getPoint(), mine.getX(),
+					mine.getY() };
 			cptMine++;
 		}
 	}
 
-	public String getColumnName (int col)
+	public String getColumnName(int col)
 	{
 		return this.tabEntetes[col];
 	}

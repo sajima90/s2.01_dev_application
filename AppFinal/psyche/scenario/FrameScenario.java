@@ -6,19 +6,21 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class FrameScenario extends JFrame implements ActionListener {
-	private JButton btnSuivant;
-	private JButton btnPredecent;
-	private JTextField txtEtapes;
-	private JButton btnValider;
+public class FrameScenario extends JFrame implements ActionListener
+{
+	private final JButton btnSuivant;
+	private final JButton btnPredecent;
+	private final JTextField txtEtapes;
+	private final JButton btnValider;
 
 	private JLabel lblEtapes;
 
-	private JPanel panelScenario;
+	private final JPanel panelScenario;
 
-	private ControleurScenario ctrl;
+	private final ControleurScenario ctrl;
 
-	public FrameScenario(ControleurScenario ctrl) {
+	public FrameScenario(ControleurScenario ctrl)
+	{
 		this.ctrl = ctrl;
 
 		this.setTitle("Scénario");
@@ -68,18 +70,22 @@ public class FrameScenario extends JFrame implements ActionListener {
 		this.pack();
 	}
 
-	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() == btnSuivant) {
+	public void actionPerformed(ActionEvent e)
+	{
+		if (e.getSource() == btnSuivant)
+		{
 			this.txtEtapes.setText((Integer.parseInt(this.txtEtapes.getText()) + 1) + "");
 			ctrl.effectuerAction((Integer.parseInt(this.txtEtapes.getText())));
 		}
 
-		if (e.getSource() == btnPredecent) {
+		if (e.getSource() == btnPredecent)
+		{
 			this.txtEtapes.setText((Integer.parseInt(this.txtEtapes.getText()) - 1) + "");
 			ctrl.effectuerAction((Integer.parseInt(this.txtEtapes.getText())));
 		}
 
-		if (e.getSource() == btnValider) {
+		if (e.getSource() == btnValider)
+		{
 			ctrl.effectuerAction((Integer.parseInt(this.txtEtapes.getText())));
 		}
 	}

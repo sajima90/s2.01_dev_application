@@ -14,18 +14,26 @@ import java.awt.*;
 public class PanelInfoVille extends JPanel
 {
 
-	private ControleurMap ctrlMap;
+	private final ControleurMap ctrlMap;
 
-	private JLabel lblX, lblCoordX, lblY, lblCoordY, lblCoul, lblAffCoul, lblPoint, lblAffPoint, lblNom, lblAffNom;
+	private final JLabel lblX;
+	private final JLabel lblCoordX;
+	private final JLabel lblY;
+	private final JLabel lblCoordY;
+	private final JLabel lblCoul;
+	private final JLabel lblAffCoul;
+	private final JLabel lblPoint;
+	private final JLabel lblAffPoint;
+	private final JLabel lblNom;
+	private final JLabel lblAffNom;
 
-	private JPanel panelDroite;
-
-
+	private final JPanel panelDroite;
 
 	/**
 	 * Constructeur de la classe PanelInfoVille.
 	 *
-	 * @param ctrlMap Le contrôleur de l'application.
+	 * @param ctrlMap
+	 * 		Le contrôleur de l'application.
 	 */
 	public PanelInfoVille(ControleurMap ctrlMap)
 	{
@@ -36,10 +44,9 @@ public class PanelInfoVille extends JPanel
 		this.setLayout(new BorderLayout());
 		this.setBackground(Color.lightGray);
 
-
 		// Panneau central avec GridLayout pour aligner les composants verticalement
 		JPanel centerPanel = new JPanel();
-		this.panelDroite   = new JPanel(new GridLayout(5, 2, 5, 5));
+		this.panelDroite = new JPanel(new GridLayout(5, 2, 5, 5));
 
 		centerPanel.setOpaque(false);
 		this.panelDroite.setOpaque(false);
@@ -50,19 +57,19 @@ public class PanelInfoVille extends JPanel
 		/*-------------------------*/
 		/* Création des composants */
 		/*-------------------------*/
-		this.lblNom        = new JLabel("<html><b>Nom :</b></html>");
-		this.lblAffNom   = new JLabel("<html><i>-</i></html>");
+		this.lblNom = new JLabel("<html><b>Nom :</b></html>");
+		this.lblAffNom = new JLabel("<html><i>-</i></html>");
 
-		this.lblX        = new JLabel("<html><b>X :</b></html>");
-		this.lblCoordX   = new JLabel("<html><i>-</i></html>");
+		this.lblX = new JLabel("<html><b>X :</b></html>");
+		this.lblCoordX = new JLabel("<html><i>-</i></html>");
 
-		this.lblY        = new JLabel("<html><b>Y :</b></html>");
-		this.lblCoordY   = new JLabel("<html><i>-</i></html>");
+		this.lblY = new JLabel("<html><b>Y :</b></html>");
+		this.lblCoordY = new JLabel("<html><i>-</i></html>");
 
-		this.lblCoul     = new JLabel("<html><b>Couleur :</b></html>");
-		this.lblAffCoul  = new JLabel("<html><i>-</i></html>");
+		this.lblCoul = new JLabel("<html><b>Couleur :</b></html>");
+		this.lblAffCoul = new JLabel("<html><i>-</i></html>");
 
-		this.lblPoint    = new JLabel("<html><b>Point :</b></html>");
+		this.lblPoint = new JLabel("<html><b>Point :</b></html>");
 		this.lblAffPoint = new JLabel("<html><i>-</i></html>");
 
 
@@ -81,7 +88,6 @@ public class PanelInfoVille extends JPanel
 		this.panelDroite.add(this.lblPoint);
 		this.panelDroite.add(this.lblAffPoint);
 
-
 		// Ajouter des marges autour du panneau central
 		JPanel marginPanel = new JPanel(new BorderLayout());
 
@@ -90,7 +96,6 @@ public class PanelInfoVille extends JPanel
 		marginPanel.add(centerPanel, BorderLayout.CENTER);
 		marginPanel.add(this.panelDroite, BorderLayout.EAST);
 
-
 		// Ajouter le panneau avec marges au panneau principal
 		this.add(marginPanel);
 	}
@@ -98,17 +103,19 @@ public class PanelInfoVille extends JPanel
 	/**
 	 * Met à jour les informations de la ville affichée.
 	 *
-	 * @param x La coordonnée X de la ville.
-	 * @param y La coordonnée Y de la ville.
+	 * @param x
+	 * 		La coordonnée X de la ville.
+	 * @param y
+	 * 		La coordonnée Y de la ville.
 	 */
 	public void majVilleInfo(int id, int x, int y, Couleur couleur, int point)
 	{
 
-		this.lblAffNom  .setText("<html><i>" + String.valueOf(this.ctrlMap.getSommet(id).getNom())       + "</i></html>");
-		this.lblCoordX  .setText("<html><i>" + String.valueOf(x)       + "</i></html>");
-		this.lblCoordY  .setText("<html><i>" + String.valueOf(y)       + "</i></html>");
-		this.lblAffCoul .setText("<html><i>" + String.valueOf(couleur) + "</i></html>");
-		this.lblAffPoint.setText("<html><i>" + String.valueOf(point)   + "</i></html>");
+		this.lblAffNom.setText("<html><i>" + this.ctrlMap.getSommet(id).getNom() + "</i></html>");
+		this.lblCoordX.setText("<html><i>" + x + "</i></html>");
+		this.lblCoordY.setText("<html><i>" + y + "</i></html>");
+		this.lblAffCoul.setText("<html><i>" + couleur + "</i></html>");
+		this.lblAffPoint.setText("<html><i>" + point + "</i></html>");
 
 	}
 }

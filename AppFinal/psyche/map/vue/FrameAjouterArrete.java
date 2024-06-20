@@ -1,6 +1,5 @@
 /**
- * @author CAUVIN Pierre, AUBIN Montagne, DELPECHE Nicolas, GUELLE Clément
- * Cette classe gère les routes.
+ * @author CAUVIN Pierre, AUBIN Montagne, DELPECHE Nicolas, GUELLE Clément Cette classe gère les routes.
  */
 package psyche.map.vue;
 
@@ -22,26 +21,26 @@ public class FrameAjouterArrete extends JFrame implements ActionListener//, Item
 	/*    Donnees      */
 	/*-----------------*/
 
-	private boolean modificationComboBox;
+	private final boolean modificationComboBox;
 
-	private JButton btnAjouter;
+	private final JButton btnAjouter;
 
-	private JPanel panelGauche;
-	private JPanel panelDroite;
+	private final JPanel panelGauche;
+	private final JPanel panelDroite;
 
-	private JTable                tblDonnes;
-	private GrlDonneesModelArrete donnesTableau;
+	private final JTable tblDonnes;
+	private final GrlDonneesModelArrete donnesTableau;
 
-	private JLabel idDepart;
-	private JLabel idArrive;
-	private JLabel troncons;
-	private JLabel lblVisu;
+	private final JLabel idDepart;
+	private final JLabel idArrive;
+	private final JLabel troncons;
+	private final JLabel lblVisu;
 
-	private JComboBox<String> jcbDeroulanteDepartId;
-	private JComboBox<String> jcbDeroulanteArriveId;
-	private JComboBox<String> jcbDeroulanteTroncons;
+	private final JComboBox<String> jcbDeroulanteDepartId;
+	private final JComboBox<String> jcbDeroulanteArriveId;
+	private final JComboBox<String> jcbDeroulanteTroncons;
 
-	private ControleurMap ctrlMap;
+	private final ControleurMap ctrlMap;
 
 
 
@@ -53,7 +52,7 @@ public class FrameAjouterArrete extends JFrame implements ActionListener//, Item
 	{
 		this.setTitle("Ajouter Arrete");
 		this.setSize(600, 300);
-		this.setLayout(new GridLayout(1,2,10,20));
+		this.setLayout(new GridLayout(1, 2, 10, 20));
 		this.getContentPane().setBackground(Color.gray);
 
 		this.setVisible(true);
@@ -67,12 +66,11 @@ public class FrameAjouterArrete extends JFrame implements ActionListener//, Item
 		/* Création des composants */
 		/*-------------------------*/
 
-
 		this.panelGauche = new JPanel(new BorderLayout());
-		this.panelDroite = new JPanel(new GridLayout(4,2,0,10));
+		this.panelDroite = new JPanel(new GridLayout(4, 2, 0, 10));
 
 		this.donnesTableau = new GrlDonneesModelArrete(this.ctrlMap);
-		this.tblDonnes     = new JTable(this.donnesTableau);
+		this.tblDonnes = new JTable(this.donnesTableau);
 		this.tblDonnes.setFillsViewportHeight(true);
 
 		spTableau = new JScrollPane(this.tblDonnes);
@@ -85,39 +83,34 @@ public class FrameAjouterArrete extends JFrame implements ActionListener//, Item
 
 		List<String> tabMenuDeroulantId = new ArrayList<>();
 
-		for ( Sommet mine : this.ctrlMap.getSommets())
+		for (Sommet mine : this.ctrlMap.getSommets())
 		{
-			if ( !tabMenuDeroulantId.contains(mine.getId()))
+			if (!tabMenuDeroulantId.contains(mine.getId()))
 				tabMenuDeroulantId.add(String.valueOf(mine.getId()));
 		}
 
-		String[] tabId  = new String[tabMenuDeroulantId.size()];
-		tabId           = tabMenuDeroulantId.toArray(tabId);
-
-
+		String[] tabId = new String[tabMenuDeroulantId.size()];
+		tabId = tabMenuDeroulantId.toArray(tabId);
 
 		this.jcbDeroulanteDepartId = new JComboBox<>(tabId);
 		this.jcbDeroulanteArriveId = new JComboBox<>(tabId);
 
-
-		String[] tabTroncon        = new String[] { "1", "2" };
+		String[] tabTroncon = new String[] { "1", "2" };
 		this.jcbDeroulanteTroncons = new JComboBox<>(tabTroncon);
 
-
-		this.idDepart	= new JLabel(String.format("%21s", "Id mine de départ       : "));
+		this.idDepart = new JLabel(String.format("%21s", "Id mine de départ       : "));
 		this.idDepart.setBackground(Color.lightGray);
 		this.idDepart.setOpaque(true);
 
-		this.idArrive 	= new JLabel(String.format("%21s", "Id mine de arrivée     : "));
+		this.idArrive = new JLabel(String.format("%21s", "Id mine de arrivée     : "));
 		this.idArrive.setBackground(Color.lightGray);
 		this.idArrive.setOpaque(true);
 
-		this.troncons  = new JLabel(String.format("%21s", "Nombre de tronçons : "));
+		this.troncons = new JLabel(String.format("%21s", "Nombre de tronçons : "));
 		this.troncons.setBackground(Color.lightGray);
 		this.troncons.setOpaque(true);
 
-
-		this.btnAjouter =  new JButton("Ajouter");
+		this.btnAjouter = new JButton("Ajouter");
 		this.btnAjouter.setBackground(Color.WHITE);
 
 
@@ -125,7 +118,7 @@ public class FrameAjouterArrete extends JFrame implements ActionListener//, Item
 		/* Positionnement des composants */
 		/*-------------------------------*/
 
-		this.panelGauche.add(spTableau   , BorderLayout.CENTER);
+		this.panelGauche.add(spTableau, BorderLayout.CENTER);
 		this.panelGauche.add(this.lblVisu, BorderLayout.SOUTH);
 
 		this.panelDroite.add(this.idDepart);
@@ -147,33 +140,33 @@ public class FrameAjouterArrete extends JFrame implements ActionListener//, Item
 		/*   Activation des composants   */
 		/*-------------------------------*/
 
-
 		this.jcbDeroulanteDepartId.addActionListener(this);
 		this.jcbDeroulanteArriveId.addActionListener(this);
-		this.btnAjouter           .addActionListener(this);
+		this.btnAjouter.addActionListener(this);
 
 		//this.jcbDeroulanteTroncons.addItemListener(this);
-
 
 	}
 
 	public void actionPerformed(ActionEvent e)
 	{
 
-		if(e.getSource() == this.btnAjouter)
+		if (e.getSource() == this.btnAjouter)
 		{
 
-			if (this.jcbDeroulanteDepartId.getSelectedItem() != this.jcbDeroulanteArriveId.getSelectedItem() )
+			if (this.jcbDeroulanteDepartId.getSelectedItem() != this.jcbDeroulanteArriveId.getSelectedItem())
 			{
 
-				this.ctrlMap.ajouterArrete( this.ctrlMap.getSommet( Integer.parseInt((String) this.jcbDeroulanteDepartId.getSelectedItem()) ),
-						this.ctrlMap.getSommet( Integer.parseInt((String) this.jcbDeroulanteArriveId.getSelectedItem()) ),
-						Integer.parseInt(         this.jcbDeroulanteTroncons.getSelectedItem().toString()));
+				this.ctrlMap.ajouterArrete(
+						this.ctrlMap.getSommet(Integer.parseInt((String) this.jcbDeroulanteDepartId.getSelectedItem())),
+						this.ctrlMap.getSommet(Integer.parseInt((String) this.jcbDeroulanteArriveId.getSelectedItem())),
+						Integer.parseInt(this.jcbDeroulanteTroncons.getSelectedItem().toString()));
 
 				this.tblDonnes.setModel(new GrlDonneesModelArrete(this.ctrlMap));
 			}
 			else
-				JOptionPane.showMessageDialog(this, "Ne pas sélectionner deux fois la même ville", "Erreur", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(this, "Ne pas sélectionner deux fois la même ville", "Erreur",
+						JOptionPane.ERROR_MESSAGE);
 		}
 	}
 

@@ -1,9 +1,8 @@
 package psyche;
 
 /**
- * @author Groupe 4 SAE2.01 : Guelle Clément, Cauvin Pierre, Montagne Aubin, Delpech Nicolas
- * 							  Bouquet Jules, Rougeolle Henri, Yachir Yanis
- *
+ * @author Groupe 4 SAE2.01 : Guelle Clément, Cauvin Pierre, Montagne Aubin, Delpech Nicolas Bouquet Jules, Rougeolle
+ * 		Henri, Yachir Yanis
  */
 
 import psyche.jeu.metier.Joueur;
@@ -53,7 +52,6 @@ public class Controleur
 		this.FrameMenu = new FrameMenu(this);
 	}
 
-
 	public static void main(String[] args)
 	{
 		if (args.length > 0)
@@ -70,14 +68,17 @@ public class Controleur
 	public void setVisible()
 	{
 		this.FrameMenu.setVisible(true);
-		File file = new File("psyche/theme/Map.txt");
+		File file = new File("../psyche/theme/Map.txt");
 
-		try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+		try (BufferedReader br = new BufferedReader(new FileReader(file)))
+		{
 			String line;
-			while ((line = br.readLine()) != null) {
+			while ((line = br.readLine()) != null)
+			{
 				System.out.println(line);
 			}
-		} catch (IOException e) {
+		} catch (IOException e)
+		{
 			e.printStackTrace();
 		}
 	}
@@ -86,72 +87,89 @@ public class Controleur
 	/* Méthodes de scénarios */
 	/*-------------------------*/
 
-	public List<Sommet> getSommets() {
+	public List<Sommet> getSommets()
+	{
 		return this.FrameMenu.getSommets();
 	}
 
-	public Sommet getSommet(int i) {
+	public Sommet getSommet(int i)
+	{
 		return this.FrameMenu.getSommet(i);
 	}
 
-	public void supprimerSommets(int id) {
+	public void supprimerSommets(int id)
+	{
 		this.FrameMenu.supprimerSommet(id);
 	}
 
-	public void supprimerSommets() {
+	public void supprimerSommets()
+	{
 		this.FrameMenu.supprimerSommets();
 	}
 
-	public void supprimerArretes() {
+	public void supprimerArretes()
+	{
 		this.FrameMenu.supprimerArretes();
 	}
 
-	public void ajouterSommet(int x, int y, int point, Couleur c) {
+	public void ajouterSommet(int x, int y, int point, Couleur c)
+	{
 		this.FrameMenu.ajouterSommet(x, y, point, c);
 	}
 
-	public void ajouterArrete(Sommet s1, Sommet s2, int t) {
+	public void ajouterArrete(Sommet s1, Sommet s2, int t)
+	{
 		this.FrameMenu.ajouterArrete(s1, s2, t);
 	}
 
-	public List<Mine> getMines() {
+	public List<Mine> getMines()
+	{
 		return this.FrameMenu.getMines();
 	}
 
-	public void ouvrirFenetreModifier() {
+	public void ouvrirFenetreModifier()
+	{
 		this.FrameMenu.ouvrirFenetreModifier();
 
 	}
 
-	public void ouvrirFenetreJouer() {
+	public void ouvrirFenetreJouer()
+	{
 		this.FrameMenu.ouvrirFenetreJouer();
 	}
 
-	public void fermerFenetreModifier() {
+	public void fermerFenetreModifier()
+	{
 		this.FrameMenu.fermerFenetreModifier();
 	}
 
-	public void choisirCamp(int campChoisi) {
+	public void choisirCamp(int campChoisi)
+	{
 		this.FrameMenu.choisirCamp(campChoisi);
 	}
 
-	public void suppDonneesMap() {
+	public void suppDonneesMap()
+	{
 		this.FrameMenu.suppDonneesMap();
 	}
 
-	public ArrayList<Joueur> suppDonneesJeu() {
-		return this.FrameMenu.suppDonneesJeu();
+	public void suppDonneesJeu()
+	{
+		this.FrameMenu.suppDonneesJeu();
 	}
 
-	public void fermerJeu() {
+	public void fermerJeu()
+	{
 		this.FrameMenu.fermerFenetreJouer();
 	}
 
-	public void fermerJoueur() {
+	public void fermerJoueur()
+	{
 		this.FrameMenu.fermerJoueur();
 	}
 
-	public void fermerMap() {
+	public void fermerMap()
+	{
 		this.FrameMenu.fermerMap();
 	}
 
@@ -160,19 +178,36 @@ public class Controleur
 	// return this.ctrlScen.getJoueurs();
 	// }
 
-	public void simulerClic(int posX, int posY) {
-		this.FrameMenu.simulerClic(posX, posY);
-	}
-
 	// public void setJoueurs(ArrayList<Joueur> joueurs) {
 	// this.FrameMenu.setJoueurs(joueurs);
 	// }
 
-	public Metier getMetierJeu() {
+	public Metier getMetierJeu()
+	{
 		return this.FrameMenu.getMetierJeu();
 	}
 
-	public void setMetier(Metier metier) {
+	public void setMetier(Metier metier)
+	{
 		this.FrameMenu.setMetier(metier);
+	}
+
+	public void ouvrirFenetreJouer(Metier metier)
+	{
+		this.FrameMenu.ouvrirFenetreJouer(metier);
+	}
+
+	public void possederMine(Mine mine)
+	{
+		this.FrameMenu.possederMine(mine);
+	}
+
+	public void verifierFinPartie()
+	{
+		this.FrameMenu.verifierFinPartie();
+	}
+
+	public ControleurScenario getCtrlScen() {
+		return this.ctrlScen;
 	}
 }

@@ -16,18 +16,18 @@ public class ControleurMap
 	/*  Données     */
 	/*--------------*/
 
-	private final Metier     metier;
-	private final FrameMap   frameMap;
+	private final Metier metier;
+	private final FrameMap frameMap;
 	private final Controleur ctrl;
 
-	private FrameAjouterSommet   frameAjouterSommet;
-	private FrameAjouterArrete   frameAjouterArrete;
-	private FrameModifierSommet  frameModifierSommet;
-	private FrameModifierArrete  frameModifierArrete;
+	private FrameAjouterSommet frameAjouterSommet;
+	private FrameAjouterArrete frameAjouterArrete;
+	private FrameModifierSommet frameModifierSommet;
+	private FrameModifierArrete frameModifierArrete;
 	private FrameSupprimerSommet frameSupprimerSommet;
 
-	private PanelGraph     panelGraph;
-	private PanelInfoVille panelInfoVille;
+	private final PanelGraph panelGraph;
+	private final PanelInfoVille panelInfoVille;
 
 
 	/*--------------*/
@@ -40,10 +40,10 @@ public class ControleurMap
 
 	public ControleurMap(Controleur ctrl)
 	{
-		this.ctrl           =     ctrl;
-		this.metier         = new Metier        ();
-		this.frameMap       = new FrameMap      (this, this.ctrl);
-		this.panelGraph     = new PanelGraph    (this);
+		this.ctrl = ctrl;
+		this.metier = new Metier();
+		this.frameMap = new FrameMap(this, this.ctrl);
+		this.panelGraph = new PanelGraph(this);
 		this.panelInfoVille = new PanelInfoVille(this);
 	}
 
@@ -53,10 +53,22 @@ public class ControleurMap
 	/* 		Get     */
 	/*--------------*/
 
-	public Sommet       getSommet (int i)          { return this.metier.getSommet(i); }
-	public List<Sommet> getSommets()               { return this.metier.getSommets(); }
-	public List<Arrete> getArretes()               { return this.metier.getArretes(); }
-	public Couleur      getCouleur(String couleur)
+	public Sommet getSommet(int i)
+	{
+		return this.metier.getSommet(i);
+	}
+
+	public List<Sommet> getSommets()
+	{
+		return this.metier.getSommets();
+	}
+
+	public List<Arrete> getArretes()
+	{
+		return this.metier.getArretes();
+	}
+
+	public Couleur getCouleur(String couleur)
 	{
 		for (Couleur c : Couleur.values())
 		{
@@ -82,7 +94,6 @@ public class ControleurMap
 		this.frameAjouterSommet = new FrameAjouterSommet(this);
 	}
 
-
 	/**
 	 * Crée la frame d'ajout de arretes
 	 */
@@ -90,7 +101,6 @@ public class ControleurMap
 	{
 		this.frameAjouterArrete = new FrameAjouterArrete(this);
 	}
-
 
 	/**
 	 * Crée la frame de modification de sommet
@@ -100,7 +110,6 @@ public class ControleurMap
 		this.frameModifierSommet = new FrameModifierSommet(this);
 	}
 
-
 	/**
 	 * Crée la frame de modification de arrete
 	 */
@@ -108,7 +117,6 @@ public class ControleurMap
 	{
 		this.frameModifierArrete = new FrameModifierArrete(this);
 	}
-
 
 	/**
 	 * Crée la frame de supprimer de sommet
@@ -118,12 +126,13 @@ public class ControleurMap
 		this.frameSupprimerSommet = new FrameSupprimerSommet(this);
 	}
 
-
 	/**
 	 * Ajoute d'un sommet
 	 *
-	 * @param x Coordonnées X du sommet
-	 * @param y Coordonnées Y du sommet
+	 * @param x
+	 * 		Coordonnées X du sommet
+	 * @param y
+	 * 		Coordonnées Y du sommet
 	 * @return le sommet créée
 	 */
 	public Sommet ajouterSommet(int x, int y, int point, Couleur couleur)
@@ -132,14 +141,15 @@ public class ControleurMap
 		return this.metier.ajouterSommet(x, y, point, couleur);
 	}
 
-
-
 	/**
 	 * Ajoute une Arrete
 	 *
-	 * @param depart Sommet de départ
-	 * @param arrivee Sommet d'arrivée
-	 * @param troncons Nombre de tronçons de l'Arrete
+	 * @param depart
+	 * 		Sommet de départ
+	 * @param arrivee
+	 * 		Sommet d'arrivée
+	 * @param troncons
+	 * 		Nombre de tronçons de l'Arrete
 	 */
 	public Arrete ajouterArrete(Sommet depart, Sommet arrivee, int troncons)
 	{
@@ -150,8 +160,10 @@ public class ControleurMap
 	/**
 	 * Modifie d'un sommet
 	 *
-	 * @param x Coordonnées X du sommet
-	 * @param y Coordonnées Y du sommet
+	 * @param x
+	 * 		Coordonnées X du sommet
+	 * @param y
+	 * 		Coordonnées Y du sommet
 	 */
 	public void modifierSommet(int id, int x, int y, Couleur couleur, int point)
 	{
@@ -159,13 +171,15 @@ public class ControleurMap
 		this.majIHM();
 	}
 
-
 	/**
 	 * Modifie une arrete
 	 *
-	 * @param depart Sommet de depart de l'arrete.
-	 * @param arrivee Sommet de depart de l'arrete.
-	 * @param nbTroncons Nombre de tronçons de l'Arrete.
+	 * @param depart
+	 * 		Sommet de depart de l'arrete.
+	 * @param arrivee
+	 * 		Sommet de depart de l'arrete.
+	 * @param nbTroncons
+	 * 		Nombre de tronçons de l'Arrete.
 	 */
 	public boolean modifierArrete(Sommet depart, Sommet arrivee, int nbTroncons)
 	{
@@ -187,24 +201,27 @@ public class ControleurMap
 	/**
 	 * supprime l'arrete
 	 *
-	 * @param depart Sommet de depart de l'arrete.
-	 * @param arrete L'Arrete lié au sommet.
+	 * @param depart
+	 * 		Sommet de depart de l'arrete.
+	 * @param arrete
+	 * 		L'Arrete lié au sommet.
 	 */
 	public void supprimerArrete(Sommet depart, Arrete arrete)
 	{
 		this.metier.supprimerArreteSommet(depart, arrete);
 		this.majIHM();
 	}
+
 	/**
 	 * supprime un sommet
 	 *
-	 * @param i indice du sommet de la liste .
+	 * @param i
+	 * 		indice du sommet de la liste .
 	 */
 	public void supprimerSommet(int i)
 	{
 		this.metier.supprimerSommet(i);
 	}
-
 
 	public boolean estPossibleArrete(Sommet depart, Sommet arrivee, int troncons)
 	{
@@ -228,7 +245,9 @@ public class ControleurMap
 	public void majIHM(Sommet sommetSelect)
 	{
 		this.frameMap.getPanelGraph().repaint();
-		this.frameMap.getPanelInfoVille().majVilleInfo(sommetSelect.getId(), sommetSelect.getX(), sommetSelect.getY(), sommetSelect.getCouleur(), sommetSelect.getPoint());
+		this.frameMap.getPanelInfoVille()
+				.majVilleInfo(sommetSelect.getId(), sommetSelect.getX(), sommetSelect.getY(), sommetSelect.getCouleur(),
+						sommetSelect.getPoint());
 	}
 
 	//Fichier
@@ -281,23 +300,28 @@ public class ControleurMap
 	/* Méthodes de scénarios */
 	/*-------------------------*/
 
-	public void fermerFenetre() {
+	public void fermerFenetre()
+	{
 		this.frameMap.dispose();
 	}
 
-	public void supprimerSommets() {
+	public void supprimerSommets()
+	{
 		this.metier.supprimerSommets();
 	}
 
-	public void supprimerArretes() {
+	public void supprimerArretes()
+	{
 		this.metier.supprimerArretes();
 	}
 
-	public void suppDonneesMap() {
+	public void suppDonneesMap()
+	{
 		this.metier.suppDonneesMap();
 	}
 
-	public void fermerMap() {
+	public void fermerMap()
+	{
 		this.frameMap.fermerMap();
 	}
 }

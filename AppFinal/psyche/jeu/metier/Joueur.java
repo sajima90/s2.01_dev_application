@@ -18,10 +18,10 @@ public class Joueur
 	private static final int NB_COLONNE_MAX = 8;
 
 	private static int nbJoueur = 0;
-	private int numJoueur;
+	private final int numJoueur;
 
-	private List<Mine> minesObtenues;
-	private List<Route> routesJoueur;
+	private final List<Mine> minesObtenues;
+	private final List<Route> routesJoueur;
 	private List<Jeton> tabJetonPresent;
 
 	private int nbPiece;
@@ -29,9 +29,8 @@ public class Joueur
 	private int nbJetonPossession;
 	private String nom;
 
-	private int scoreCol;
-	private int scoreLig;
-
+	private final int scoreCol;
+	private final int scoreLig;
 
 	private boolean estSonTour;
 
@@ -167,7 +166,7 @@ public class Joueur
 		{
 			if (this.compteurJetons(this.tabJetonPresent, ressource) == 0)
 			{
-				if (this.getNbEpicesDifferentPlateau() < Joueur.NB_COLONNE_MAX)
+				if (this.getNbMineraisDifferentPlateau() < Joueur.NB_COLONNE_MAX)
 				{
 					this.tabJetonPresent.add(ressource);
 					this.tabJetonPresent = this.trieTab(this.tabJetonPresent);
@@ -191,9 +190,8 @@ public class Joueur
 
 		else
 		{
-			if (ressource.getType() instanceof Piece)
+			if (ressource.getType() instanceof Piece piece)
 			{
-				Piece piece = (Piece) ressource.getType();
 
 				switch (piece)
 				{
@@ -214,7 +212,7 @@ public class Joueur
 		return false;
 	}
 
-	private int compteurJetons(List<Jeton> listeJeton, Jeton jetonRechercher)
+	public int compteurJetons(List<Jeton> listeJeton, Jeton jetonRechercher)
 	{
 
 		int compteurDoublons = 0;
@@ -231,7 +229,7 @@ public class Joueur
 		return compteurDoublons;
 	}
 
-	private int getNbEpicesDifferentPlateau()
+	public int getNbMineraisDifferentPlateau()
 	{
 		int nbEpicesDifferent = 0;
 		List<Minerai> listeMinerais = new ArrayList<>();
@@ -262,7 +260,6 @@ public class Joueur
 		return this.score;
 	}
 
-
 	//Les Mines sont divisées en plusieurs couleurs. Pour chaque couleur les joueurs gagnent la valeur de la Mine la plus
 	//élevée.
 	public int calculerScoreMines(Couleur couleur)
@@ -288,14 +285,11 @@ public class Joueur
 		return scoreTotal;
 	}
 
-
 	// Calcul du score des pièces
 	public int calculerScorePiece()
 	{
 		return TABLEAU_SCORES_PIECES[this.nbPiece];
 	}
-
-
 
 	// Calcul des points des colonnes
 	public int calculerPointsColonnes()
@@ -311,8 +305,8 @@ public class Joueur
 		{
 			for (Jeton jeton : this.tabJetonPresent)
 			{
-				if (jeton != null && this.compteurJetons(this.tabJetonPresent, jeton) == nbElement && !tabTestJetonPresent.contains(
-						((Minerai) jeton.getType()).getNom()))
+				if (jeton != null && this.compteurJetons(this.tabJetonPresent,
+						jeton) == nbElement && !tabTestJetonPresent.contains(((Minerai) jeton.getType()).getNom()))
 				{
 					tabTestJetonPresent.add(((Minerai) jeton.getType()).getNom());
 					tabNbElementJeton.add(nbElement);
@@ -336,7 +330,6 @@ public class Joueur
 		List<String> tabCompteLigneEtage2 = new ArrayList<>();
 		List<String> tabCompteLigneEtage3 = new ArrayList<>();
 		List<String> tabCompteLigneEtage4 = new ArrayList<>();
-
 
 		for (Jeton jeton : this.tabJetonPresent)
 		{
@@ -492,20 +485,24 @@ public class Joueur
 		return false;
 	}
 
-	public int getScoreLig() { return this.scoreLig; }
-	public int getScoreCol() { return this.scoreCol; }
+	public int getScoreLig()
+	{
+		return this.scoreLig;
+	}
 
+	public int getScoreCol()
+	{
+		return this.scoreCol;
+	}
 
 	public void setTour(boolean b)
 	{
 		this.estSonTour = b;
 	}
 
-
-
-
 	// Scénario
-	public static void resetNbJoueur() {
+	public static void resetNbJoueur()
+	{
 		Joueur.nbJoueur = 0;
 	}
 }

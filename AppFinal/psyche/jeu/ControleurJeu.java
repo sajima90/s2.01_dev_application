@@ -12,18 +12,19 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class  ControleurJeu
+public class ControleurJeu
 {
 	/*--------------*/
 	/* Données      */
 	/*--------------*/
 
-	private final Controleur  ctrl;
-	private Metier      metier;
-	private final FrameCarte  frameCarte;
-	private       FrameJoueur frameJoueur1;
-	private       FrameJoueur frameJoueur2;
-	private       FrameNom    frameNom;
+	private final Controleur ctrl;
+	private Metier metier;
+	private final FrameCarte frameCarte;
+	private FrameJoueur frameJoueur1;
+	private FrameJoueur frameJoueur2;
+	private final FrameNom frameNom;
+	private FrameFinPartie frameFinPartie;
 
 	/*--------------*/
 	/* Méthodes */
@@ -35,17 +36,31 @@ public class  ControleurJeu
 
 	public ControleurJeu(Controleur ctrl)
 	{
-		this.ctrl         = ctrl;
-		this.metier       = new Metier    ();
-		this.frameCarte   = new FrameCarte(this);
-		this.frameNom     = new FrameNom  (this);
+		this.ctrl = ctrl;
+		this.metier = new Metier();
+		this.frameCarte = new FrameCarte(this);
+		this.frameNom = new FrameNom(this);
 		this.frameJoueur1 = null;
 		this.frameJoueur2 = null;
 
 	}
 
-	public Joueur getJoueurActuel() { return this.metier.getJoueurActuel(); }
+	public ControleurJeu(Controleur ctrl, Metier metier)
+	{
+		this.ctrl = ctrl;
+		this.metier = metier;
+		this.frameCarte = new FrameCarte(this);
+		this.frameNom = new FrameNom(this);
+		this.frameJoueur1 = null;
+		this.frameJoueur2 = null;
 
+		this.metier.setFichierCharger(metier.getFichierCharger());
+	}
+
+	public Joueur getJoueurActuel()
+	{
+		return this.metier.getJoueurActuel();
+	}
 
 	public Joueur setJoueur1(String nom)
 	{
@@ -67,12 +82,10 @@ public class  ControleurJeu
 		return this.metier.getJoueur2();
 	}
 
-
-	public void approprierRoute (Joueur joueur, Route route)
+	public void approprierRoute(Joueur joueur, Route route)
 	{
 		joueur.ajouterRoute(route);
 	}
-	
 
 	public Couleur getCouleur(String couleur)
 	{
@@ -133,7 +146,10 @@ public class  ControleurJeu
 		return metier.getMineIndice(x, y);
 	}
 
-	public void setVisible () { this.ctrl.setVisible(); }
+	public void setVisible()
+	{
+		this.ctrl.setVisible();
+	}
 
 	/*------------*/
 	/* Fichiers */
@@ -151,7 +167,7 @@ public class  ControleurJeu
 	 * Définit le chemin d'accès du fichier
 	 *
 	 * @param path
-	 *             Le chemin d'accès à définir.
+	 * 		Le chemin d'accès à définir.
 	 */
 	public void setFichierCharger(String path)
 	{
@@ -170,7 +186,7 @@ public class  ControleurJeu
 	public void possederMine(Mine mine)
 	{
 
-		if ( !mine.estPrise() )
+		if (!mine.estPrise())
 		{
 			this.getJoueurActuel().ajouterMine(mine);
 			System.out.println("Ajout de la ressource : au joueur " + this.getJoueurActuel().getNom());
@@ -185,12 +201,12 @@ public class  ControleurJeu
 
 	}
 
-	public boolean joueurPossedeMine (Mine mine)
+	public boolean joueurPossedeMine(Mine mine)
 	{
 		return this.getJoueurActuel().PossedeMine(mine);
 	}
 
-	public boolean mineEstAdjacent (Mine mine1, Mine mine2)
+	public boolean mineEstAdjacent(Mine mine1, Mine mine2)
 	{
 		if (mine1 == null || mine2 == null)
 		{
@@ -213,8 +229,6 @@ public class  ControleurJeu
 		this.metier.setProprietaire(route, joueur);
 	}
 
-
-
 	public String getPiece()
 	{
 		return "../images/ressources/NR.png";
@@ -224,9 +238,9 @@ public class  ControleurJeu
 	{
 		Joueur joueurActuel = this.getJoueurActuel();
 
-		if (joueurActuel.getListJeton().get(indice) != null && joueurActuel.getListJeton().size() > 1 )
+		if (joueurActuel.getListJeton().get(indice) != null && joueurActuel.getListJeton().size() > 1)
 		{
-			String lien =  ((Minerai) joueurActuel.getListJeton().get(indice).getType()).getLienImage();
+			String lien = ((Minerai) joueurActuel.getListJeton().get(indice).getType()).getLienImage();
 			return "../theme/images/ressources/" + lien;
 		}
 
@@ -238,46 +252,107 @@ public class  ControleurJeu
 		return this.getJoueurActuel().getNbPiece();
 	}
 
-
-
-
-
 	public void finPartie()
 	{
-		this.frameCarte  .setVisible(false);
+		this.frameCarte.setVisible(false);
 		/*this.frameJoueur1.setVisible(false);
 		this.frameJoueur2.setVisible(false); */
-		new FrameFinPartie(this);
+		this.frameFinPartie = new FrameFinPartie(this);
 	}
 
 	/*---------------------------SCORE--------------------------------*/
 
-	public int scoreTotalJ1() {return this.metier.scoreTotalJ1();}
-	public int scoreTotalJ2() {return this.metier.scoreTotalJ2();}
+	public int scoreTotalJ1()
+	{
+		return this.metier.scoreTotalJ1();
+	}
 
-	public int calculerScoreMineJ1(Couleur couleur){ return this.metier.calculerScoreMineJ1(couleur);}
-	public int calculerScoreMineJ2(Couleur couleur){ return this.metier.calculerScoreMineJ2(couleur);}
+	public int scoreTotalJ2()
+	{
+		return this.metier.scoreTotalJ2();
+	}
 
-	public int calculerScoreMinesTotaleJ1() { return this.metier.calculerScoreMinesTotaleJ1(); }
-	public int calculerScoreMinesTotaleJ2() { return this.metier.calculerScoreMinesTotaleJ2(); }
+	public int calculerScoreMineJ1(Couleur couleur)
+	{
+		return this.metier.calculerScoreMineJ1(couleur);
+	}
 
-	public int calculerScorePiece1() { return this.metier.calculerScorePieceJ1(); }
-	public int calculerScorePiece2() { return this.metier.calculerScorePieceJ2(); }
+	public int calculerScoreMineJ2(Couleur couleur)
+	{
+		return this.metier.calculerScoreMineJ2(couleur);
+	}
 
-	public int calculerScoreMineraiJ1() { return this.metier.calculerScoreMineraiJ1();}
-	public int calculerScoreMineraiJ2() { return this.metier.calculerScoreMineraiJ2();}
+	public int calculerScoreMinesTotaleJ1()
+	{
+		return this.metier.calculerScoreMinesTotaleJ1();
+	}
 
-	public int getJetonPossessionJ1() { return this.metier.getJetonPossessionJ1(); }
-	public int getJetonPossessionJ2() { return this.metier.getJetonPossessionJ2(); }
+	public int calculerScoreMinesTotaleJ2()
+	{
+		return this.metier.calculerScoreMinesTotaleJ2();
+	}
 
-	public int pointBonusJ1() { return this.metier.pointBonusJ1();}
-	public int pointBonusJ2() { return this.metier.pointBonusJ2();}
+	public int calculerScorePiece1()
+	{
+		return this.metier.calculerScorePieceJ1();
+	}
 
-	public int getPointsColonnesJ1() { return this.metier.getPointsColonnesJ1(); }
-	public int getPointsColonnesJ2() { return this.metier.getPointsColonnesJ2(); }
+	public int calculerScorePiece2()
+	{
+		return this.metier.calculerScorePieceJ2();
+	}
 
-	public int getPointsLignesJ1() { return this.metier.getPointsLignesJ1(); }
-	public int getPointsLignesJ2() { return this.metier.getPointsLignesJ2(); }
+	public int calculerScoreMineraiJ1()
+	{
+		return this.metier.calculerScoreMineraiJ1();
+	}
+
+	public int calculerScoreMineraiJ2()
+	{
+		return this.metier.calculerScoreMineraiJ2();
+	}
+
+	public int getJetonPossessionJ1()
+	{
+		return this.metier.getJetonPossessionJ1();
+	}
+
+	public int getJetonPossessionJ2()
+	{
+		return this.metier.getJetonPossessionJ2();
+	}
+
+	public int pointBonusJ1()
+	{
+		return this.metier.pointBonusJ1();
+	}
+
+	public int pointBonusJ2()
+	{
+		return this.metier.pointBonusJ2();
+	}
+
+	public int getPointsColonnesJ1()
+	{
+		return this.metier.getPointsColonnesJ1();
+	}
+
+	public int getPointsColonnesJ2()
+	{
+		return this.metier.getPointsColonnesJ2();
+	}
+
+	public int getPointsLignesJ1()
+	{
+		return this.metier.getPointsLignesJ1();
+	}
+
+	public int getPointsLignesJ2()
+	{
+		return this.metier.getPointsLignesJ2();
+	}
+
+	public String getVictoire() { return this.metier.getVictoire(); }
 
 
 
@@ -286,7 +361,7 @@ public class  ControleurJeu
 	/*-------------------------*/
 
 	//Scénarios
-	public void fermerFenetre ()
+	public void fermerFenetre()
 	{
 		this.frameCarte  .dispose();
 		this.frameJoueur1.dispose();
@@ -294,69 +369,70 @@ public class  ControleurJeu
 		this.frameNom    .dispose();
 	}
 
-
-	public void setFrameJoueur1(FrameJoueur frameJoueur) {
+	public void setFrameJoueur1(FrameJoueur frameJoueur)
+	{
 		this.frameJoueur1 = frameJoueur;
 	}
 
-	public void setFrameJoueur2(FrameJoueur frameJoueur) {
+	public void setFrameJoueur2(FrameJoueur frameJoueur)
+	{
 		this.frameJoueur2 = frameJoueur;
 	}
 
-	public void choisirCamp(int campChoisi) {
+	public void choisirCamp(int campChoisi)
+	{
 		if (campChoisi == 0)
 			frameNom.selectionnerSA();
 		if (campChoisi == 1)
 			frameNom.selectionnerCS();
 	}
 
-	public ArrayList<Joueur> suppDonneesJeu() {
-		return this.metier.suppDonneesJeu();
+	public void suppDonneesJeu()
+	{
+		this.metier.suppDonneesJeu();
 	}
 
-	public void fermerJeu() {
+	public void fermerJeu()
+	{
 		this.frameCarte.fermerJeu();
 		this.frameNom.fermerCamps();
+		this.frameFinPartie.dispose();
 	}
 
-	public void fermerJoueur() {
+	public void fermerJoueur()
+	{
 		this.frameJoueur1.fermerJoueur();
 		this.frameJoueur2.fermerJoueur();
 	}
 
-	public void setJoueurs(ArrayList<Joueur> joueurs) {
-//		this.metier.setJoueurs(joueurs);
+	public void setJoueurs(ArrayList<Joueur> joueurs)
+	{
+		//		this.metier.setJoueurs(joueurs);
 		majSituation();
 
 	}
 
-	public void majSituation() {
+	public void majSituation()
+	{
 
 		this.frameJoueur1.majIHM();
 		this.frameJoueur2.majIHM();
 	}
 
-	// public ArrayList<Joueur> getJoueurs() {
-	// System.out.println(
-	// "GROS CACA GROS CACA GROS CACA GROS CACA GROS CACA GROS CACA GROS CACA GROS
-	// CACA GROS CACA GROS CACA GROS CACA GROS CACA GROS CACA GROS CACA GROS CACA
-	// GROS CACA GROS CACA "
-	// + this.ctrl.getJoueurs());
-	// return this.ctrl.getJoueurs();
-	//
-	// }
 
-	public void simulerClic(int posX, int posY) {
-		this.frameCarte.simulerClic(posX, posY);
-	}
-
-	public Metier getMetierJeu() {
+	public Metier getMetierJeu()
+	{
 		return this.metier;
 	}
 
-	public void setMetier(Metier metier) {
+	public void setMetier(Metier metier)
+	{
 		this.metier = metier;
 	}
 
+	public void verifierFinPartie()
+	{
+		this.frameCarte.verifierFinPartie();
+	}
 
 }

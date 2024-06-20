@@ -1,10 +1,8 @@
 package psyche.map.metier;
 
-
 /**
- * @author Groupe 4 SAE2.01 : Guelle Clément, Cauvin Pierre, Montagne Aubin, Delpech Nicolas
- * 							  Bouquet Jules, Rougeolle Henri, Yachir Yanis
- * La classe permet de gérer l'arrete
+ * @author Groupe 4 SAE2.01 : Guelle Clément, Cauvin Pierre, Montagne Aubin, Delpech Nicolas Bouquet Jules, Rougeolle
+ * 		Henri, Yachir Yanis La classe permet de gérer l'arrete
  */
 
 public class Arrete
@@ -14,9 +12,9 @@ public class Arrete
 	/* Données      */
 	/*--------------*/
 
-	private Sommet sommetDepart;
-	private Sommet sommetArrivee;
-	private int    nbTroncons;
+	private final Sommet sommetDepart;
+	private final Sommet sommetArrivee;
+	private int nbTroncons;
 
 
 
@@ -26,22 +24,30 @@ public class Arrete
 
 	/**
 	 * Constructeur d'arrête
-	 * @param mineDepart une mine de départ
-	 * @param mineArrivee une mine d'arrivé
-	 * @param nbTroncons nombre de troncons
+	 *
+	 * @param mineDepart
+	 * 		une mine de départ
+	 * @param mineArrivee
+	 * 		une mine d'arrivé
+	 * @param nbTroncons
+	 * 		nombre de troncons
 	 */
 	private Arrete(Sommet mineDepart, Sommet mineArrivee, int nbTroncons)
 	{
-		this.sommetDepart  = mineDepart;
+		this.sommetDepart = mineDepart;
 		this.sommetArrivee = mineArrivee;
-		this.nbTroncons    = nbTroncons;
+		this.nbTroncons = nbTroncons;
 	}
 
 	/**
 	 * Factory du constructeur d'arrête pour vérifier certaines conditions si l'arrête peut être créé
-	 * @param mineDepart une mine de départ
-	 * @param mineArrivee une mine d'arrivé
-	 * @param nombreTroncons nombre de troncons
+	 *
+	 * @param mineDepart
+	 * 		une mine de départ
+	 * @param mineArrivee
+	 * 		une mine d'arrivé
+	 * @param nombreTroncons
+	 * 		nombre de troncons
 	 * @return l'arrête si elle est créé sinon null
 	 */
 	public static Arrete creerArrete(Sommet mineDepart, Sommet mineArrivee, int nombreTroncons)
@@ -66,9 +72,20 @@ public class Arrete
 	/*     Get      */
 	/*--------------*/
 
-	public int    getTroncons() { return this.nbTroncons;    }
-	public Sommet getDepart  () { return this.sommetDepart;  }
-	public Sommet getArrivee () { return this.sommetArrivee; }
+	public int getTroncons()
+	{
+		return this.nbTroncons;
+	}
+
+	public Sommet getDepart()
+	{
+		return this.sommetDepart;
+	}
+
+	public Sommet getArrivee()
+	{
+		return this.sommetArrivee;
+	}
 
 
 
@@ -76,7 +93,10 @@ public class Arrete
 	/*     Set      */
 	/*--------------*/
 
-	public void setTroncons (int    troncons) { this.nbTroncons    = troncons; }
+	public void setTroncons(int troncons)
+	{
+		this.nbTroncons = troncons;
+	}
 
 
 
@@ -84,7 +104,6 @@ public class Arrete
 	/*-----------------*/
 	/* Autres Méthodes */
 	/*-----------------*/
-
 
 	public String toString()
 	{

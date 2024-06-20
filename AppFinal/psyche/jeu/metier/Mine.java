@@ -17,7 +17,7 @@ public class Mine
 
 	private static int nbRoutes = 0;
 
-	private int id;
+	private final int id;
 	private int x;
 	private int y;
 	private final int point;
@@ -70,21 +70,15 @@ public class Mine
 		return new Mine(x, y, point, couleur, nom);
 	}
 
-
-
-
 	public void enleverMinerai()
 	{
-//		System.out.println("Le jeton de la mine n'esqt pas la ");
+		//		System.out.println("Le jeton de la mine n'esqt pas la ");
 		this.jeton = null;
 	}
 
 	public boolean estPrise()
 	{
-		if ( this.jeton == null )
-			return true;
-
-		return false;
+		return this.jeton == null;
 	}
 
 	public int getId()
@@ -137,7 +131,10 @@ public class Mine
 		this.y = y;
 	}
 
-	public void setJeton( Jeton jeton ) { this.jeton = jeton; }
+	public void setJeton(Jeton jeton)
+	{
+		this.jeton = jeton;
+	}
 
 	/*-----------------*/
 	/* Autres Méthodes */

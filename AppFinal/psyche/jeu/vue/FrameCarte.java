@@ -26,9 +26,6 @@ public class FrameCarte extends JFrame
 		this.setSize(1000, 800);
 		this.setResizable(false);
 
-
-
-
 		this.panelCarte = new PanelCarte(this.ctrlJeu);
 		this.add(this.panelCarte);
 		this.setVisible(true);
@@ -55,24 +52,27 @@ public class FrameCarte extends JFrame
 		/*------------------------------------*/
 		/*         Position du contour        */
 		/*------------------------------------*/
-		this.add(panelHaut  , BorderLayout.NORTH);
-		this.add(panelBas   , BorderLayout.SOUTH);
+		this.add(panelHaut, BorderLayout.NORTH);
+		this.add(panelBas, BorderLayout.SOUTH);
 		this.add(panelGauche, BorderLayout.WEST);
 		this.add(panelDroite, BorderLayout.EAST);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-
 	}
 
-	public PanelCarte getPanelCarte() {
+	public PanelCarte getPanelCarte()
+	{
 		return this.panelCarte;
 	}
 
-	public void fermerJeu() {
+	public void fermerJeu()
+	{
 		this.dispose();
 	}
 
-	public void simulerClic(int posX, int posY) {
-		panelCarte.cliquer(posX, posY);
+	public void verifierFinPartie()
+	{
+		this.panelCarte.verifierFinPartie();
 	}
+
 }

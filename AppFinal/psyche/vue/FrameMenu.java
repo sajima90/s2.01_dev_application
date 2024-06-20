@@ -17,17 +17,19 @@ import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FrameMenu extends JFrame implements ActionListener, MouseListener {
+public class FrameMenu extends JFrame implements ActionListener, MouseListener
+{
 
-	private JButton btnJouer;
-	private JButton btnModifier;
+	private final JButton btnJouer;
+	private final JButton btnModifier;
 	// private PanelGraph panelGraph;
-	private Controleur ctrl;
+	private final Controleur ctrl;
 	// Necessaire pour scenarios
 	private ControleurMap ctrlMap;
 	private ControleurJeu ctrlJeu;
 
-	public FrameMenu(Controleur ctrl) {
+	public FrameMenu(Controleur ctrl)
+	{
 		this.ctrl = ctrl;
 		/*---------------------------*/
 		/* Configuration de la Frame */
@@ -116,25 +118,34 @@ public class FrameMenu extends JFrame implements ActionListener, MouseListener {
 		setVisible(true);
 	}
 
-	public List<Mine> getMines() {
+	public List<Mine> getMines()
+	{
 		return this.ctrlJeu.getMines();
 	}
+
 
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == this.btnModifier) {
 			ouvrirFenetreModifier();
 		} else if (e.getSource() == this.btnJouer) {
-			ouvrirFenetreJouer();
+			if (this.ctrl.getCtrlScen() != null)
+				ouvrirFenetreJouer(this.ctrl.getCtrlScen().getMetier()); //Cas où le metier a été lancé
+			else
+				ouvrirFenetreJouer();
 		}
 	}
 
-	public void mouseEntered(MouseEvent e) {
-		if (e.getSource() == this.btnJouer) {
+	public void mouseEntered(MouseEvent e)
+	{
+		if (e.getSource() == this.btnJouer)
+		{
 			this.btnJouer.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 			this.btnJouer.setBackground(Color.GRAY);
 			this.btnJouer.setForeground(Color.WHITE);
 			this.btnJouer.setOpaque(true);
-		} else if (e.getSource() == this.btnModifier) {
+		}
+		else if (e.getSource() == this.btnModifier)
+		{
 			this.btnModifier.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 			this.btnModifier.setBackground(Color.GRAY);
 			this.btnModifier.setForeground(Color.WHITE);
@@ -142,13 +153,17 @@ public class FrameMenu extends JFrame implements ActionListener, MouseListener {
 		}
 	}
 
-	public void mouseExited(MouseEvent e) {
-		if (e.getSource() == this.btnJouer) {
+	public void mouseExited(MouseEvent e)
+	{
+		if (e.getSource() == this.btnJouer)
+		{
 			this.btnJouer.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 			this.btnJouer.setBackground(Color.WHITE);
 			this.btnJouer.setForeground(Color.BLACK);
 			this.btnJouer.setOpaque(true);
-		} else if (e.getSource() == this.btnModifier) {
+		}
+		else if (e.getSource() == this.btnModifier)
+		{
 			this.btnModifier.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 			this.btnModifier.setBackground(Color.WHITE);
 			this.btnModifier.setForeground(Color.BLACK);
@@ -156,111 +171,150 @@ public class FrameMenu extends JFrame implements ActionListener, MouseListener {
 		}
 	}
 
-	public void mouseClicked(MouseEvent e) {
-		if (e.getSource() == this.btnModifier) {
+	public void mouseClicked(MouseEvent e)
+	{
+		if (e.getSource() == this.btnModifier)
+		{
 			// this.setVisible(false);
 		}
 
-		if (e.getSource() == this.btnJouer) {
+		if (e.getSource() == this.btnJouer)
+		{
 			// this.setVisible(false);
 		}
 	}
 
-	public void mousePressed(MouseEvent e) {
+	public void mousePressed(MouseEvent e)
+	{
 	}
 
-	public void mouseReleased(MouseEvent e) {
+	public void mouseReleased(MouseEvent e)
+	{
 	}
 
 	/*-------------------------*/
 	/* Méthodes de scénarios */
 	/*-------------------------*/
 
-	public List<Sommet> getSommets() {
+	public List<Sommet> getSommets()
+	{
 		return this.ctrlMap.getSommets();
 	}
 
-	public Sommet getSommet(int i) {
+	public Sommet getSommet(int i)
+	{
 		return this.ctrlMap.getSommet(i);
 	}
 
-	public void ajouterSommet(int x, int y, int point, Couleur c) {
+	public void ajouterSommet(int x, int y, int point, Couleur c)
+	{
 		this.ctrlMap.ajouterSommet(x, y, point, c);
 	}
 
-	public void ajouterArrete(Sommet s1, Sommet s2, int t) {
+	public void ajouterArrete(Sommet s1, Sommet s2, int t)
+	{
 		this.ctrlMap.ajouterArrete(s1, s2, t);
 	}
 
-	public void ouvrirFenetreModifier() {
+	public void ouvrirFenetreModifier()
+	{
 		ctrlMap = new ControleurMap(this.ctrl);
 		System.out.println("Modifier");
 		this.setVisible(false);
 		this.dispose();
 	}
 
-	public void ouvrirFenetreJouer() {
+	public void ouvrirFenetreJouer()
+	{
 		ctrlJeu = new ControleurJeu(this.ctrl);
 		System.out.println("Jouer");
 		this.setVisible(false);
 		this.dispose();
 	}
 
-	public void fermerFenetreModifier() {
+	public void ouvrirFenetreJouer(Metier metier)
+	{
+		ctrlJeu = new ControleurJeu(this.ctrl, metier);
+		System.out.println("Jouer");
+		this.setVisible(false);
+		this.dispose();
+	}
+
+	public void fermerFenetreModifier()
+	{
 		this.ctrlMap.fermerFenetre();
 	}
 
-	public void fermerFenetreJouer() {
+	public void fermerFenetreJouer()
+	{
 		this.ctrlJeu.fermerJeu();
 	}
 
-	public void choisirCamp(int campChoisi) {
+	public void choisirCamp(int campChoisi)
+	{
 		this.ctrlJeu.choisirCamp(campChoisi);
 	}
 
-	public void fermerJoueur() {
+	public void fermerJoueur()
+	{
 		this.ctrlJeu.fermerJoueur();
 	}
 
-	public void fermerMap() {
+	public void fermerMap()
+	{
 		this.ctrlMap.fermerMap();
 		this.setVisible(true);
 	}
 
-	public ArrayList<Joueur> suppDonneesJeu() {
-		return this.ctrlJeu.suppDonneesJeu();
+	public void suppDonneesJeu()
+	{
+		this.ctrlJeu.suppDonneesJeu();
 	}
 
-	public void suppDonneesMap() {
+	public void suppDonneesMap()
+	{
 		this.ctrlMap.suppDonneesMap();
 	}
 
-	public void supprimerSommets() {
+	public void supprimerSommets()
+	{
 		this.ctrlMap.supprimerSommets();
 	}
 
-	public void supprimerSommet(int id) {
+	public void supprimerSommet(int id)
+	{
 		this.ctrlMap.majIHM();
 		this.ctrlMap.supprimerSommet(id);
 	}
 
-	public void supprimerArretes() {
+	public void supprimerArretes()
+	{
 		this.ctrlMap.supprimerArretes();
 	}
 
-	public void setJoueurs(ArrayList<Joueur> joueurs) {
+	public void setJoueurs(ArrayList<Joueur> joueurs)
+	{
 		this.ctrlJeu.setJoueurs(joueurs);
 	}
 
-	public void simulerClic(int posX, int posY) {
-		this.ctrlJeu.simulerClic(posX, posY);
-	}
-
-	public Metier getMetierJeu() {
+	public Metier getMetierJeu()
+	{
 		return this.ctrlJeu.getMetierJeu();
 	}
 
-	public void setMetier(Metier metier) {
+	public void setMetier(Metier metier)
+	{
 		this.ctrlJeu.setMetier(metier);
 	}
+
+	public void possederMine(Mine mine)
+	{
+		this.ctrlJeu.possederMine(mine);
+	}
+
+	public void verifierFinPartie()
+	{
+		this.ctrlJeu.verifierFinPartie();
+	}
+
 }

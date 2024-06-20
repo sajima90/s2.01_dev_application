@@ -1,43 +1,45 @@
 package psyche.jeu.vue;
 
 import psyche.jeu.ControleurJeu;
-import psyche.jeu.metier.Joueur;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
 public class FrameNom extends JFrame implements ActionListener
 {
-	private ControleurJeu ctrlJeu;
+	private final ControleurJeu ctrlJeu;
 
-	private JButton btnCS;
-	private JButton btnSA;
-
+	private final JButton btnCS;
+	private final JButton btnSA;
 
 	public FrameNom(ControleurJeu ctrlJeu)
 	{
-
-		this.setTitle("Choix des camps");
-		this.setSize(500, 300);
-		this.setLocation(250,250);
-		this.setLayout(null);
-
 		this.ctrlJeu = ctrlJeu;
 
-		// CrÃ©ation des composants
-		JLabel lblText = new JLabel("Joueur 1 choisit ton camp");
-		lblText.setBounds(160, 50, 170, 50);
+		// Configuration de la fenêtre
+		this.setTitle("Choix des camps");
+		this.setSize(500, 300);
+		this.setLocationRelativeTo(null);
+		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
+		// Utilisation de GridLayout
+		this.setLayout(new GridLayout(3, 1, 10, 10));
+
+		// Création des composants
+		JLabel lblText = new JLabel("Joueur 1, choisissez votre camp", SwingConstants.CENTER);
+		lblText.setFont(new Font("Arial", Font.BOLD, 18));
 
 		this.btnCS = new JButton("Corporation Solaire");
-		this.btnCS.setBounds(60, 120, 150, 50);
-		this.btnCS.setForeground(Color.GREEN);
+		this.btnCS.setForeground(Color.WHITE);
+		this.btnCS.setBackground(Color.GREEN);
+		this.btnCS.setFocusPainted(false);
 
 		this.btnSA = new JButton("Syndicat Astral");
-		this.btnSA.setBounds(260, 120, 150, 50);
-		this.btnSA.setForeground(Color.RED);
+		this.btnSA.setForeground(Color.WHITE);
+		this.btnSA.setBackground(Color.RED);
+		this.btnSA.setFocusPainted(false);
 
-		// Ajout des composants au panel
+		// Ajout des composants à la fenêtre
 		this.add(lblText);
 		this.add(btnCS);
 		this.add(btnSA);
@@ -46,10 +48,10 @@ public class FrameNom extends JFrame implements ActionListener
 		this.btnCS.addActionListener(this);
 		this.btnSA.addActionListener(this);
 
-
 		// Fermeture
 		this.addWindowListener(new WindowAdapter()
 		{
+			@Override
 			public void windowClosing(WindowEvent e)
 			{
 				if (ctrlJeu != null)
@@ -60,20 +62,25 @@ public class FrameNom extends JFrame implements ActionListener
 			}
 		});
 
-
 		this.setVisible(true);
 	}
 
-	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() == this.btnCS) {
+	@Override
+	public void actionPerformed(ActionEvent e)
+	{
+		if (e.getSource() == this.btnCS)
+		{
 			this.selectionnerCS();
 		}
-		if (e.getSource() == this.btnSA) {
+		if (e.getSource() == this.btnSA)
+		{
 			this.selectionnerSA();
 		}
+		this.ctrlJeu.majIHM();
 	}
 
-	public void selectionnerCS() {
+	public void selectionnerCS()
+	{
 		this.ctrlJeu.setJoueur1("CS").setTour(true);
 		this.ctrlJeu.setFrameJoueur1(new FrameJoueur(this.ctrlJeu.getJoueur1(), this.ctrlJeu));
 
@@ -85,7 +92,8 @@ public class FrameNom extends JFrame implements ActionListener
 		this.fermerCamps();
 	}
 
-	public void selectionnerSA() {
+	public void selectionnerSA()
+	{
 		this.ctrlJeu.setJoueur1("SA").setTour(true);
 		this.ctrlJeu.setFrameJoueur1(new FrameJoueur(this.ctrlJeu.getJoueur1(), this.ctrlJeu));
 
@@ -101,7 +109,8 @@ public class FrameNom extends JFrame implements ActionListener
 	/* Méthodes de scénarios */
 	/*-------------------------*/
 
-	public void fermerCamps() {
+	public void fermerCamps()
+	{
 		this.dispose();
 	}
 }

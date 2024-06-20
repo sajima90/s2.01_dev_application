@@ -9,21 +9,20 @@ import java.awt.event.ActionListener;
 
 public class FrameSupprimerSommet extends JFrame implements ActionListener
 {
-	private ControleurMap ctrlMap;
+	private final ControleurMap ctrlMap;
 
-	private JTable                tblDonnes;
-	private GrlDonneesModelSommet donnesTableau;
-	private JButton 			  btnSupprimer;
-
+	private final JTable tblDonnes;
+	private final GrlDonneesModelSommet donnesTableau;
+	private final JButton btnSupprimer;
 
 	public FrameSupprimerSommet(ControleurMap ctrlMap)
 	{
 
 		JScrollPane spTableau;
 
-		this.setTitle ("Suppression des mines");
-		this.setSize  (600, 300	  );
-		this.setLayout(new FlowLayout()   	  );
+		this.setTitle("Suppression des mines");
+		this.setSize(600, 300);
+		this.setLayout(new FlowLayout());
 		this.getContentPane().setBackground(Color.gray);
 
 		this.ctrlMap = ctrlMap;
@@ -32,17 +31,17 @@ public class FrameSupprimerSommet extends JFrame implements ActionListener
 		/* Création des composants */
 		/*-------------------------*/
 		this.donnesTableau = new GrlDonneesModelSommet(this.ctrlMap);
-		this.tblDonnes     = new JTable     (this.donnesTableau);
-		spTableau          = new JScrollPane(this.tblDonnes	   );
+		this.tblDonnes = new JTable(this.donnesTableau);
+		spTableau = new JScrollPane(this.tblDonnes);
 
-		this.btnSupprimer  = new JButton("Supprimer");
+		this.btnSupprimer = new JButton("Supprimer");
 
 
 		/*-------------------------*/
 		/* Position des composants */
 		/*-------------------------*/
 		this.add(btnSupprimer);
-		this.add(spTableau   );
+		this.add(spTableau);
 
 		/*---------------------------*/
 		/* Activation des composants */

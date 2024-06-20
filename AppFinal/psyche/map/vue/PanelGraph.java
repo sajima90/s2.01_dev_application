@@ -15,14 +15,15 @@ import java.awt.event.MouseEvent;
  */
 public class PanelGraph extends JPanel
 {
-	private ControleurMap ctrlMap;
+	private final ControleurMap ctrlMap;
 	private Sommet mineSelect = null;
 	private int setX, setY = 0;
 
 	/**
 	 * Constructeur du panel graphique.
 	 *
-	 * @param ctrlMap Le contrôleur associé à ce panel.
+	 * @param ctrlMap
+	 * 		Le contrôleur associé à ce panel.
 	 */
 	public PanelGraph(ControleurMap ctrlMap)
 	{
@@ -38,19 +39,20 @@ public class PanelGraph extends JPanel
 	/**
 	 * Redessine les composants graphiques du panel.
 	 *
-	 * @param g L'objet Graphics utilisé pour dessiner.
+	 * @param g
+	 * 		L'objet Graphics utilisé pour dessiner.
 	 */
 
 	protected void paintComponent(Graphics g)
 	{
 		super.paintComponent(g);
 
-//		// Charger l'image de fond
-//		ImageIcon imageIcon = new ImageIcon("../psyche/theme/images/img.png");
-//		Image backgroundImage = imageIcon.getImage();
-//
-//		// Dessiner l'image de fond
-//		g.drawImage(backgroundImage, 0, 0, this.getWidth(), this.getHeight(), this);
+		//		// Charger l'image de fond
+		//		ImageIcon imageIcon = new ImageIcon("../psyche/theme/images/img.png");
+		//		Image backgroundImage = imageIcon.getImage();
+		//
+		//		// Dessiner l'image de fond
+		//		g.drawImage(backgroundImage, 0, 0, this.getWidth(), this.getHeight(), this);
 
 		Graphics2D g2d = (Graphics2D) g;
 		g.drawRect(0, 0, 1000, 800);
@@ -100,7 +102,9 @@ public class PanelGraph extends JPanel
 				int centerX = (ville1CenterX + ville2CenterX) / 2;
 				int centerY = (ville1CenterY + ville2CenterY) / 2;
 				g2d.fillOval(centerX - 5, centerY - 5, 10, 10);
-			} else if (troncons == 1) {
+			}
+			else if (troncons == 1)
+			{
 				// Si un seul tronçon, ne pas dessiner de points intermédiaires
 				g2d.setColor(Color.BLACK);
 				g2d.setStroke(new BasicStroke(2.0f));
@@ -118,13 +122,15 @@ public class PanelGraph extends JPanel
 	/**
 	 * Classe interne pour gérer les événements de souris.
 	 */
-	private class GereSouris extends MouseAdapter {
+	private class GereSouris extends MouseAdapter
+	{
 		private int posX, posY;
 
 		/**
 		 * Gère l'événement lorsque la souris est pressée.
 		 *
-		 * @param e L'événement de souris.
+		 * @param e
+		 * 		L'événement de souris.
 		 */
 		@Override
 		public void mousePressed(MouseEvent e)

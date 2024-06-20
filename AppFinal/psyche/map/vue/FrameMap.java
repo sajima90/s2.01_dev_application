@@ -1,6 +1,5 @@
 /**
- * @author CAUVIN Pierre, AUBIN Montagne, DELPECHE Nicolas, GUELLE Clément
- * Cette classe gère les routes.
+ * @author CAUVIN Pierre, AUBIN Montagne, DELPECHE Nicolas, GUELLE Clément Cette classe gère les routes.
  */
 package psyche.map.vue;
 
@@ -14,21 +13,21 @@ import java.io.File;
 
 public class FrameMap extends JFrame implements ActionListener
 {
-	private JMenuItem     menuiAjouterSommet;
-	private JMenuItem     menuiAjouterArrete;
+	private final JMenuItem menuiAjouterSommet;
+	private final JMenuItem menuiAjouterArrete;
 
-	private JMenuItem     menuiModifierSommet;
-	private JMenuItem     menuiModifierArrete;
+	private final JMenuItem menuiModifierSommet;
+	private final JMenuItem menuiModifierArrete;
 
-	private JMenuItem     menuiEnregistrer;
-	private JMenuItem     menuiEnregistrerSous;
-	private JMenuItem     menuiCharger;
+	private final JMenuItem menuiEnregistrer;
+	private final JMenuItem menuiEnregistrerSous;
+	private final JMenuItem menuiCharger;
 
-	private JMenuItem     menuiSupprimer;
+	private final JMenuItem menuiSupprimer;
 
 	private ControleurMap ctrlMap;
 
-	private PanelInfoVille panelInfoVille;
+	private final PanelInfoVille panelInfoVille;
 
 	private PanelGraph panelGraph;
 
@@ -36,9 +35,9 @@ public class FrameMap extends JFrame implements ActionListener
 	{
 		this.setTitle("Application GPS");
 		this.setSize(1200, 860);
-		this.setLocation(300	,75);
+		this.setLocation(300, 75);
 		this.setLayout(new BorderLayout());
-//		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		//		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		this.addWindowListener(new WindowAdapter()
 		{
@@ -60,14 +59,14 @@ public class FrameMap extends JFrame implements ActionListener
 
 		// Créer un panel
 		this.panelInfoVille = new PanelInfoVille(this.ctrlMap);
-		this.panelGraph     = new PanelGraph(this.ctrlMap);
+		this.panelGraph = new PanelGraph(this.ctrlMap);
 
 		JMenuBar menubMaBarre = new JMenuBar();
 
-		JMenu menuOutils      = new JMenu ("Outils");
+		JMenu menuOutils = new JMenu("Outils");
 		menuOutils.setBackground(Color.LIGHT_GRAY);
 		menuOutils.setOpaque(true);
-		JMenu menuEdition     = new JMenu("Edition");
+		JMenu menuEdition = new JMenu("Edition");
 		menuEdition.setBackground(Color.LIGHT_GRAY);
 		menuEdition.setOpaque(true);
 		JMenu menuEnregistrer = new JMenu("Enregistrer");
@@ -81,17 +80,18 @@ public class FrameMap extends JFrame implements ActionListener
 		/* Item de Edition */
 		this.menuiModifierSommet = new JMenuItem("Modifier Sommet");
 		this.menuiModifierArrete = new JMenuItem("Modifier Arrete");
-		this.menuiSupprimer     = new JMenuItem("Supprimer Sommet");
+		this.menuiSupprimer = new JMenuItem("Supprimer Sommet");
 
 		/* Item de Enregistrer */
-		this.menuiEnregistrer     = new JMenuItem("Enregistrer");
+		this.menuiEnregistrer = new JMenuItem("Enregistrer");
 		this.menuiEnregistrerSous = new JMenuItem("Enregistrer sous...");
-		this.menuiCharger         = new JMenuItem("Ouvrir");
+		this.menuiCharger = new JMenuItem("Ouvrir");
 
 		/* Raccourcis clavier */
-		this.menuiEnregistrer    .setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.CTRL_MASK));
-		this.menuiEnregistrerSous.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.CTRL_MASK | InputEvent.SHIFT_MASK));
-		this.menuiCharger        .setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, InputEvent.CTRL_MASK));
+		this.menuiEnregistrer.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.CTRL_MASK));
+		this.menuiEnregistrerSous.setAccelerator(
+				KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.CTRL_MASK | InputEvent.SHIFT_MASK));
+		this.menuiCharger.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, InputEvent.CTRL_MASK));
 
 
 
@@ -111,40 +111,42 @@ public class FrameMap extends JFrame implements ActionListener
 		menuEnregistrer.add(this.menuiCharger);
 
 		// ajout du menu 'Fichier' a la barre de menu
-		menubMaBarre.add( menuOutils );
-		menubMaBarre.add( menuEdition);
-		menubMaBarre.add( menuEnregistrer);
+		menubMaBarre.add(menuOutils);
+		menubMaBarre.add(menuEdition);
+		menubMaBarre.add(menuEnregistrer);
 
 		/*-------------------------------*/
 		/* Positionnement des composants */
 		/*-------------------------------*/
-		this.setJMenuBar( menubMaBarre );
+		this.setJMenuBar(menubMaBarre);
 		/* Ajouter Panel Info */
 		this.add(panelInfoVille, BorderLayout.EAST);
-		this.add(panelGraph,BorderLayout.CENTER);
+		this.add(panelGraph, BorderLayout.CENTER);
 
 		/*-------------------------------*/
 		/*   Activation des composants   */
 		/*-------------------------------*/
-		this.menuiAjouterSommet   .addActionListener( this );
-		this.menuiAjouterArrete   .addActionListener( this );
-		this.menuiModifierArrete  .addActionListener( this );
-		this.menuiModifierSommet  .addActionListener( this );
-		this.menuiSupprimer		 .addActionListener( this );
-		this.menuiEnregistrer    .addActionListener( this );
-		this.menuiEnregistrerSous.addActionListener( this );
-		this.menuiCharger        .addActionListener( this );
-
-
+		this.menuiAjouterSommet.addActionListener(this);
+		this.menuiAjouterArrete.addActionListener(this);
+		this.menuiModifierArrete.addActionListener(this);
+		this.menuiModifierSommet.addActionListener(this);
+		this.menuiSupprimer.addActionListener(this);
+		this.menuiEnregistrer.addActionListener(this);
+		this.menuiEnregistrerSous.addActionListener(this);
+		this.menuiCharger.addActionListener(this);
 
 		this.setVisible(true);
 	}
 
+	public PanelGraph getPanelGraph()
+	{
+		return this.panelGraph;
+	}
 
-	public PanelGraph     getPanelGraph()     {return this.panelGraph;}
-	public PanelInfoVille getPanelInfoVille() {return this.panelInfoVille;}
-
-
+	public PanelInfoVille getPanelInfoVille()
+	{
+		return this.panelInfoVille;
+	}
 
 	public void actionPerformed(ActionEvent e)
 	{
@@ -154,12 +156,12 @@ public class FrameMap extends JFrame implements ActionListener
 		}
 		else if (e.getSource() == this.menuiAjouterArrete)
 		{
-			if ( this.ctrlMap.getSommets().size() >= 2)
+			if (this.ctrlMap.getSommets().size() >= 2)
 				this.ctrlMap.ouvrirAjouterArrete();
 		}
 		else if (e.getSource() == this.menuiModifierSommet)
 		{
-			if ( this.ctrlMap.getSommets().size() >= 1 )
+			if (this.ctrlMap.getSommets().size() >= 1)
 				this.ctrlMap.ouvrirModifierSommet();
 		}
 		else if (e.getSource() == this.menuiModifierArrete)
@@ -173,7 +175,7 @@ public class FrameMap extends JFrame implements ActionListener
 		}
 		else if (e.getSource() == this.menuiSupprimer)
 		{
-			if(this.ctrlMap.getSommets().size() >= 1)
+			if (this.ctrlMap.getSommets().size() >= 1)
 				this.ctrlMap.ouvrirSupprimerSommet();
 		}
 		else if (e.getSource() == this.menuiEnregistrer)
@@ -190,30 +192,29 @@ public class FrameMap extends JFrame implements ActionListener
 		{
 			JFileChooser fileChooser = new JFileChooser();
 			int returnValue = fileChooser.showOpenDialog(null);
-			if (returnValue == JFileChooser.APPROVE_OPTION) {
+			if (returnValue == JFileChooser.APPROVE_OPTION)
+			{
 				File selectedFile = fileChooser.getSelectedFile();
 				this.ctrlMap.setFichierCharger(selectedFile.getPath());
 			}
 		}
 	}
 
-
-
 	//	//Tentative de background
-//	protected void paintComponent(Graphics g) {
-//		super.paintComponent(g);
-//		try
-//		{
-//			String imageFond = ImageIO.read(new File("/home/saji/Cours/IUT/TP/s2/s2.01_dev_application/AppFinal/psyche/theme/img.png"));
-//			g.drawImage(imageFond, 0, 0, getWidth(), getHeight(), this);
-//		}
-//		catch (IOException e) {
-//			e.printStackTrace();
-//		}
-//	}
+	//	protected void paintComponent(Graphics g) {
+	//		super.paintComponent(g);
+	//		try
+	//		{
+	//			String imageFond = ImageIO.read(new File("/home/saji/Cours/IUT/TP/s2/s2.01_dev_application/AppFinal/psyche/theme/img.png"));
+	//			g.drawImage(imageFond, 0, 0, getWidth(), getHeight(), this);
+	//		}
+	//		catch (IOException e) {
+	//			e.printStackTrace();
+	//		}
+	//	}
 
-
-	public void fermerMap() {
+	public void fermerMap()
+	{
 		this.dispose();
 	}
 

@@ -80,6 +80,11 @@ public class Route
 		return this.proprietaire;
 	}
 
+	public void retirerProprietaire()
+	{
+		this.proprietaire = null;
+	}
+
 	/*-----------------*/
 	/* Autres Méthodes */
 	/*-----------------*/
@@ -88,7 +93,6 @@ public class Route
 	{
 		return "Route de " + this.nbTroncons + " troncons entre " + this.mineDepart + " et " + this.mineArrivee;
 	}
-
 
 }
  

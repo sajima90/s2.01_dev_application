@@ -9,8 +9,8 @@ import java.awt.*;
 
 public class FrameFinPartie extends JFrame
 {
-	private PanelTabScore grille;
-	private ControleurJeu ctrlJeu;
+	private final PanelTabScore grille;
+	private final ControleurJeu ctrlJeu;
 
 	public FrameFinPartie(ControleurJeu ctrlJeu)
 	{
@@ -28,12 +28,11 @@ public class FrameFinPartie extends JFrame
 		panelEntete.setLayout(new FlowLayout());
 
 		JLabel entete = new JLabel("Fiche de Score");
-		entete.setBackground(new Color(227 ,201, 63 ));
+		entete.setBackground(new Color(227, 201, 63));
 		entete.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
 
-
 		this.grille = new PanelTabScore(this.ctrlJeu);
-		
+
 
 		/*-----------------------------------*/
 		/*   Positionnement des composants  */

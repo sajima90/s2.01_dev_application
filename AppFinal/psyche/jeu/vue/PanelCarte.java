@@ -15,7 +15,7 @@ public class PanelCarte extends JPanel
 {
 
 	private final ControleurJeu controleurJeu;
-	private Mine mineSelectionnee = null;
+	private final Mine mineSelectionnee = null;
 
 	public PanelCarte(ControleurJeu controleurJeu)
 	{
@@ -39,6 +39,26 @@ public class PanelCarte extends JPanel
 
 		Graphics2D g2d = (Graphics2D) g;
 		g.drawRect(0, 0, 1000, 800);
+
+
+		g2d.setColor(Color.BLACK);
+		g2d.setFont(new Font("INTER", Font.BOLD, 15));
+
+		String pionSA = "../psyche/theme/images/pion_joueur_2.png";
+		String pionCS = "../psyche/theme/images/pion_joueur_1.png";
+
+		if (this.controleurJeu.getJoueur1() != null) {
+			String pion = this.controleurJeu.getJoueur1().getNom().equals("CS") ? pionCS : pionSA;
+			g.drawImage(getToolkit().getImage(pion), 10, 10, 20, 20, this);
+			g2d.drawString(this.controleurJeu.getJoueur1().getNom() + " : " + this.controleurJeu.getJoueur1().getNbJetonPossession(), 40, 25);
+		}
+
+		if (this.controleurJeu.getJoueur2() != null) {
+			String pion = this.controleurJeu.getJoueur2().getNom().equals("CS") ? pionCS : pionSA;
+			g.drawImage(getToolkit().getImage(pion), 10, 40, 20, 20, this);
+			g2d.drawString(this.controleurJeu.getJoueur2().getNom() + " : " + this.controleurJeu.getJoueur2().getNbJetonPossession(), 40, 55);
+		}
+
 
 		int largeurRect = 40;
 		int hauteurRect = 65;
@@ -84,7 +104,7 @@ public class PanelCarte extends JPanel
 						mine.getX() - 15, mine.getY() - 5, 51, 55, this);
 			}
 
-			g2d.drawString(String.valueOf(mine.getNom()), mine.getX(), mine.getY());
+//			g2d.drawString(String.valueOf(mine.getNom()), mine.getX(), mine.getY());
 		}
 
 		for (Route route : this.controleurJeu.getRoutes())
@@ -159,6 +179,8 @@ public class PanelCarte extends JPanel
 				this.controleurJeu.setProprietaire(route, route.getProprietaire());
 			}
 		}
+		
+
 	}
 
 	private class GestionSouris extends MouseAdapter
@@ -224,23 +246,7 @@ public class PanelCarte extends JPanel
 				}
 			}
 
-			boolean toutesMinesPrise = true;
-			for (Mine m : controleurJeu.getMines())
-			{
-				if (!m.estPrise())
-				{
-					toutesMinesPrise = false;
-					break;
-				}
-			}
-
-			boolean plusDeJeton = controleurJeu.getJoueurActuel().getNbJetonPossession() == 0;
-
-			if (toutesMinesPrise || plusDeJeton)
-			{
-				controleurJeu.finPartie();
-				System.out.println("Fin de la partie");
-			}
+			controleurJeu.verifierFinPartie();
 
 			controleurJeu.majIHM();
 		}
@@ -254,57 +260,25 @@ public class PanelCarte extends JPanel
 		}
 	}
 
-
-
-
-	public void cliquer(int posX, int posY) {
-
-		for (Mine mine : this.controleurJeu.getMines()) {
-			int diameter = 30;
-			int centerX = mine.getX();
-			int centerY = mine.getY();
-			int distX = Math.abs(posX - mine.getX());
-			int distY = Math.abs(posY - mine.getY());
-			double distance = Math.sqrt(distX * distX + distY * distY);
-
-			if (distance <= diameter) {
-				if ((mine.getJeton() == null || mine.getNom().equals("ROME")) && this.mineSelectionnee == null) {
-					// Première seléction
-					this.mineSelectionnee = mine;
-					System.out.println("Mine sélectionnée 1: " + mine + mine.estPrise());
-				} else if (this.mineSelectionnee != mine && this.controleurJeu.mineEstAdjacent(this.mineSelectionnee, mine)) {
-					System.out.println("Mine sélectionnée 2: " + mine + mine.estPrise());
-
-					for (Route routeD : this.controleurJeu.getRoute(this.mineSelectionnee)) {
-						for (Route routeA : this.controleurJeu.getRoute(mine)) {
-							if (routeD == routeA) {
-								this.controleurJeu.approprierRoute(this.controleurJeu.getJoueurActuel(), routeD);
-
-								System.out.println("Route prise par " + this.controleurJeu.getJoueurActuel() + " :" + routeD);
-								this.controleurJeu.setProprietaire(routeD, this.controleurJeu.getJoueurActuel());
-								this.controleurJeu.setProprietaire(routeA, this.controleurJeu.getJoueurActuel());
-
-							}
-						}
-					}
-					System.out.println("Mine prise par " + this.controleurJeu.getJoueurActuel() + " :" + mine);
-
-					this.controleurJeu.possederMine(mine);
-
-					this.controleurJeu.changerTour();
-					this.mineSelectionnee = null;
-
-				}
+	public void verifierFinPartie()
+	{
+		boolean toutesMinesPrise = true;
+		for (Mine m : controleurJeu.getMines())
+		{
+			if (!m.estPrise())
+			{
+				toutesMinesPrise = false;
+				break;
 			}
 		}
 
-		this.controleurJeu.majIHM();
+		boolean plusDeJeton = controleurJeu.getJoueurActuel().getNbJetonPossession() == 0;
 
+		if (toutesMinesPrise || plusDeJeton)
+		{
+			controleurJeu.finPartie();
+			System.out.println("Fin de la partie");
+		}
 	}
-
-
-
-
-
 
 }

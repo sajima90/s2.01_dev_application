@@ -7,26 +7,22 @@ import javax.swing.*;
 
 public class FrameJoueur extends JFrame
 {
-	private PanelJoueur   panelJ;
-	private ControleurJeu ctrlJeu;
+	private final PanelJoueur panelJ;
+	private final ControleurJeu ctrlJeu;
 
 	public FrameJoueur(Joueur j, ControleurJeu ctrlJeu)
 	{
-
-		System.out.println(j.getNom() + "fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
-
 		switch (j.getNumJoueur())
 		{
-			case 1:
-				this.setTitle("Corporation Solaire");
-				this.setLocation(1050,20);
-				break;
-			case 2:
-				this.setTitle("Syndicat Astral");
-				this.setLocation(1050,450);
-				break;
+		case 1:
+			this.setTitle("Syndicat Astral");
+			this.setLocation(1050, 20);
+			break;
+		case 2:
+			this.setTitle("Corporation Solaire");
+			this.setLocation(1050, 450);
+			break;
 		}
-
 
 		this.setSize(900, 425);
 
@@ -44,7 +40,6 @@ public class FrameJoueur extends JFrame
 
 		this.add(this.panelJ);
 
-
 		this.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
 		this.setVisible(true);
 		this.setResizable(false);
@@ -54,7 +49,9 @@ public class FrameJoueur extends JFrame
 	{
 		this.panelJ.repaint();
 	}
-	public void fermerJoueur() {
+
+	public void fermerJoueur()
+	{
 		this.dispose();
 	}
 

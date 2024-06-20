@@ -15,12 +15,14 @@ public class Metier
 	/*--------------*/
 
 	//						   Al,Ag,Au,Co,Fe,Ni,Pt,Ti,NR
-	private int[] nbMinerais = {4, 4, 4, 4, 4, 4, 4, 4, 8};
+	private final int[] nbMinerais = { 4, 4, 4, 4, 4, 4, 4, 4, 8 };
 
-	private final List<Mine>  mines;
+	private int[][] tabMinerai;
+
+	private final List<Mine> mines;
 	private final List<Route> routes;
-	private       Joueur joueur1;
-	private       Joueur joueur2;
+	private Joueur joueur1;
+	private Joueur joueur2;
 
 	private final GestionFichier gestionFichier = new GestionFichier(this);
 
@@ -29,46 +31,50 @@ public class Metier
 	/*--------------*/
 
 	/**
-	 * Constructeur de la classe Metier.
-	 * Initialise les listes de mines et de routes.
+	 * Constructeur de la classe Metier. Initialise les listes de mines et de routes.
 	 */
 	public Metier()
 	{
-		this.mines    = new ArrayList<>();
-		this.routes   = new ArrayList<>();
+		this.mines = new ArrayList<>();
+		this.routes = new ArrayList<>();
 		this.joueur1 = null;
 		this.joueur2 = null;
 
 		this.setFichierCharger(getFichierCharger());
-
 		this.initMinerais();
 	}
 
 	/**
-	 * Constructeur de la classe Metier pour les scénarios
-	 * Initialise les listes de mines et de routes.
+	 * Constructeur de la classe Metier pour les scénarios Initialise les listes de mines et de routes.
 	 */
 	public Metier(int[][] initMinerai)
 	{
-		this.mines    = new ArrayList<>();
-		this.routes   = new ArrayList<>();
+		this.mines = new ArrayList<>();
+		this.routes = new ArrayList<>();
 		this.joueur1 = null;
 		this.joueur2 = null;
 
+		this.tabMinerai = initMinerai;
+
+		//Print
+		for (int i = 0; i < this.tabMinerai.length; i++)
+		{
+			for (int j = 0; j < this.tabMinerai[i].length; j++)
+			{
+				System.out.print(this.tabMinerai[i][j] + " ");
+			}
+			System.out.println();
+		}
+
 		this.setFichierCharger(getFichierCharger());
 
-		for (int i = 0; i < initMinerai.length; i++)
-		{
-			this.initMinerais(initMinerai[i][0],initMinerai[i][1]);
-		}
 	}
 
 	/*------------*/
 	/* Méthodes   */
 	/*------------*/
 
-
-	public Joueur setJoueur1( String nom)
+	public Joueur setJoueur1(String nom)
 	{
 		return this.joueur1 = new Joueur(nom);
 	}
@@ -78,14 +84,11 @@ public class Metier
 		return this.joueur2 = new Joueur(nom);
 	}
 
-
-
-
 	public void initMinerais()
 	{
-		for(int i = 0; i<this.getMines().size();i++)
+		for (int i = 0; i < this.getMines().size(); i++)
 		{
-			if(!this.getMines().get(i).getNom().equals("ROME"))
+			if (!this.getMines().get(i).getNom().equals("ROME"))
 			{
 				int rdm = (int) (Math.random() * 9);
 
@@ -94,11 +97,10 @@ public class Metier
 				{
 					this.nbMinerais[rdm]--;
 
-
 					if (rdm < 8)
-						this.getMines().get(i).setJeton(new Jeton (Minerai.values()[rdm]));
+						this.getMines().get(i).setJeton(new Jeton(Minerai.values()[rdm]));
 					else
-						this.getMines().get(i).setJeton(new Jeton (Piece.values()[0]));
+						this.getMines().get(i).setJeton(new Jeton(Piece.values()[0]));
 				}
 				else
 					i--;
@@ -106,24 +108,20 @@ public class Metier
 		}
 	}
 
-
 	public void initMinerais(int indexMine, int indexMinerais)
 	{
 		if (this.nbMinerais[indexMinerais] > 0)
 		{
 			if (indexMinerais < 8)
-				this.getMine(indexMinerais).setJeton(new Jeton (Minerai.values()[indexMinerais]));
+				this.getMine(indexMinerais).setJeton(new Jeton(Minerai.values()[indexMinerais]));
 			else
-				this.getMine(indexMinerais).setJeton(new Jeton (Piece.values()[0]));
+				this.getMine(indexMinerais).setJeton(new Jeton(Piece.values()[0]));
 		}
-
 	}
 
 	/*------*/
 	/* Get  */
 	/*------*/
-
-
 
 	/**
 	 * Renvoie le fichier chargé
@@ -150,8 +148,6 @@ public class Metier
 		return null;
 	}
 
-
-
 	/**
 	 * Récupère la liste de toutes les mines.
 	 *
@@ -171,8 +167,6 @@ public class Metier
 	{
 		return this.routes;
 	}
-
-
 
 	public void resetId()
 	{
@@ -198,15 +192,20 @@ public class Metier
 
 		System.out.println("x :" + x);
 		System.out.println("y :" + y);
-		
+
 		if (x < 0 || x > 1000 || y < 0 || y > 800)
 		{
-			JOptionPane.showMessageDialog(null, "Les coordonnées ne sont pas valides", "Erreur", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Les coordonnées ne sont pas valides", "Erreur",
+					JOptionPane.ERROR_MESSAGE);
 			return null;
 		}
 
-		System.out.println("Mine créée : " + couleur.name().substring(0, 1) + point);
+		System.out.println("Mine créée : " + couleur.name().charAt(0) + point);
 		Mine mine = Mine.creerMine(x, y, point, couleur);
+
+		if (tabMinerai != null)
+			attribuerMinerai(mine);
+
 		//System.out.println(mine);
 		mines.add(mine);
 
@@ -222,7 +221,8 @@ public class Metier
 			return null;
 		}
 
-		if (depart == null || arrivee == null) {
+		if (depart == null || arrivee == null)
+		{
 			throw new IllegalArgumentException("Depart or Arrivee mine is null");
 		}
 		Route route = new Route(depart, arrivee, troncons);
@@ -256,14 +256,10 @@ public class Metier
 
 	//------------------------------------------------Methodes Joueur-------------------------------------------------------------------------//
 
-
 	public void setProprietaire(Route route, Joueur proprietaire)
 	{
 		route.setProprietaire(proprietaire);
 	}
-
-
-
 
 	public String toString()
 	{
@@ -282,10 +278,9 @@ public class Metier
 			this.joueur1.setTour(true);
 			this.joueur2.setTour(false);
 		}
-//		System.out.println("Changement de tour : " + this.joueur1.estSonTour()+ ": " + this.joueur1.getNom() + " " + this.joueur2.estSonTour() + ": " + this.joueur2.getNom());
+		//		System.out.println("Changement de tour : " + this.joueur1.estSonTour()+ ": " + this.joueur1.getNom() + " " + this.joueur2.estSonTour() + ": " + this.joueur2.getNom());
 
 	}
-
 
 	public Joueur getJoueurActuel()
 	{
@@ -304,33 +299,71 @@ public class Metier
 		return joueur2;
 	}
 
-
-
 	//---------------------------------------------------------------Score-----------------------------------------------------------------------------------------//
 
+	public int scoreTotalJ1()
+	{
+		return this.joueur1.score() + this.pointBonusJ1();
+	}
 
+	public int scoreTotalJ2()
+	{
+		return this.joueur2.score() + this.pointBonusJ2();
+	}
 
-	public int scoreTotalJ1() { return this.joueur1.score() + this.pointBonusJ1(); }
-	public int scoreTotalJ2() { return this.joueur2.score() + this.pointBonusJ2(); }
+	public int calculerScoreMineJ1(Couleur couleur)
+	{
+		return this.joueur1.calculerScoreMines(couleur);
+	}
 
-	public int calculerScoreMineJ1(Couleur couleur){ return this.joueur1.calculerScoreMines(couleur);}
-	public int calculerScoreMineJ2(Couleur couleur){ return this.joueur2.calculerScoreMines(couleur);}
+	public int calculerScoreMineJ2(Couleur couleur)
+	{
+		return this.joueur2.calculerScoreMines(couleur);
+	}
 
-	public int calculerScoreMinesTotaleJ1() {return this.joueur1.calculerScoreMinesTotale();}
-	public int calculerScoreMinesTotaleJ2() { return this.joueur2.calculerScoreMinesTotale(); }
+	public int calculerScoreMinesTotaleJ1()
+	{
+		return this.joueur1.calculerScoreMinesTotale();
+	}
 
-	public int calculerScorePieceJ1() { return this.joueur1.calculerScorePiece(); }
-	public int calculerScorePieceJ2() { return this.joueur2.calculerScorePiece(); }
+	public int calculerScoreMinesTotaleJ2()
+	{
+		return this.joueur2.calculerScoreMinesTotale();
+	}
 
-	public int calculerScoreMineraiJ1() { return this.joueur1.calculerPointsColonnes() + this.joueur1.calculerPointsLignes();}
-	public int calculerScoreMineraiJ2() { return this.joueur2.calculerPointsColonnes() + this.joueur2.calculerPointsLignes();}
+	public int calculerScorePieceJ1()
+	{
+		return this.joueur1.calculerScorePiece();
+	}
 
-	public int getJetonPossessionJ1() { return this.joueur1.getNbJetonPossession(); }
-	public int getJetonPossessionJ2() { return this.joueur2.getNbJetonPossession(); }
+	public int calculerScorePieceJ2()
+	{
+		return this.joueur2.calculerScorePiece();
+	}
+
+	public int calculerScoreMineraiJ1()
+	{
+		return this.joueur1.calculerPointsColonnes() + this.joueur1.calculerPointsLignes();
+	}
+
+	public int calculerScoreMineraiJ2()
+	{
+		return this.joueur2.calculerPointsColonnes() + this.joueur2.calculerPointsLignes();
+	}
+
+	public int getJetonPossessionJ1()
+	{
+		return this.joueur1.getNbJetonPossession();
+	}
+
+	public int getJetonPossessionJ2()
+	{
+		return this.joueur2.getNbJetonPossession();
+	}
 
 	public int pointBonusJ1()
 	{
-		if ( this.joueur1.getNbJetonPossession() >= this.joueur2.getNbJetonPossession() )
+		if (this.joueur1.getNbJetonPossession() >= this.joueur2.getNbJetonPossession())
 			return 10;
 		else
 			return 0;
@@ -338,17 +371,69 @@ public class Metier
 
 	public int pointBonusJ2()
 	{
-		if ( this.joueur2.getNbJetonPossession() >= this.joueur1.getNbJetonPossession() )
+		if (this.joueur2.getNbJetonPossession() >= this.joueur1.getNbJetonPossession())
 			return 10;
 		else
 			return 0;
 	}
 
-	public int getPointsColonnesJ1() { return this.joueur1.calculerPointsColonnes(); }
-	public int getPointsColonnesJ2() { return this.joueur2.calculerPointsColonnes(); }
+	public int getPointsColonnesJ1()
+	{
+		return this.joueur1.calculerPointsColonnes();
+	}
 
-	public int getPointsLignesJ1() { return this.joueur1.calculerPointsLignes(); }
-	public int getPointsLignesJ2() { return this.joueur2.calculerPointsLignes(); }
+	public int getPointsColonnesJ2()
+	{
+		return this.joueur2.calculerPointsColonnes();
+	}
+
+	public int getPointsLignesJ1()
+	{
+		return this.joueur1.calculerPointsLignes();
+	}
+
+	public int getPointsLignesJ2()
+	{
+		return this.joueur2.calculerPointsLignes();
+	}
+
+	public String getVictoire()
+	{
+
+		System.out.println( " J1 " + this.joueur1.getNom() + " score de " + this.scoreTotalJ1() + "     J2 " + this.joueur2.getNom() + " score de " + this.scoreTotalJ2() );
+
+		if ( this.scoreTotalJ1() > this.scoreTotalJ2() )
+			return this.joueur1.getNom();
+
+		if ( this.scoreTotalJ1() < this.scoreTotalJ2() )
+			return this.joueur2.getNom();
+
+		if ( this.scoreTotalJ1() == this.scoreTotalJ2() )
+		{
+			if ( this.joueur1.getNbMineraisDifferentPlateau() > this.joueur2.getNbMineraisDifferentPlateau())
+				return this.joueur1.getNom();
+			if ( this.joueur1.getNbMineraisDifferentPlateau() < this.joueur2.getNbMineraisDifferentPlateau())
+				return this.joueur2.getNom();
+			if ( this.joueur1.getNbMineraisDifferentPlateau() == this.joueur2.getNbMineraisDifferentPlateau())
+			{
+				if ( this.joueur1.compteurJetons(this.joueur1.getListJeton(), new Jeton(Minerai.values()[2])) >  this.joueur2.compteurJetons(this.joueur2.getListJeton(), new Jeton(Minerai.values()[2])))
+					return this.joueur1.getNom();
+				if ( this.joueur1.compteurJetons(this.joueur1.getListJeton(), new Jeton(Minerai.values()[2])) <  this.joueur2.compteurJetons(this.joueur2.getListJeton(), new Jeton(Minerai.values()[2])))
+					return this.joueur2.getNom();
+				if ( this.joueur1.compteurJetons(this.joueur1.getListJeton(), new Jeton(Minerai.values()[2])) ==  this.joueur2.compteurJetons(this.joueur2.getListJeton(), new Jeton(Minerai.values()[2])))
+				{
+					if ( this.joueur1.getNbJetonPossession() > this.joueur2.getNbJetonPossession() )
+						return this.joueur1.getNom();
+					if ( this.joueur1.getNbJetonPossession() < this.joueur2.getNbJetonPossession() )
+						return this.joueur2.getNom();
+				}
+
+			}
+
+		}
+
+		return this.joueur1.getNom() + " et " + this.joueur2.getNom();
+	}
 
 
 
@@ -358,26 +443,68 @@ public class Metier
 	/* Méthodes de scénarios */
 	/*-------------------------*/
 
-	public ArrayList<Joueur> suppDonneesJeu() {
-
-		ArrayList<Joueur> joueurs = new ArrayList<>();
-		System.out.println(this.joueur1 + "----------------------------------------------------------------");
-		joueurs.add(this.joueur1);
-		joueurs.add(this.joueur2);
+	public void suppDonneesJeu()
+	{
 
 		Joueur.resetNbJoueur();
-		Mine.resetId();
-		this.mines.removeAll(this.mines);
-		this.routes.removeAll(this.routes);
 
-		return joueurs;
+		for (Mine mine : mines)
+		{
+			mine = attribuerMinerai(mine);
+		}
+
+		for (Route route : routes)
+		{
+			route.retirerProprietaire();
+		}
 	}
 
-//	public void setJoueurs(ArrayList<Joueur> joueurs) {
-//
-//		.joueur1 = joueurs.get(0);
-//		this.joueur2 = joueurs.get(1);
-//	}
+	//	public void setJoueurs(ArrayList<Joueur> joueurs) {
+	//
+	//		.joueur1 = joueurs.get(0);
+	//		this.joueur2 = joueurs.get(1);
+	//	}
 
+	public void setJoueur1(Joueur joueur1)
+	{
+		this.joueur1 = joueur1;
+	}
 
+	public void setJoueur2(Joueur joueur2)
+	{
+		this.joueur2 = joueur2;
+	}
+
+	public Mine attribuerMinerai(Mine mine)
+	{
+		if (mine.getNom().equals("ROME"))
+			return mine;
+
+		Mine mineRetour = mine;
+		for (int i = 0; i < this.tabMinerai.length; i++)
+		{
+			if (mineRetour.getId() - 1 == i)
+			{
+				int indexMinerais = this.tabMinerai[i][1];
+				if (indexMinerais < 8)
+					mineRetour.setJeton(new Jeton(Minerai.values()[indexMinerais]));
+				else
+					mineRetour.setJeton(new Jeton(Piece.values()[0]));
+			}
+		}
+		return mineRetour;
+	}
+
+	public Route getRoute(Mine depart, Mine arrivee)
+	{
+		for (Route route : this.routes)
+		{
+			if (route.getDepart().equals(depart) && route.getArrivee().equals(arrivee))
+				return route;
+			if (route.getDepart().equals(arrivee) && route.getArrivee().equals(depart))
+				return route;
+		}
+
+		return null;
+	}
 }

@@ -14,13 +14,9 @@ public enum Couleur
 	/*  Enums       */
 	/*--------------*/
 
-	JAUNE      (255, 255, 0, "Mine_Jaune"),
-	BLEU_CLAIR (173, 216, 230, "Mine_Bleu"),
-	GRIS       (128, 128, 128, "Mine_Gris"),
-	VERT       (34, 139, 34, "Mine_Vert"),
-	ROUGE      (255, 192, 203, "Mine_Rouge"),
-	MARRON     (205, 133, 63, "Mine_Marron"),
-	ROME       (0, 0, 255 , "NR");
+	JAUNE(255, 255, 0, "Mine_Jaune"), BLEU_CLAIR(173, 216, 230, "Mine_Bleu"), GRIS(128, 128, 128, "Mine_Gris"), VERT(34,
+		139, 34, "Mine_Vert"), ROUGE(255, 192, 203, "Mine_Rouge"), MARRON(205, 133, 63, "Mine_Marron"), ROME(0, 0, 255,
+		"NR");
 
 
 	/*--------------*/

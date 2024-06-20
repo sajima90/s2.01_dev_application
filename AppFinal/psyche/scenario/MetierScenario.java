@@ -5,20 +5,23 @@ import psyche.jeu.metier.Metier;
 public class MetierScenario
 {
 
-	private ControleurScenario ctrlScen;
+	private final ControleurScenario ctrlScen;
 
 	private Metier metierTemp;
 
-	public MetierScenario(ControleurScenario ctrl) {
+	public MetierScenario(ControleurScenario ctrl)
+	{
 		this.ctrlScen = ctrl;
 	}
 
-	public Metier getMetier() {
+	public Metier getMetier()
+	{
 		System.out.println(this.metierTemp);
 		return this.metierTemp;
 	}
 
-	public void setMetier(Metier metier) {
+	public void setMetier(Metier metier)
+	{
 		this.metierTemp = metier;
 	}
 }
