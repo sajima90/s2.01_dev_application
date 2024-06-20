@@ -14,6 +14,8 @@ Pour rappel, il y'a comme fichier scénario :
 
 scenario_1.run
 scenario_2.run
+scenario_3.run
+
 
 Donc pour le scénario 1 :
 
@@ -22,3 +24,7 @@ Donc pour le scénario 1 :
 Donc pour le scénario 2 :
 
 <code> javac -encoding utf8 -d @Compile.list -d class && cd class && java psyche.Controleur "scenario_2.run"  && cd class </code>
+
+Donc pour le scénario 3 :
+
+<code> javac -encoding utf8 -d @Compile.list -d class && cd class && java psyche.Controleur "scenario_3.run"  && cd class </code>

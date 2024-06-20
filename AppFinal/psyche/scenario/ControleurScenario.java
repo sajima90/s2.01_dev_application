@@ -48,9 +48,25 @@ public class ControleurScenario
 		this.frameScenario = new FrameScenario(this);
 		this.fichierScenario = fichierScenario;
 
+
+
 		try
 		{
-			BufferedReader reader = new BufferedReader(new FileReader("../psyche/scenario/" + "Minerais.txt"));
+			BufferedReader reader;
+			if(this.fichierScenario.equals("scenario_2.run"))
+			{
+				reader = new BufferedReader(new FileReader("../psyche/scenario/" + "Minerais_2.txt"));
+			}
+			else
+			{
+
+				if(this.fichierScenario.equals("scenario_3.run"))
+				{
+					reader = new BufferedReader(new FileReader("../psyche/scenario/" + "Minerais_3.txt"));
+				}
+				else
+					reader = new BufferedReader(new FileReader("../psyche/scenario/" + "Minerais.txt"));
+			}
 			int lines = 0;
 			while (reader.readLine() != null)
 				lines++;
@@ -58,7 +74,20 @@ public class ControleurScenario
 
 			this.tabMinerai = new int[lines][2]; // Initialize tabMinerai with the number of lines in the file
 
-			reader = new BufferedReader(new FileReader("../psyche/scenario/" + "Minerais.txt"));
+			if(this.fichierScenario.equals("scenario_2.run"))
+			{
+				reader = new BufferedReader(new FileReader("../psyche/scenario/" + "Minerais_2.txt"));
+			}
+			else
+			{
+
+				if(this.fichierScenario.equals("scenario_3.run"))
+				{
+					reader = new BufferedReader(new FileReader("../psyche/scenario/" + "Minerais_3.txt"));
+				}
+				else
+					reader = new BufferedReader(new FileReader("../psyche/scenario/" + "Minerais.txt"));
+			}
 			String ligne;
 			int numLigne = 0;
 			while ((ligne = reader.readLine()) != null)
@@ -340,6 +369,8 @@ public class ControleurScenario
 						{
 							this.ctrl.possederMine(m2);
 							this.metier.setProprietaire(this.metier.getRoute(m1, m2), metier.getJoueurActuel());
+							this.metier.getJoueurActuel().setNbJetonPossession(this.metier.getRoute(m1, m2).getTroncons());
+
 							this.metier.changerTour();
 						}
 						else
@@ -351,6 +382,11 @@ public class ControleurScenario
 					this.ctrl.verifierFinPartie();
 
 					break;
+
+				case "generer":
+					this.metier.setFichierCharger("../psyche/theme/MapSave.txt");
+					break;
+
 				default:
 					System.out.println("Commande non reconnue : " + command);
 					break;

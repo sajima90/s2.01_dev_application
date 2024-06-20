@@ -8,6 +8,7 @@ import psyche.map.metier.Sommet;
 import psyche.map.vue.*;
 
 import java.util.List;
+import javax.swing.*;
 
 public class ControleurMap
 {
@@ -324,4 +325,5 @@ public class ControleurMap
 	{
 		this.frameMap.fermerMap();
 	}
+
 }

@@ -43,7 +43,6 @@ public class FrameAjouterArrete extends JFrame implements ActionListener//, Item
 	private final ControleurMap ctrlMap;
 
 
-
 	/*-----------------*/
 	/*  Instruction    */
 	/*-----------------*/
@@ -165,10 +164,12 @@ public class FrameAjouterArrete extends JFrame implements ActionListener//, Item
 				this.tblDonnes.setModel(new GrlDonneesModelArrete(this.ctrlMap));
 			}
 			else
-				JOptionPane.showMessageDialog(this, "Ne pas sélectionner deux fois la même ville", "Erreur",
-						JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(null , "Ne pas sélectionner deux fois la même ville", "Erreur",JOptionPane.ERROR_MESSAGE);
+
 		}
 	}
+
+
 
 	//	public void itemStateChanged(ItemEvent e)
 	//	{

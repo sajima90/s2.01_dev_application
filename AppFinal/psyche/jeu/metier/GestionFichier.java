@@ -70,6 +70,44 @@ public class GestionFichier
 	/* Autres Méthodes */
 	/*-----------------*/
 
+
+	public void copiMap(String s)
+	{
+		
+		try
+		{
+			FileInputStream fis = new FileInputStream(s);
+			FileOutputStream fos = new FileOutputStream(this.fichierCharger);
+			byte[] buf = new byte[1024];
+			int i = 0;
+			while ((i = fis.read(buf)) != -1)
+			{
+				fos.write(buf, 0, i);
+			}
+			fis.close();
+			fos.close();
+		} catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+
+		
+	}
+
+
+	public void supprimerDonneeFichier(String path)
+	{
+		// supprimer les données du fichier
+
+		try (PrintWriter writer = new PrintWriter(new FileOutputStream(path, false)))
+		{
+			writer.println("");
+		} catch (IOException i)
+		{
+			i.printStackTrace();
+		}
+	}
+
 	/**
 	 * Enregistre les données actuelles dans le fichier chargé au demarrage
 	 */
@@ -242,4 +280,6 @@ public class GestionFichier
 			throw new RuntimeException(e);
 		}
 	}
+
+
 }

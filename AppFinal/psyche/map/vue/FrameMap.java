@@ -33,7 +33,7 @@ public class FrameMap extends JFrame implements ActionListener
 
 	public FrameMap(ControleurMap ctrlMap, Controleur ctrl)
 	{
-		this.setTitle("Application GPS");
+		this.setTitle("Créateur de MAP");
 		this.setSize(1200, 860);
 		this.setLocation(300, 75);
 		this.setLayout(new BorderLayout());
@@ -217,5 +217,6 @@ public class FrameMap extends JFrame implements ActionListener
 	{
 		this.dispose();
 	}
+
 
 }

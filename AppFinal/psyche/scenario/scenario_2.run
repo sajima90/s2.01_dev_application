@@ -24,3 +24,10 @@ prendre 6 VERT 2 VERT
 prendre 2 VERT 8 VERT
 prendre 8 VERT 4 VERT
 prendre 4 VERT 3 VERT
+prendre 3 VERT 8 BLEU_CLAIR
+prendre 8 BLEU_CLAIR 6 BLEU_CLAIR
+prendre 8 BLEU_CLAIR 4 BLEU_CLAIR
+prendre 4 BLEU_CLAIR 2 BLEU_CLAIR
+prendre 2 BLEU_CLAIR 2 GRIS
+prendre 2 GRIS 4 GRIS
+prendre 4 GRIS 3 JAUNE

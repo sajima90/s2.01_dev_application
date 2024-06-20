@@ -14,7 +14,7 @@ public class Metier
 	/* Données      */
 	/*--------------*/
 
-	//						   Al,Ag,Au,Co,Fe,Ni,Pt,Ti,NR
+	//						          Al,Ag,Au,Co,Fe,Ni,Pt,Ti,NR
 	private final int[] nbMinerais = { 4, 4, 4, 4, 4, 4, 4, 4, 8 };
 
 	private int[][] tabMinerai;
@@ -39,9 +39,15 @@ public class Metier
 		this.routes = new ArrayList<>();
 		this.joueur1 = null;
 		this.joueur2 = null;
+		this.copiMap("../psyche/theme/MapSave.txt");
 
 		this.setFichierCharger(getFichierCharger());
 		this.initMinerais();
+	}
+
+	private void copiMap(String s)
+	{
+		this.gestionFichier.copiMap(s);
 	}
 
 	/**
@@ -66,6 +72,7 @@ public class Metier
 			System.out.println();
 		}
 
+		this.supprimerDonneeFichier(getFichierCharger());
 		this.setFichierCharger(getFichierCharger());
 
 	}
@@ -185,6 +192,10 @@ public class Metier
 	public void setFichierCharger(String path)
 	{
 		this.gestionFichier.setFichierCharger(path);
+	}
+	public void supprimerDonneeFichier(String path)
+	{
+		this.gestionFichier.supprimerDonneeFichier(path);
 	}
 
 	public Mine ajouterMine(int x, int y, int point, Couleur couleur)

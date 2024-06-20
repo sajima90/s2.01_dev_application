@@ -26,17 +26,17 @@ public class FrameNom extends JFrame implements ActionListener
 		this.setLayout(new GridLayout(3, 1, 10, 10));
 
 		// Création des composants
-		JLabel lblText = new JLabel("Joueur 1, choisissez votre camp", SwingConstants.CENTER);
+		JLabel lblText = new JLabel("Choix du premier joueur", SwingConstants.CENTER);
 		lblText.setFont(new Font("Arial", Font.BOLD, 18));
 
 		this.btnCS = new JButton("Corporation Solaire");
 		this.btnCS.setForeground(Color.WHITE);
-		this.btnCS.setBackground(Color.GREEN);
+		this.btnCS.setBackground(new Color(130, 246, 131, 160));
 		this.btnCS.setFocusPainted(false);
 
 		this.btnSA = new JButton("Syndicat Astral");
 		this.btnSA.setForeground(Color.WHITE);
-		this.btnSA.setBackground(Color.RED);
+		this.btnSA.setBackground(new Color(246, 130, 130, 160));
 		this.btnSA.setFocusPainted(false);
 
 		// Ajout des composants à la fenêtre
